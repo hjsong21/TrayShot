@@ -7,6 +7,18 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.2.0] - 2026-07-29
+
+### Added
+- **Asynchronous Thumbnail Decoding**: High-speed image decoding and memory cache loader using ImageSharp and ConcurrentDictionary
+- **Tray Animation Renderer**: 30 FPS dynamic pulse ring animation on notification tray icon upon screenshot detection
+- **Spotlight Gallery UI**: macOS Spotlight-style borderless gallery panel UI with Acrylic theme layout
+- **WinRT OCR Text Extraction**: Automatic Korean/English text extraction from screenshots via Windows.Media.Ocr engine
+- **FTS5 Trigram Search**: SQLite FTS5 Trigram full-text search indexer supporting partial word and prefix search
+- **MobileCLIP AI Semantic Search**: Natural language image semantic search based on ONNX MobileCLIP deep learning model and BPE tokenizer
+- **Fluent Design Preferences UI**: Modern WPF-UI based settings window (`PreferencesWindow`) layout and tab structure
+- **Startup Manager & Sentry Integration**: Registry startup launch control (`StartupManager`) and Sentry telemetry integration
+
 ## [v0.1.0] - 2026-07-29
 
 ### Added

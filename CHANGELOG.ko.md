@@ -7,6 +7,18 @@
 
 ---
 
+## [v0.2.0] - 2026-07-29
+
+### 기능 추가 (Added)
+- **비동기 썸네일 디코딩**: ImageSharp 및 ConcurrentDictionary 기반 고속 이미지 디코딩 및 메모리 캐시 로더 구현
+- **트레이 애니메이션 렌더러**: 스크린샷 감지 시 알림 영역 트레이 아이콘에 30FPS 동적 펄스 링 렌더링
+- **스팟라이트 갤러리 UI**: macOS Spotlight 스타일의 보더리스 갤러리 패널 UI 및 아크릴 테마 레이아웃 구축
+- **WinRT OCR 텍스트 추출**: Windows.Media.Ocr 엔진 연동을 통한 스크린샷 내 한글/영어 텍스트 자동 추출
+- **FTS5 삼중자 검색**: SQLite FTS5 Trigram 전문 검색 인덱서 연동을 통한 부분 단어 및 초성 검색 지원
+- **MobileCLIP AI 시맨틱 검색**: ONNX MobileCLIP 딥러닝 모델 및 BPE 토크나이저 기반 자연어 이미지 시맨틱 검색
+- **Fluent Design 설정 UI**: WPF-UI 기반 모던 설정 윈도우(`PreferencesWindow`) 레이아웃 및 탭 구성
+- **시작 프로그램 & Sentry 연동**: 레지스트리 자동 시작 제어(`StartupManager`) 및 Sentry 텔레메트리 연동
+
 ## [v0.1.0] - 2026-07-29
 
 ### 기능 추가 (Added)
