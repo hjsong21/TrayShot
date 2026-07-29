@@ -24,6 +24,9 @@ public partial class PreferencesViewModel : ObservableObject
     [ObservableProperty]
     private int _selectedThemeIndex;
 
+    [ObservableProperty]
+    private int _selectedDisposalIndex;
+
     public ObservableCollection<string> MonitoredFolders { get; } = new();
 
     public PreferencesViewModel()
@@ -33,6 +36,7 @@ public partial class PreferencesViewModel : ObservableObject
         _webpConversionEnabled = AppSettings.Shared.WebpConversionEnabled;
         _semanticSearchEnabled = AppSettings.Shared.SemanticSearchEnabled;
         _selectedThemeIndex = (int)AppSettings.Shared.Theme;
+        _selectedDisposalIndex = (int)AppSettings.Shared.WebpDisposal;
 
         foreach (var folder in AppSettings.Shared.Folders)
         {
@@ -45,6 +49,14 @@ public partial class PreferencesViewModel : ObservableObject
         if (Enum.IsDefined(typeof(AppTheme), value))
         {
             AppSettings.Shared.Theme = (AppTheme)value;
+        }
+    }
+
+    partial void OnSelectedDisposalIndexChanged(int value)
+    {
+        if (Enum.IsDefined(typeof(WebPDisposal), value))
+        {
+            AppSettings.Shared.WebpDisposal = (WebPDisposal)value;
         }
     }
 
