@@ -1,7 +1,7 @@
 <Window x:Class="Sukurini.Preferences.PreferencesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Sukurini 설정" Width="550" Height="520"
+        Title="Sukurini 설정" Width="550" Height="540"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Background="{DynamicResource WindowBackgroundBrush}">
     <Grid Margin="20">
@@ -10,15 +10,32 @@
             <TabItem Header="일반" Foreground="{DynamicResource TextPrimaryBrush}">
                 <StackPanel Margin="10,20,10,10">
                     <!-- 핫키 설정 -->
-                    <TextBlock Text="갤러리 열기 핫키 (전역 단축키)" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8" />
-                    <ComboBox SelectedIndex="{Binding SelectedHotKeyIndex}" Width="280" HorizontalAlignment="Left" Margin="0,0,0,20">
-                        <ComboBoxItem Content="⌨️ Ctrl + Alt + S (권장 - 충돌 없음)" />
-                        <ComboBoxItem Content="⌨️ Alt + Shift + S" />
-                        <ComboBoxItem Content="⌨️ Ctrl + Shift + S" />
-                        <ComboBoxItem Content="⌨️ Alt + S" />
-                        <ComboBoxItem Content="⌨️ Ctrl + Alt + K" />
-                        <ComboBoxItem Content="⌨️ Alt + Shift + G" />
-                    </ComboBox>
+                    <TextBlock Text="갤러리 열기 핫키 (전역 단축키)" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,4" />
+                    <TextBlock Text="상자를 클릭하고 바꿀 단축키(예: Ctrl + Alt + S)를 직접 입력하세요."
+                               Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" Margin="0,0,0,8" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                        <TextBox x:Name="HotKeyTextBox"
+                                 Text="{Binding HotKeyDisplayText, Mode=OneWay}"
+                                 Width="220" Padding="10,8" FontSize="14" FontWeight="Bold"
+                                 IsReadOnly="True" Cursor="Hand"
+                                 Background="{DynamicResource CardBackgroundBrush}"
+                                 Foreground="{DynamicResource TextPrimaryBrush}"
+                                 BorderBrush="{Binding HotKeyBorderBrush}" BorderThickness="1.5"
+                                 PreviewKeyDown="HotKeyTextBox_PreviewKeyDown"
+                                 GotFocus="HotKeyTextBox_GotFocus" />
+
+                        <!-- 빨간색 충돌 표시 태그 -->
+                        <Border Margin="10,0,0,0" Padding="10,4" Background="#FF5252" CornerRadius="4" VerticalAlignment="Center"
+                                Visibility="{Binding HasConflict, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="⚠️ 충돌" Foreground="White" FontSize="12" FontWeight="Bold" />
+                        </Border>
+                    </StackPanel>
+
+                    <!-- 상태 메세지 (성공 / 충돌 안내) -->
+                    <TextBlock Text="{Binding HotKeyStatusText}"
+                               Foreground="{Binding HotKeyStatusBrush}"
+                               FontSize="12" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,20" />
 
                     <!-- 화면 테마 설정 -->
                     <TextBlock Text="화면 테마 설정" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8" />

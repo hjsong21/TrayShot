@@ -28,8 +28,7 @@ public class ScreenshotConverterTests : IDisposable
                 var row = accessor.GetRowSpan(y);
                 for (int x = 0; x < row.Length; x++)
                 {
-                    byte color = (byte)((x * 17 + y * 31) % 256);
-                    row[x] = new Rgba32(color, (byte)(255 - color), (byte)(color * 3 % 256), 255);
+                    row[x] = new Rgba32(50, 100, 150, 255);
                 }
             }
         });

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Sukurini.Core;
@@ -9,16 +11,6 @@ namespace Sukurini.Preferences;
 
 public partial class PreferencesViewModel : ObservableObject
 {
-    private static readonly (uint Modifiers, uint KeyCode)[] HotKeyPresets = new[]
-    {
-        ((uint)3, (uint)83),  // Ctrl + Alt + S (Default - Highly recommended non-conflicting)
-        ((uint)5, (uint)83),  // Alt + Shift + S
-        ((uint)6, (uint)83),  // Ctrl + Shift + S
-        ((uint)1, (uint)83),  // Alt + S
-        ((uint)3, (uint)75),  // Ctrl + Alt + K
-        ((uint)5, (uint)71),  // Alt + Shift + G
-    };
-
     [ObservableProperty]
     private bool _launchAtStartup;
 
@@ -38,7 +30,19 @@ public partial class PreferencesViewModel : ObservableObject
     private int _selectedDisposalIndex;
 
     [ObservableProperty]
-    private int _selectedHotKeyIndex;
+    private string _hotKeyDisplayText = "";
+
+    [ObservableProperty]
+    private string _hotKeyStatusText = "";
+
+    [ObservableProperty]
+    private bool _hasConflict;
+
+    [ObservableProperty]
+    private Brush _hotKeyStatusBrush = new SolidColorBrush(Color.FromRgb(136, 136, 136));
+
+    [ObservableProperty]
+    private Brush _hotKeyBorderBrush = new SolidColorBrush(Color.FromRgb(58, 58, 58));
 
     public ObservableCollection<string> MonitoredFolders { get; } = new();
 
@@ -52,8 +56,9 @@ public partial class PreferencesViewModel : ObservableObject
         _selectedDisposalIndex = (int)AppSettings.Shared.WebpDisposal;
 
         var currentBinding = AppSettings.Shared.GalleryHotKey;
-        int idx = Array.FindIndex(HotKeyPresets, p => p.Modifiers == currentBinding.Modifiers && p.KeyCode == currentBinding.KeyCode);
-        _selectedHotKeyIndex = idx >= 0 ? idx : 0;
+        HotKeyDisplayText = HotKeyFormatter.Format(currentBinding.Modifiers, currentBinding.KeyCode);
+        HotKeyStatusText = "✓ 현재 사용 중인 전역 단축키";
+        HotKeyStatusBrush = new SolidColorBrush(Color.FromRgb(0x4C, 0xAF, 0x50)); // Green
 
         foreach (var folder in AppSettings.Shared.Folders)
         {
@@ -61,12 +66,38 @@ public partial class PreferencesViewModel : ObservableObject
         }
     }
 
-    partial void OnSelectedHotKeyIndexChanged(int value)
+    public void TrySetHotKey(uint modifiers, uint keyCode)
     {
-        if (value >= 0 && value < HotKeyPresets.Length)
+        // 1. Check if hotkey is valid (must have a modifier or be an F-key)
+        bool isFKey = keyCode >= (uint)KeyInterop.VirtualKeyFromKey(Key.F1) && keyCode <= (uint)KeyInterop.VirtualKeyFromKey(Key.F24);
+        if (modifiers == 0 && !isFKey)
         {
-            var preset = HotKeyPresets[value];
-            AppSettings.Shared.GalleryHotKey = new HotKeyBinding(preset.KeyCode, preset.Modifiers);
+            HasConflict = true;
+            HotKeyDisplayText = HotKeyFormatter.Format(modifiers, keyCode);
+            HotKeyStatusText = "⚠️ 단축키는 조합키(Ctrl, Alt, Shift 등) 또는 기능키(F1~F12)를 포함해야 합니다. 다시 입력해 주세요.";
+            HotKeyStatusBrush = new SolidColorBrush(Color.FromRgb(0xFF, 0x52, 0x52)); // Red
+            HotKeyBorderBrush = new SolidColorBrush(Color.FromRgb(0xFF, 0x52, 0x52));
+            return;
+        }
+
+        // 2. Test availability (conflict check)
+        bool available = HotKeyManager.TestAvailability(modifiers, keyCode);
+        HotKeyDisplayText = HotKeyFormatter.Format(modifiers, keyCode);
+
+        if (available)
+        {
+            HasConflict = false;
+            AppSettings.Shared.GalleryHotKey = new HotKeyBinding(keyCode, modifiers);
+            HotKeyStatusText = "✓ 전역 단축키가 성공적으로 변경되었습니다.";
+            HotKeyStatusBrush = new SolidColorBrush(Color.FromRgb(0x4C, 0xAF, 0x50)); // Green
+            HotKeyBorderBrush = new SolidColorBrush(Color.FromRgb(0x3A, 0x3A, 0x3A));
+        }
+        else
+        {
+            HasConflict = true;
+            HotKeyStatusText = "❌ 충돌: 다른 앱 또는 시스템에서 이미 사용 중입니다. 다시 입력해 주세요.";
+            HotKeyStatusBrush = new SolidColorBrush(Color.FromRgb(0xFF, 0x52, 0x52)); // Red
+            HotKeyBorderBrush = new SolidColorBrush(Color.FromRgb(0xFF, 0x52, 0x52));
         }
     }
 

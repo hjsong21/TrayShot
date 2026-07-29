@@ -82,6 +82,34 @@ public sealed class HotKeyManager : IDisposable
         return success;
     }
 
+    public static bool TestAvailability(uint modifiers, uint key)
+    {
+        var current = AppSettings.Shared.GalleryHotKey;
+        if (current.Modifiers == modifiers && current.KeyCode == key)
+        {
+            return true;
+        }
+
+        const int TEST_ID = 9998;
+        uint flags = modifiers | MOD_NOREPEAT;
+
+        bool success = RegisterHotKey(IntPtr.Zero, TEST_ID, flags, key);
+        if (success)
+        {
+            UnregisterHotKey(IntPtr.Zero, TEST_ID);
+            return true;
+        }
+
+        success = RegisterHotKey(IntPtr.Zero, TEST_ID, modifiers, key);
+        if (success)
+        {
+            UnregisterHotKey(IntPtr.Zero, TEST_ID);
+            return true;
+        }
+
+        return false;
+    }
+
     public void Unregister()
     {
         if (_isRegistered)
