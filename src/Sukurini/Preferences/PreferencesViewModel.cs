@@ -9,6 +9,16 @@ namespace Sukurini.Preferences;
 
 public partial class PreferencesViewModel : ObservableObject
 {
+    private static readonly (uint Modifiers, uint KeyCode)[] HotKeyPresets = new[]
+    {
+        ((uint)5, (uint)83),  // Alt + Shift + S (Default)
+        ((uint)6, (uint)83),  // Ctrl + Shift + S
+        ((uint)12, (uint)83), // Win + Shift + S
+        ((uint)1, (uint)83),  // Alt + S
+        ((uint)3, (uint)83),  // Ctrl + Alt + S
+        ((uint)5, (uint)71),  // Alt + Shift + G
+    };
+
     [ObservableProperty]
     private bool _launchAtStartup;
 
@@ -27,6 +37,9 @@ public partial class PreferencesViewModel : ObservableObject
     [ObservableProperty]
     private int _selectedDisposalIndex;
 
+    [ObservableProperty]
+    private int _selectedHotKeyIndex;
+
     public ObservableCollection<string> MonitoredFolders { get; } = new();
 
     public PreferencesViewModel()
@@ -38,9 +51,22 @@ public partial class PreferencesViewModel : ObservableObject
         _selectedThemeIndex = (int)AppSettings.Shared.Theme;
         _selectedDisposalIndex = (int)AppSettings.Shared.WebpDisposal;
 
+        var currentBinding = AppSettings.Shared.GalleryHotKey;
+        int idx = Array.FindIndex(HotKeyPresets, p => p.Modifiers == currentBinding.Modifiers && p.KeyCode == currentBinding.KeyCode);
+        _selectedHotKeyIndex = idx >= 0 ? idx : 0;
+
         foreach (var folder in AppSettings.Shared.Folders)
         {
             MonitoredFolders.Add(folder);
+        }
+    }
+
+    partial void OnSelectedHotKeyIndexChanged(int value)
+    {
+        if (value >= 0 && value < HotKeyPresets.Length)
+        {
+            var preset = HotKeyPresets[value];
+            AppSettings.Shared.GalleryHotKey = new HotKeyBinding(preset.KeyCode, preset.Modifiers);
         }
     }
 

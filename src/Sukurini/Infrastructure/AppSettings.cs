@@ -412,20 +412,18 @@ public sealed class AppSettings : INotifyPropertyChanged
         }
     }
 
-    public HotKeyBinding? GalleryHotKey
+    public HotKeyBinding GalleryHotKey
     {
         get
         {
-            if (_data.HotKeyCode.HasValue && _data.HotKeyModifiers.HasValue)
-            {
-                return new HotKeyBinding(_data.HotKeyCode.Value, _data.HotKeyModifiers.Value);
-            }
-            return null;
+            uint key = _data.HotKeyCode ?? 0x53; // 'S'
+            uint mod = _data.HotKeyModifiers ?? 0x0005; // Alt (1) + Shift (4)
+            return new HotKeyBinding(key, mod);
         }
         set
         {
-            _data.HotKeyCode = value?.KeyCode;
-            _data.HotKeyModifiers = value?.Modifiers;
+            _data.HotKeyCode = value.KeyCode;
+            _data.HotKeyModifiers = value.Modifiers;
             SaveSettings();
             OnPropertyChanged();
             HotKeyChanged?.Invoke();

@@ -1,4 +1,6 @@
+using System;
 using System.Windows;
+using System.Windows.Interop;
 using Sukurini.Convert;
 using Sukurini.Core;
 using Sukurini.Gallery;
@@ -13,6 +15,7 @@ public partial class MainWindow : Window
     private TrayIconController? _trayController;
     private GalleryWindow? _galleryWindow;
     private PreferencesWindow? _preferencesWindow;
+    private HotKeyManager? _hotKeyManager;
 
     public MainWindow()
     {
@@ -44,6 +47,34 @@ public partial class MainWindow : Window
         _trayController.Initialize();
     }
 
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+
+        var handle = new WindowInteropHelper(this).Handle;
+        if (handle != IntPtr.Zero)
+        {
+            _hotKeyManager = new HotKeyManager(handle, () =>
+            {
+                Dispatcher.Invoke(() => _galleryWindow?.Toggle());
+            });
+
+            RegisterCurrentHotKey();
+            AppSettings.Shared.HotKeyChanged += OnHotKeySettingChanged;
+        }
+    }
+
+    private void RegisterCurrentHotKey()
+    {
+        var binding = AppSettings.Shared.GalleryHotKey;
+        _hotKeyManager?.Register(binding.Modifiers, binding.KeyCode);
+    }
+
+    private void OnHotKeySettingChanged()
+    {
+        Dispatcher.Invoke(RegisterCurrentHotKey);
+    }
+
     private void OpenPreferences()
     {
         if (_preferencesWindow == null || !_preferencesWindow.IsLoaded)
@@ -59,6 +90,7 @@ public partial class MainWindow : Window
 
     private void ExitApplication()
     {
+        _hotKeyManager?.Dispose();
         _trayController?.Dispose();
         _galleryWindow?.Close();
         _preferencesWindow?.Close();
