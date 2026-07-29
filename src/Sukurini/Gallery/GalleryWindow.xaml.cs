@@ -1,6 +1,8 @@
 using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using Sukurini.Infrastructure;
 using Sukurini.Models;
 
@@ -8,6 +10,17 @@ namespace Sukurini.Gallery;
 
 public partial class GalleryWindow : Window
 {
+    [DllImport("user32.dll")]
+    private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern bool ReleaseCapture();
+
+    private const int WM_NCLBUTTONDOWN = 0xA1;
+    private const int HTLEFT = 10;
+    private const int HTTOP = 12;
+    private const int HTTOPLEFT = 13;
+
     private readonly GalleryViewModel _viewModel;
 
     public GalleryWindow()
@@ -17,6 +30,47 @@ public partial class GalleryWindow : Window
         DataContext = _viewModel;
 
         _viewModel.OpenPreviewRequested += OnOpenPreview;
+    }
+
+    private void ResizeLeft_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            PerformNativeResize(HTLEFT);
+        }
+    }
+
+    private void ResizeTop_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            PerformNativeResize(HTTOP);
+        }
+    }
+
+    private void ResizeTopLeft_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.LeftButton == MouseButtonState.Pressed)
+        {
+            PerformNativeResize(HTTOPLEFT);
+        }
+    }
+
+    private void PerformNativeResize(int hitTestCode)
+    {
+        try
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            if (hwnd != IntPtr.Zero)
+            {
+                ReleaseCapture();
+                SendMessage(hwnd, WM_NCLBUTTONDOWN, (IntPtr)hitTestCode, IntPtr.Zero);
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.App.Error($"Native resize failed: {ex.Message}");
+        }
     }
 
     public void Toggle()
