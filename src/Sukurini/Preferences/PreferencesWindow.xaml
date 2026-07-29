@@ -1,0 +1,36 @@
+<Window x:Class="Sukurini.Preferences.PreferencesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sukurini 설정" Width="550" Height="420"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#1E1E1E">
+    <Grid Margin="20">
+        <TabControl Background="Transparent" BorderThickness="0">
+            <!-- 일반 탭 -->
+            <TabItem Header="일반" Foreground="White">
+                <StackPanel Margin="10,20,10,10">
+                    <CheckBox Content="Windows 시작 시 자동 실행" Foreground="White" FontSize="14"
+                              IsChecked="{Binding LaunchAtStartup}" Margin="0,0,0,15" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- 검색 탭 -->
+            <TabItem Header="검색 및 OCR" Foreground="White">
+                <StackPanel Margin="10,20,10,10">
+                    <CheckBox Content="OCR 텍스트 자동 추출 및 검색 활성화" Foreground="White" FontSize="14"
+                              IsChecked="{Binding OcrEnabled}" Margin="0,0,0,15" />
+                    <CheckBox Content="MobileCLIP 시맨틱 이미지 검색 활성화" Foreground="White" FontSize="14"
+                              IsChecked="{Binding SemanticSearchEnabled}" Margin="0,0,0,15" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- 변환 탭 -->
+            <TabItem Header="이미지 변환" Foreground="White">
+                <StackPanel Margin="10,20,10,10">
+                    <CheckBox Content="새 PNG 스크린샷 무손실 WebP 자동 변환" Foreground="White" FontSize="14"
+                              IsChecked="{Binding WebpConversionEnabled}" Margin="0,0,0,15" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
