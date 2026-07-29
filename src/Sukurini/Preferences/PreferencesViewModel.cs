@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -20,6 +21,9 @@ public partial class PreferencesViewModel : ObservableObject
     [ObservableProperty]
     private bool _semanticSearchEnabled;
 
+    [ObservableProperty]
+    private int _selectedThemeIndex;
+
     public ObservableCollection<string> MonitoredFolders { get; } = new();
 
     public PreferencesViewModel()
@@ -28,10 +32,19 @@ public partial class PreferencesViewModel : ObservableObject
         _ocrEnabled = AppSettings.Shared.OcrEnabled;
         _webpConversionEnabled = AppSettings.Shared.WebpConversionEnabled;
         _semanticSearchEnabled = AppSettings.Shared.SemanticSearchEnabled;
+        _selectedThemeIndex = (int)AppSettings.Shared.Theme;
 
         foreach (var folder in AppSettings.Shared.Folders)
         {
             MonitoredFolders.Add(folder);
+        }
+    }
+
+    partial void OnSelectedThemeIndexChanged(int value)
+    {
+        if (Enum.IsDefined(typeof(AppTheme), value))
+        {
+            AppSettings.Shared.Theme = (AppTheme)value;
         }
     }
 

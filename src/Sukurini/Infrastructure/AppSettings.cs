@@ -23,6 +23,13 @@ public enum GallerySortOrder
     Oldest
 }
 
+public enum AppTheme
+{
+    Dark,
+    Light,
+    System
+}
+
 public record HotKeyBinding(uint KeyCode, uint Modifiers);
 
 public sealed class AppSettings : INotifyPropertyChanged
@@ -38,6 +45,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     public event Action? OcrPowerPolicyChanged;
     public event Action? WebpConversionChanged;
     public event Action? OrganizeChanged;
+    public event Action? ThemeChanged;
     public event Action? IncludeSubfoldersChanged;
     public event Action? SemanticEnabledChanged;
     public event Action? SemanticModelChanged;
@@ -89,6 +97,7 @@ public sealed class AppSettings : INotifyPropertyChanged
         public DateTime? OnboardingCompletedAt { get; set; }
         public double GalleryWidth { get; set; } = 664.0;
         public double GalleryHeight { get; set; } = 480.0;
+        public AppTheme Theme { get; set; } = AppTheme.Dark;
     }
 
     private SettingsData LoadSettings()
@@ -497,6 +506,21 @@ public sealed class AppSettings : INotifyPropertyChanged
                 _data.GalleryHeight = value;
                 SaveSettings();
                 OnPropertyChanged();
+            }
+        }
+    }
+
+    public AppTheme Theme
+    {
+        get => _data.Theme;
+        set
+        {
+            if (_data.Theme != value)
+            {
+                _data.Theme = value;
+                SaveSettings();
+                OnPropertyChanged();
+                ThemeChanged?.Invoke();
             }
         }
     }

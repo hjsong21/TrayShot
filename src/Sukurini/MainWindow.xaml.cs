@@ -23,6 +23,7 @@ public partial class MainWindow : Window
     {
         Log.Initialize();
         Log.App.Info("Initializing Sukurini Windows application...");
+        ThemeManager.Initialize();
 
         // Initialize Store
         string activeFolder = ScreencaptureDefaults.GetCurrentLocation();

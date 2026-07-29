@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:Sukurini"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+            <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1E1E1E" />
+            <SolidColorBrush x:Key="CardBackgroundBrush" Color="#2A2A2A" />
+            <SolidColorBrush x:Key="BorderBrushColor" Color="#3A3A3A" />
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="#888888" />
+            <SolidColorBrush x:Key="ItemCardBackgroundBrush" Color="#1E1E1E" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

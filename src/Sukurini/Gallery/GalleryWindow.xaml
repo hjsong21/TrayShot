@@ -8,7 +8,7 @@
         Deactivated="OnDeactivated" KeyDown="OnKeyDown">
     <Grid Margin="6">
         <!-- Main window content card -->
-        <Border Background="#1E1E1E" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="12" ClipToBounds="True">
+        <Border Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource BorderBrushColor}" BorderThickness="1" CornerRadius="12" ClipToBounds="True">
             <Grid Margin="12">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -16,17 +16,17 @@
                 </Grid.RowDefinitions>
 
                 <!-- Search input bar -->
-                <Border Grid.Row="0" Background="#2A2A2A" CornerRadius="8" Padding="10,6" Margin="0,0,0,10">
+                <Border Grid.Row="0" Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="10,6" Margin="0,0,0,10">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="🔍" Foreground="#888888" VerticalAlignment="Center" Margin="0,0,8,0" />
-                        <TextBox Grid.Column="1" Background="Transparent" Foreground="White" BorderThickness="0"
+                        <TextBlock Text="🔍" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox Grid.Column="1" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0"
                                  FontSize="14" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
-                                 VerticalAlignment="Center" CaretBrush="White" />
+                                 VerticalAlignment="Center" CaretBrush="{DynamicResource TextPrimaryBrush}" />
                     </Grid>
                 </Border>
 
@@ -50,7 +50,7 @@
                 </ListBox>
 
                 <!-- Empty state message -->
-                <TextBlock Grid.Row="1" Text="스크린샷이 없습니다." Foreground="#888888" FontSize="14"
+                <TextBlock Grid.Row="1" Text="스크린샷이 없습니다." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="14"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            Visibility="{Binding IsEmptyState, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </Grid>

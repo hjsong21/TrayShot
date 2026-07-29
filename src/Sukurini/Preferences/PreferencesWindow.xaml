@@ -1,39 +1,48 @@
 <Window x:Class="Sukurini.Preferences.PreferencesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Sukurini 설정" Width="550" Height="420"
+        Title="Sukurini 설정" Width="550" Height="450"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Background="#1E1E1E">
+        Background="{DynamicResource WindowBackgroundBrush}">
     <Grid Margin="20">
         <TabControl Background="Transparent" BorderThickness="0">
             <!-- 일반 탭 -->
-            <TabItem Header="일반" Foreground="White">
+            <TabItem Header="일반" Foreground="{DynamicResource TextPrimaryBrush}">
                 <StackPanel Margin="10,20,10,10">
-                    <CheckBox Content="Windows 시작 시 자동 실행" Foreground="White" FontSize="14"
+                    <!-- 화면 테마 설정 -->
+                    <TextBlock Text="화면 테마 설정" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8" />
+                    <ComboBox SelectedIndex="{Binding SelectedThemeIndex}" Width="240" HorizontalAlignment="Left" Margin="0,0,0,20">
+                        <ComboBoxItem Content="🌙 다크 모드 (Dark)" />
+                        <ComboBoxItem Content="☀️ 라이트 모드 (Light)" />
+                        <ComboBoxItem Content="💻 시스템 설정 동기화 (System)" />
+                    </ComboBox>
+
+                    <CheckBox Content="Windows 시작 시 자동 실행" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14"
                               IsChecked="{Binding LaunchAtStartup}" Margin="0,0,0,20" />
 
                     <Button Content="갤러리 패널 크기 기본값 복원"
                             Command="{Binding ResetGallerySizeCommand}"
                             HorizontalAlignment="Left" Padding="14,8"
-                            Background="#333333" Foreground="White" BorderThickness="0"
+                            Background="{DynamicResource CardBackgroundBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                            BorderBrush="{DynamicResource BorderBrushColor}" BorderThickness="1"
                             Cursor="Hand" Margin="0,10,0,0" />
                 </StackPanel>
             </TabItem>
 
             <!-- 검색 탭 -->
-            <TabItem Header="검색 및 OCR" Foreground="White">
+            <TabItem Header="검색 및 OCR" Foreground="{DynamicResource TextPrimaryBrush}">
                 <StackPanel Margin="10,20,10,10">
-                    <CheckBox Content="OCR 텍스트 자동 추출 및 검색 활성화" Foreground="White" FontSize="14"
+                    <CheckBox Content="OCR 텍스트 자동 추출 및 검색 활성화" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14"
                               IsChecked="{Binding OcrEnabled}" Margin="0,0,0,15" />
-                    <CheckBox Content="MobileCLIP 시맨틱 이미지 검색 활성화" Foreground="White" FontSize="14"
+                    <CheckBox Content="MobileCLIP 시맨틱 이미지 검색 활성화" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14"
                               IsChecked="{Binding SemanticSearchEnabled}" Margin="0,0,0,15" />
                 </StackPanel>
             </TabItem>
 
             <!-- 변환 탭 -->
-            <TabItem Header="이미지 변환" Foreground="White">
+            <TabItem Header="이미지 변환" Foreground="{DynamicResource TextPrimaryBrush}">
                 <StackPanel Margin="10,20,10,10">
-                    <CheckBox Content="새 PNG 스크린샷 무손실 WebP 자동 변환" Foreground="White" FontSize="14"
+                    <CheckBox Content="새 PNG 스크린샷 무손실 WebP 자동 변환" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14"
                               IsChecked="{Binding WebpConversionEnabled}" Margin="0,0,0,15" />
                 </StackPanel>
             </TabItem>
