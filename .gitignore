@@ -1,0 +1,21 @@
+## Visual Studio / .NET .gitignore
+.vs/
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+.cache/
