@@ -11,18 +11,18 @@
                 <StackPanel Margin="10,20,10,10">
                     <!-- 핫키 설정 -->
                     <TextBlock Text="갤러리 열기 핫키 (전역 단축키)" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8" />
-                    <ComboBox SelectedIndex="{Binding SelectedHotKeyIndex}" Width="260" HorizontalAlignment="Left" Margin="0,0,0,20">
-                        <ComboBoxItem Content="⌨️ Alt + Shift + S (기본값)" />
+                    <ComboBox SelectedIndex="{Binding SelectedHotKeyIndex}" Width="280" HorizontalAlignment="Left" Margin="0,0,0,20">
+                        <ComboBoxItem Content="⌨️ Ctrl + Alt + S (권장 - 충돌 없음)" />
+                        <ComboBoxItem Content="⌨️ Alt + Shift + S" />
                         <ComboBoxItem Content="⌨️ Ctrl + Shift + S" />
-                        <ComboBoxItem Content="⌨️ Win + Shift + S" />
                         <ComboBoxItem Content="⌨️ Alt + S" />
-                        <ComboBoxItem Content="⌨️ Ctrl + Alt + S" />
+                        <ComboBoxItem Content="⌨️ Ctrl + Alt + K" />
                         <ComboBoxItem Content="⌨️ Alt + Shift + G" />
                     </ComboBox>
 
                     <!-- 화면 테마 설정 -->
                     <TextBlock Text="화면 테마 설정" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8" />
-                    <ComboBox SelectedIndex="{Binding SelectedThemeIndex}" Width="260" HorizontalAlignment="Left" Margin="0,0,0,20">
+                    <ComboBox SelectedIndex="{Binding SelectedThemeIndex}" Width="280" HorizontalAlignment="Left" Margin="0,0,0,20">
                         <ComboBoxItem Content="🌙 다크 모드 (Dark)" />
                         <ComboBoxItem Content="☀️ 라이트 모드 (Light)" />
                         <ComboBoxItem Content="💻 시스템 설정 동기화 (System)" />

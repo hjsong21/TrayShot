@@ -18,10 +18,9 @@ public class ScreenshotConverterTests : IDisposable
         CreateComplexTestPng(_tempPngPath);
     }
 
-    private static void CreateComplexTestPng(string path, int width = 120, int height = 120)
+    private static void CreateComplexTestPng(string path, int width = 200, int height = 200)
     {
         using var img = new Image<Rgba32>(width, height);
-        var rand = new Random(12345);
         img.ProcessPixelRows(accessor =>
         {
             for (int y = 0; y < accessor.Height; y++)
@@ -29,10 +28,8 @@ public class ScreenshotConverterTests : IDisposable
                 var row = accessor.GetRowSpan(y);
                 for (int x = 0; x < row.Length; x++)
                 {
-                    byte r = (byte)((x * 13 + y * 7 + rand.Next(30)) % 256);
-                    byte g = (byte)((x * 5 + y * 17 + rand.Next(30)) % 256);
-                    byte b = (byte)((x * 9 + y * 11 + rand.Next(30)) % 256);
-                    row[x] = new Rgba32(r, g, b, 255);
+                    byte color = (byte)((x * 17 + y * 31) % 256);
+                    row[x] = new Rgba32(color, (byte)(255 - color), (byte)(color * 3 % 256), 255);
                 }
             }
         });

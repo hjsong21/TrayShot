@@ -102,8 +102,12 @@ public partial class GalleryWindow : Window
         }
     }
 
+    private DateTime _lastToggleTime = DateTime.MinValue;
+
     public void Toggle()
     {
+        _lastToggleTime = DateTime.UtcNow;
+
         if (IsVisible)
         {
             Hide();
@@ -112,8 +116,11 @@ public partial class GalleryWindow : Window
         {
             PositionNearTray();
             Show();
+            Topmost = true;
             Activate();
+            Focus();
             _viewModel.RefreshList();
+            Log.App.Info("GalleryWindow toggled to VISIBLE");
         }
     }
 
@@ -126,6 +133,11 @@ public partial class GalleryWindow : Window
 
     private void OnDeactivated(object? sender, EventArgs e)
     {
+        if ((DateTime.UtcNow - _lastToggleTime).TotalMilliseconds < 350)
+        {
+            return;
+        }
+
         Hide();
     }
 

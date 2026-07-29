@@ -417,7 +417,7 @@ public sealed class AppSettings : INotifyPropertyChanged
         get
         {
             uint key = _data.HotKeyCode ?? 0x53; // 'S'
-            uint mod = _data.HotKeyModifiers ?? 0x0005; // Alt (1) + Shift (4)
+            uint mod = _data.HotKeyModifiers ?? 0x0003; // Ctrl (2) + Alt (1) = 3
             return new HotKeyBinding(key, mod);
         }
         set

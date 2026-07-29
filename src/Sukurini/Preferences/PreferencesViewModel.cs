@@ -11,11 +11,11 @@ public partial class PreferencesViewModel : ObservableObject
 {
     private static readonly (uint Modifiers, uint KeyCode)[] HotKeyPresets = new[]
     {
-        ((uint)5, (uint)83),  // Alt + Shift + S (Default)
+        ((uint)3, (uint)83),  // Ctrl + Alt + S (Default - Highly recommended non-conflicting)
+        ((uint)5, (uint)83),  // Alt + Shift + S
         ((uint)6, (uint)83),  // Ctrl + Shift + S
-        ((uint)12, (uint)83), // Win + Shift + S
         ((uint)1, (uint)83),  // Alt + S
-        ((uint)3, (uint)83),  // Ctrl + Alt + S
+        ((uint)3, (uint)75),  // Ctrl + Alt + K
         ((uint)5, (uint)71),  // Alt + Shift + G
     };
 

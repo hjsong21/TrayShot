@@ -45,23 +45,23 @@ public partial class MainWindow : Window
             onOpenPreferences: OpenPreferences,
             onExitApp: ExitApplication);
         _trayController.Initialize();
-    }
 
-    protected override void OnSourceInitialized(EventArgs e)
-    {
-        base.OnSourceInitialized(e);
+        // Initialize HotKeyManager (Force Handle Creation since window is Hidden)
+        var helper = new WindowInteropHelper(this);
+        helper.EnsureHandle();
+        var handle = helper.Handle;
 
-        var handle = new WindowInteropHelper(this).Handle;
-        if (handle != IntPtr.Zero)
+        _hotKeyManager = new HotKeyManager(handle, () =>
         {
-            _hotKeyManager = new HotKeyManager(handle, () =>
+            Dispatcher.Invoke(() =>
             {
-                Dispatcher.Invoke(() => _galleryWindow?.Toggle());
+                Log.App.Info("Hotkey pressed, toggling gallery window...");
+                _galleryWindow?.Toggle();
             });
+        });
 
-            RegisterCurrentHotKey();
-            AppSettings.Shared.HotKeyChanged += OnHotKeySettingChanged;
-        }
+        RegisterCurrentHotKey();
+        AppSettings.Shared.HotKeyChanged += OnHotKeySettingChanged;
     }
 
     private void RegisterCurrentHotKey()
