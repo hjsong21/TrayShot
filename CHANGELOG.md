@@ -7,6 +7,19 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.3.0] - 2026-07-29
+
+### Added
+- **Custom Resize Handles**: Native WM_NCHITTEST handles for borderless window border drag resizing
+- **Window Size Persistence**: Persistent storage of resized gallery window width/height in AppSettings with reset support
+- **Dynamic Theme Switching**: Real-time Dark/Light/System theme switching via `DynamicResource` bindings
+- **Lossless WebP Conversion Pipeline**: Automatic WebP conversion pipeline with 1:1 RGB/Alpha pixel verification
+- **Original PNG Disposal Policies**: Configurable disposal policy for source PNGs upon successful WebP conversion (Trash, Delete, or Keep)
+
+### Fixed
+- **App.xaml Resource Exception**: Resolved missing `BooleanToVisibilityConverter` resource exception during XAML data binding
+- **Conversion Pipeline Linkage**: Interconnected `ScreenshotStore` file detection events with `ConversionCoordinator`
+
 ## [v0.2.0] - 2026-07-29
 
 ### Added

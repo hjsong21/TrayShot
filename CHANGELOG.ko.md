@@ -7,6 +7,19 @@
 
 ---
 
+## [v0.3.0] - 2026-07-29
+
+### 기능 추가 (Added)
+- **커스텀 리사이즈 핸들**: 보더리스 윈도우 테두리 드래그 크기 조절을 위한 WM_NCHITTEST 네이티브 핸들 적용
+- **창 크기 영구 보존**: 변경된 갤러리 창 너비/높이를 AppSettings에 영구 저장 및 초기화 기능 구현
+- **동적 테마 스위칭**: 다크/라이트/시스템 테마 실시간 전환을 위한 `DynamicResource` 바인딩 적용
+- **무손실 WebP 변환 파이프라인**: 1:1 RGB/Alpha 픽셀 대조 검증 기반 자동 WebP 변환 파이프라인 구축
+- **원본 PNG 처분 정책**: WebP 변환 성공 시 원본 PNG 휴지통 이동(Trash), 영구 삭제(Delete), 보존(Keep) 선택 기능
+
+### 버그 수정 (Fixed)
+- **App.xaml 리소스 수정**: XAML 데이터 바인딩 시 발생하던 `BooleanToVisibilityConverter` 리소스 누락 예외 해결
+- **변환 파이프라인 연결**: `ScreenshotStore` 파일 감지 이벤트와 `ConversionCoordinator` 상호 연동
+
 ## [v0.2.0] - 2026-07-29
 
 ### 기능 추가 (Added)
