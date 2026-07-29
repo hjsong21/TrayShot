@@ -87,6 +87,8 @@ public sealed class AppSettings : INotifyPropertyChanged
         public DateTime? FirstLaunchedAt { get; set; }
         public int LaunchCount { get; set; } = 0;
         public DateTime? OnboardingCompletedAt { get; set; }
+        public double GalleryWidth { get; set; } = 664.0;
+        public double GalleryHeight { get; set; } = 480.0;
     }
 
     private SettingsData LoadSettings()
@@ -469,6 +471,40 @@ public sealed class AppSettings : INotifyPropertyChanged
             _data.ActiveFolder = defaultPictures;
             SaveSettings();
         }
+    }
+
+    public double GalleryWidth
+    {
+        get => _data.GalleryWidth;
+        set
+        {
+            if (Math.Abs(_data.GalleryWidth - value) > 1.0)
+            {
+                _data.GalleryWidth = value;
+                SaveSettings();
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public double GalleryHeight
+    {
+        get => _data.GalleryHeight;
+        set
+        {
+            if (Math.Abs(_data.GalleryHeight - value) > 1.0)
+            {
+                _data.GalleryHeight = value;
+                SaveSettings();
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public void ResetGallerySizeToDefault()
+    {
+        GalleryWidth = 664.0;
+        GalleryHeight = 480.0;
     }
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

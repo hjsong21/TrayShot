@@ -30,6 +30,35 @@ public partial class GalleryWindow : Window
         DataContext = _viewModel;
 
         _viewModel.OpenPreviewRequested += OnOpenPreview;
+
+        Width = AppSettings.Shared.GalleryWidth;
+        Height = AppSettings.Shared.GalleryHeight;
+
+        SizeChanged += OnGallerySizeChanged;
+        AppSettings.Shared.PropertyChanged += OnSettingsPropertyChanged;
+    }
+
+    private void OnGallerySizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (IsLoaded && e.NewSize.Width > 0 && e.NewSize.Height > 0)
+        {
+            AppSettings.Shared.GalleryWidth = e.NewSize.Width;
+            AppSettings.Shared.GalleryHeight = e.NewSize.Height;
+            PositionNearTray();
+        }
+    }
+
+    private void OnSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppSettings.GalleryWidth) || e.PropertyName == nameof(AppSettings.GalleryHeight))
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Width = AppSettings.Shared.GalleryWidth;
+                Height = AppSettings.Shared.GalleryHeight;
+                PositionNearTray();
+            });
+        }
     }
 
     private void ResizeLeft_MouseDown(object sender, MouseButtonEventArgs e)

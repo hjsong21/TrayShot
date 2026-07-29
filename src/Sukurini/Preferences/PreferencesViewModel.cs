@@ -54,4 +54,10 @@ public partial class PreferencesViewModel : ObservableObject
     {
         AppSettings.Shared.SemanticSearchEnabled = value;
     }
+
+    [RelayCommand]
+    private void ResetGallerySize()
+    {
+        AppSettings.Shared.ResetGallerySizeToDefault();
+    }
 }
