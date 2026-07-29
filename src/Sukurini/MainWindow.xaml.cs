@@ -1,4 +1,5 @@
 using System.Windows;
+using Sukurini.Convert;
 using Sukurini.Core;
 using Sukurini.Gallery;
 using Sukurini.Infrastructure;
@@ -28,6 +29,9 @@ public partial class MainWindow : Window
         // Initialize Store
         string activeFolder = ScreencaptureDefaults.GetCurrentLocation();
         ScreenshotStore.Shared.Initialize(activeFolder, AppSettings.Shared.IncludeSubfolders);
+
+        // Initialize Conversion Coordinator
+        ConversionCoordinator.Shared.Initialize();
 
         // Initialize Gallery Window
         _galleryWindow = new GalleryWindow();

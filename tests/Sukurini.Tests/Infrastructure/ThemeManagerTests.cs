@@ -1,3 +1,4 @@
+using System;
 using Sukurini.Infrastructure;
 using Xunit;
 
@@ -9,14 +10,23 @@ public class ThemeManagerTests
     public void AppSettings_ChangesThemePropertyCorrectly()
     {
         var settings = AppSettings.Shared;
+        var initialTheme = settings.Theme;
+        var targetTheme = initialTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
+
         bool eventFired = false;
-        settings.ThemeChanged += () => eventFired = true;
+        Action handler = () => eventFired = true;
+        settings.ThemeChanged += handler;
 
-        settings.Theme = AppTheme.Light;
-        Assert.Equal(AppTheme.Light, settings.Theme);
-        Assert.True(eventFired);
-
-        settings.Theme = AppTheme.Dark;
-        Assert.Equal(AppTheme.Dark, settings.Theme);
+        try
+        {
+            settings.Theme = targetTheme;
+            Assert.Equal(targetTheme, settings.Theme);
+            Assert.True(eventFired);
+        }
+        finally
+        {
+            settings.ThemeChanged -= handler;
+            settings.Theme = initialTheme;
+        }
     }
 }
