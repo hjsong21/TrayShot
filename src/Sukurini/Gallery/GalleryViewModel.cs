@@ -18,6 +18,9 @@ public partial class GalleryViewModel : ObservableObject
     private string _searchQuery = string.Empty;
 
     [ObservableProperty]
+    private bool _hasSearchQuery;
+
+    [ObservableProperty]
     private Screenshot? _selectedItem;
 
     [ObservableProperty]
@@ -43,8 +46,15 @@ public partial class GalleryViewModel : ObservableObject
 
     partial void OnSearchQueryChanged(string value)
     {
+        HasSearchQuery = !string.IsNullOrEmpty(value);
         _searchDebounceTimer.Stop();
         _searchDebounceTimer.Start();
+    }
+
+    [RelayCommand]
+    private void ClearSearch()
+    {
+        SearchQuery = string.Empty;
     }
 
     private void OnSearchDebounceTick(object? sender, EventArgs e)

@@ -28,12 +28,20 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="🔍" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="0,0,8,0" />
                             <TextBox Grid.Column="1" Background="Transparent" Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0"
                                      FontSize="14" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
                                      VerticalAlignment="Center" CaretBrush="{DynamicResource TextPrimaryBrush}" />
+
+                            <!-- Clear Search Keyword Button (x) -->
+                            <Button Grid.Column="2" Command="{Binding ClearSearchCommand}" ToolTip="검색어 지우기"
+                                    Background="Transparent" BorderThickness="0" Cursor="Hand" Padding="4,0" Margin="4,0,0,0"
+                                    Visibility="{Binding HasSearchQuery, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="✖" FontSize="11" Foreground="{DynamicResource TextSecondaryBrush}" VerticalAlignment="Center" />
+                            </Button>
                         </Grid>
                     </Border>
 
