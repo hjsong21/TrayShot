@@ -262,7 +262,10 @@ public partial class GalleryViewModel : ObservableObject
 
             if (pastedPaths.Count > 0)
             {
-                _undoStack.Push(new PasteUndoAction(pastedPaths));
+                lock (_undoStack)
+                {
+                    _undoStack.Push(new PasteUndoAction(pastedPaths));
+                }
                 ScreenshotStore.Shared.TriggerScan();
             }
         }
@@ -273,10 +276,12 @@ public partial class GalleryViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void ConvertFormat(string targetExt)
+    public async Task ConvertFormatAsync(string targetExt)
     {
         if (SelectedItem == null || !File.Exists(SelectedItem.Path)) return;
-        ConvertImageFormat(SelectedItem, targetExt);
+
+        var item = SelectedItem;
+        await Task.Run(() => ConvertImageFormat(item, targetExt));
     }
 
     public static void ConvertImageFormat(Screenshot item, string targetExtension)
@@ -337,7 +342,10 @@ public partial class GalleryViewModel : ObservableObject
             }
 
             Log.App.Info($"Converted image format from {item.Path} to {destPath}");
-            _undoStack.Push(new PasteUndoAction(new List<string> { destPath }));
+            lock (_undoStack)
+            {
+                _undoStack.Push(new PasteUndoAction(new List<string> { destPath }));
+            }
             ScreenshotStore.Shared.TriggerScan();
         }
         catch (Exception ex)
@@ -442,7 +450,13 @@ public partial class GalleryViewModel : ObservableObject
 
     private static readonly Stack<IUndoAction> _undoStack = new();
 
-    public static bool CanUndo => _undoStack.Count > 0;
+    public static bool CanUndo
+    {
+        get
+        {
+            lock (_undoStack) { return _undoStack.Count > 0; }
+        }
+    }
 
     public static void DeleteScreenshot(Screenshot item)
     {
@@ -456,7 +470,10 @@ public partial class GalleryViewModel : ObservableObject
                 string tempBackupPath = Path.Combine(tempDir, $"{Guid.NewGuid()}{Path.GetExtension(item.Path)}");
                 File.Copy(item.Path, tempBackupPath, overwrite: true);
 
-                _undoStack.Push(new DeleteUndoAction(item.Path, tempBackupPath, item));
+                lock (_undoStack)
+                {
+                    _undoStack.Push(new DeleteUndoAction(item.Path, tempBackupPath, item));
+                }
 
                 // 2. Move ONLY the selected file to Windows Recycle Bin
                 Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
@@ -479,9 +496,17 @@ public partial class GalleryViewModel : ObservableObject
 
     public static Screenshot? UndoLastAction()
     {
-        if (_undoStack.Count == 0) return null;
+        IUndoAction? action = null;
+        lock (_undoStack)
+        {
+            if (_undoStack.Count > 0)
+            {
+                action = _undoStack.Pop();
+            }
+        }
 
-        var action = _undoStack.Pop();
+        if (action == null) return null;
+
         var restoredItem = action.PerformUndo();
         ScreenshotStore.Shared.TriggerScan();
         return restoredItem;
