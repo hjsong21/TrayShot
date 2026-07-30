@@ -7,6 +7,17 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.4.0] - 2026-07-30
+
+### Added
+- **Win32 Global Hotkeys**: Desktop global hotkey (`Ctrl+Alt+S`) to toggle gallery panel via `RegisterHotKey` API
+- **Interactive Hotkey Input Control**: Custom input control in preferences with real-time Win32 shortcut conflict validation
+
+### Fixed
+- **Delayed HWND Initialization**: Resolved global hotkey registration failure on hidden windows using `EnsureHandle()`
+- **Shortcut Preemption Guard**: Added guard to prevent single modifier keys (Ctrl/Shift/Alt) from blocking system shortcuts
+- **Infinite Conversion Loop Guard**: Fixed infinite WebP reconversion loop when source PNG retention (Keep) policy is active
+
 ## [v0.3.0] - 2026-07-29
 
 ### Added
