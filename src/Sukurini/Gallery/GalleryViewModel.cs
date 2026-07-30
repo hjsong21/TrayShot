@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -121,6 +122,131 @@ public partial class GalleryViewModel : ObservableObject
     private void Undo()
     {
         UndoDelete();
+    }
+
+    [RelayCommand]
+    public void CopySelected()
+    {
+        if (SelectedItem == null || !File.Exists(SelectedItem.Path)) return;
+        CopyScreenshotToClipboard(SelectedItem.Path);
+    }
+
+    public static void CopyScreenshotToClipboard(string path)
+    {
+        try
+        {
+            var dataObj = new System.Windows.DataObject();
+            var fileList = new System.Collections.Specialized.StringCollection { path };
+            dataObj.SetFileDropList(fileList);
+
+            if (File.Exists(path))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = new Uri(path);
+                bitmap.EndInit();
+                bitmap.Freeze();
+                dataObj.SetImage(bitmap);
+            }
+
+            System.Windows.Clipboard.SetDataObject(dataObj, true);
+            Log.App.Info($"Copied file to clipboard: {path}");
+        }
+        catch (Exception ex)
+        {
+            Log.App.Error($"Failed to copy to clipboard: {ex.Message}");
+        }
+    }
+
+    [RelayCommand]
+    public void PasteClipboard()
+    {
+        try
+        {
+            string? targetFolder = ScreenshotStore.Shared.ActiveFolderPath;
+            if (string.IsNullOrEmpty(targetFolder) || !Directory.Exists(targetFolder))
+            {
+                targetFolder = AppSettings.Shared.ActiveFolder;
+            }
+            if (string.IsNullOrEmpty(targetFolder) || !Directory.Exists(targetFolder))
+            {
+                Log.App.Warn("Cannot paste: Active folder does not exist.");
+                return;
+            }
+
+            if (System.Windows.Clipboard.ContainsFileDropList())
+            {
+                var dropList = System.Windows.Clipboard.GetFileDropList();
+                bool pastedAny = false;
+
+                foreach (string? srcPath in dropList)
+                {
+                    if (string.IsNullOrEmpty(srcPath) || !File.Exists(srcPath)) continue;
+                    if (!ScreenshotFile.IsEligible(srcPath)) continue;
+
+                    string srcDir = Path.GetDirectoryName(srcPath) ?? string.Empty;
+                    string fileNameWithoutExt = Path.GetFileNameWithoutExtension(srcPath);
+                    string ext = Path.GetExtension(srcPath);
+                    string destPath;
+
+                    if (srcDir.Equals(targetFolder, StringComparison.OrdinalIgnoreCase))
+                    {
+                        destPath = GenerateUniqueFilePath(targetFolder, $"{fileNameWithoutExt} - 복사본", ext);
+                    }
+                    else
+                    {
+                        destPath = GenerateUniqueFilePath(targetFolder, fileNameWithoutExt, ext);
+                    }
+
+                    File.Copy(srcPath, destPath, overwrite: false);
+                    pastedAny = true;
+                    Log.App.Info($"Pasted file from {srcPath} to {destPath}");
+                }
+
+                if (pastedAny)
+                {
+                    ScreenshotStore.Shared.TriggerScan();
+                }
+            }
+            else if (System.Windows.Clipboard.ContainsImage())
+            {
+                var image = System.Windows.Clipboard.GetImage();
+                if (image != null)
+                {
+                    string baseName = $"스크린샷_{DateTime.Now:yyyy-MM-dd_HHmmss}";
+                    string destPath = GenerateUniqueFilePath(targetFolder, baseName, ".png");
+
+                    using (var stream = new FileStream(destPath, FileMode.Create))
+                    {
+                        var encoder = new PngBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(image));
+                        encoder.Save(stream);
+                    }
+
+                    Log.App.Info($"Pasted clipboard image to {destPath}");
+                    ScreenshotStore.Shared.TriggerScan();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.App.Error($"Failed to paste from clipboard: {ex.Message}");
+        }
+    }
+
+    private static string GenerateUniqueFilePath(string folder, string baseName, string extension)
+    {
+        string candidate = Path.Combine(folder, $"{baseName}{extension}");
+        if (!File.Exists(candidate)) return candidate;
+
+        int counter = 2;
+        while (true)
+        {
+            candidate = Path.Combine(folder, $"{baseName} ({counter}){extension}");
+            if (!File.Exists(candidate)) return candidate;
+            counter++;
+        }
     }
 
     public record DeletedItemBackup(string OriginalPath, string TempBackupPath, Screenshot Item);

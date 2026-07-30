@@ -180,6 +180,19 @@ public partial class GalleryWindow : Window
             }
             e.Handled = true;
         }
+        else if (e.Key == Key.C && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.SelectedItem != null)
+            {
+                _viewModel.CopySelectedCommand.Execute(null);
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            _viewModel.PasteClipboardCommand.Execute(null);
+            e.Handled = true;
+        }
         else if (e.Key == Key.Space && _viewModel.SelectedItem != null && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
             OnOpenPreview(_viewModel.SelectedItem);
