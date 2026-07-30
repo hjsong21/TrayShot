@@ -200,6 +200,15 @@ public partial class GalleryWindow : Window
         }
     }
 
+    private void OnListBoxItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is System.Windows.Controls.ListBoxItem item)
+        {
+            item.IsSelected = true;
+            item.Focus();
+        }
+    }
+
     private void OnItemMouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         if (_viewModel.SelectedItem != null)

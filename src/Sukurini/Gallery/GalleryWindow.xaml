@@ -74,6 +74,22 @@
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          MouseDoubleClick="OnItemMouseDoubleClick"
                          PreviewMouseMove="OnItemPreviewMouseMove">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="보기" InputGestureText="Space" Command="{Binding OpenPreviewCommand}" CommandParameter="{Binding SelectedItem}" />
+                            <Separator />
+                            <MenuItem Header="복사" InputGestureText="Ctrl+C" Command="{Binding CopySelectedCommand}" />
+                            <MenuItem Header="붙여넣기" InputGestureText="Ctrl+V" Command="{Binding PasteClipboardCommand}" />
+                            <Separator />
+                            <MenuItem Header="삭제" InputGestureText="Del" Command="{Binding DeleteSelectedCommand}" />
+                            <MenuItem Header="취소" InputGestureText="Ctrl+Z" Command="{Binding UndoCommand}" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <EventSetter Event="PreviewMouseRightButtonDown" Handler="OnListBoxItemPreviewMouseRightButtonDown" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />
