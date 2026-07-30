@@ -44,6 +44,35 @@ public partial class GalleryViewModel : ObservableObject
     [ObservableProperty]
     private bool _isEmptyState;
 
+    [ObservableProperty]
+    private string _statusMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _isStatusVisible;
+
+    private CancellationTokenSource? _statusMessageCts;
+
+    public void ShowStatus(string message, int autoHideMs = 0)
+    {
+        _statusMessageCts?.Cancel();
+        _statusMessageCts = new CancellationTokenSource();
+        var token = _statusMessageCts.Token;
+
+        StatusMessage = message;
+        IsStatusVisible = true;
+
+        if (autoHideMs > 0)
+        {
+            Task.Delay(autoHideMs, token).ContinueWith(t =>
+            {
+                if (!t.IsCanceled)
+                {
+                    App.Current.Dispatcher.Invoke(() => IsStatusVisible = false);
+                }
+            }, TaskScheduler.Default);
+        }
+    }
+
     private readonly DispatcherTimer _searchDebounceTimer;
 
     public ObservableCollection<Screenshot> FilteredScreenshots { get; } = new();
@@ -281,17 +310,35 @@ public partial class GalleryViewModel : ObservableObject
         if (SelectedItem == null || !File.Exists(SelectedItem.Path)) return;
 
         var item = SelectedItem;
-        await Task.Run(() => ConvertImageFormat(item, targetExt));
+        string srcExt = Path.GetExtension(item.Path).TrimStart('.').ToUpperInvariant();
+        string destExt = targetExt.TrimStart('.').ToUpperInvariant();
+
+        ShowStatus($"⏳ {srcExt} → {destExt} 포맷 변환 중...");
+
+        bool success = false;
+        await Task.Run(() =>
+        {
+            success = ConvertImageFormat(item, targetExt);
+        });
+
+        if (success)
+        {
+            ShowStatus($"✅ {destExt} 포맷 변환 완료!", autoHideMs: 2500);
+        }
+        else
+        {
+            ShowStatus($"❌ {destExt} 포맷 변환 실패", autoHideMs: 3500);
+        }
     }
 
-    public static void ConvertImageFormat(Screenshot item, string targetExtension)
+    public static bool ConvertImageFormat(Screenshot item, string targetExtension)
     {
-        if (item == null || string.IsNullOrEmpty(item.Path) || !File.Exists(item.Path)) return;
+        if (item == null || string.IsNullOrEmpty(item.Path) || !File.Exists(item.Path)) return false;
 
         string currentExt = Path.GetExtension(item.Path).ToLowerInvariant();
         string targetExt = targetExtension.StartsWith(".") ? targetExtension.ToLowerInvariant() : "." + targetExtension.ToLowerInvariant();
 
-        if (currentExt == targetExt) return;
+        if (currentExt == targetExt) return false;
 
         try
         {
@@ -347,10 +394,12 @@ public partial class GalleryViewModel : ObservableObject
                 _undoStack.Push(new PasteUndoAction(new List<string> { destPath }));
             }
             ScreenshotStore.Shared.TriggerScan();
+            return true;
         }
         catch (Exception ex)
         {
             Log.App.Error($"Failed format conversion for {item.Path} to {targetExt}: {ex.Message}");
+            return false;
         }
     }
 
