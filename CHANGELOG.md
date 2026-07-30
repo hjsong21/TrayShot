@@ -7,6 +7,17 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.5.0] - 2026-07-30
+
+### Added
+- **Preview Window Keyboard Navigation**: Arrow keys and Home/End navigation support inside `PreviewWindow` popup
+- **Search Bar Clear Button**: Clear query button (X) and command activated when text is present in search bar
+- **Multi-Stage ESC Key Handling**: Multi-stage ESC key logic (Stage 1: clear search query -> Stage 2: hide gallery window)
+
+### Improved
+- **Preview Focus Restoration**: Retained gallery window visibility on preview open and restored focus on preview close
+- **Header Icon Vector Resources**: Updated gallery header settings and exit action buttons with crisp SVG vector icons
+
 ## [v0.4.0] - 2026-07-30
 
 ### Added
