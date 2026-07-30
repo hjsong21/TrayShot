@@ -40,6 +40,30 @@ public static class ScreenshotFile
         return ext.Equals(".png", StringComparison.OrdinalIgnoreCase);
     }
 
+    public static bool NeedsWebpConversion(string pngPath)
+    {
+        if (!IsConvertible(pngPath)) return false;
+
+        string webpPath = ConvertedPath(pngPath);
+        if (File.Exists(webpPath))
+        {
+            try
+            {
+                var pngInfo = new FileInfo(pngPath);
+                var webpInfo = new FileInfo(webpPath);
+                if (pngInfo.Exists && webpInfo.Exists && webpInfo.LastWriteTimeUtc >= pngInfo.LastWriteTimeUtc)
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return true;
+            }
+        }
+        return true;
+    }
+
     public static string ConvertedPath(string path)
     {
         return Path.ChangeExtension(path, ".webp");

@@ -19,6 +19,7 @@ public sealed class ConversionCoordinator
     private readonly ScreenshotConverter _converter = new();
     private readonly Channel<ConversionJob> _jobChannel = Channel.CreateUnbounded<ConversionJob>();
     private readonly ConcurrentDictionary<string, byte> _enqueuedPaths = new(StringComparer.OrdinalIgnoreCase);
+    private readonly ConcurrentDictionary<string, DateTime> _convertedCache = new(StringComparer.OrdinalIgnoreCase);
 
     public ConversionCoordinator()
     {
@@ -41,13 +42,31 @@ public sealed class ConversionCoordinator
         if (!AppSettings.Shared.WebpConversionEnabled)
             return;
 
-        if (ScreenshotFile.IsConvertible(sourcePngPath))
+        if (!ScreenshotFile.IsConvertible(sourcePngPath))
+            return;
+
+        // 1. 이미 최신 WebP 파일이 존재하면 재변환 제외
+        if (!ScreenshotFile.NeedsWebpConversion(sourcePngPath))
+            return;
+
+        // 2. 변환 처리 메모리 캐시 검사 (동일 MTime에서 재변환 차단)
+        try
         {
-            if (_enqueuedPaths.TryAdd(sourcePngPath, 0))
+            if (System.IO.File.Exists(sourcePngPath))
             {
-                _jobChannel.Writer.TryWrite(new ConversionJob(sourcePngPath, origin));
-                Log.Convert.Debug($"Enqueued PNG for WebP conversion: {sourcePngPath} origin={origin}");
+                var mtime = System.IO.File.GetLastWriteTimeUtc(sourcePngPath);
+                if (_convertedCache.TryGetValue(sourcePngPath, out var cachedTime) && cachedTime >= mtime)
+                {
+                    return;
+                }
             }
+        }
+        catch { }
+
+        if (_enqueuedPaths.TryAdd(sourcePngPath, 0))
+        {
+            _jobChannel.Writer.TryWrite(new ConversionJob(sourcePngPath, origin));
+            Log.Convert.Debug($"Enqueued PNG for WebP conversion: {sourcePngPath} origin={origin}");
         }
     }
 
@@ -103,6 +122,11 @@ public sealed class ConversionCoordinator
                 try
                 {
                     bool success = _converter.ConvertAndVerify(job.SourcePngPath, out string webpPath);
+                    if (System.IO.File.Exists(job.SourcePngPath))
+                    {
+                        _convertedCache[job.SourcePngPath] = System.IO.File.GetLastWriteTimeUtc(job.SourcePngPath);
+                    }
+
                     if (success)
                     {
                         ScreenshotStore.Shared.TriggerScan();

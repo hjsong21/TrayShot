@@ -75,6 +75,24 @@ public class ScreenshotConverterTests : IDisposable
         if (File.Exists(webpPath)) File.Delete(webpPath);
     }
 
+    [Fact]
+    public void NeedsWebpConversion_ReturnsFalseWhenWebpAlreadyExistsWithMatchingMTime()
+    {
+        AppSettings.Shared.WebpDisposal = WebPDisposal.Keep;
+
+        var converter = new ScreenshotConverter();
+        bool success = converter.ConvertAndVerify(_tempPngPath, out string webpPath);
+
+        Assert.True(success);
+        Assert.True(File.Exists(webpPath));
+
+        // After conversion, NeedsWebpConversion should return false!
+        bool needsReconversion = Sukurini.Models.ScreenshotFile.NeedsWebpConversion(_tempPngPath);
+        Assert.False(needsReconversion);
+
+        if (File.Exists(webpPath)) File.Delete(webpPath);
+    }
+
     public void Dispose()
     {
         if (File.Exists(_tempPngPath))
