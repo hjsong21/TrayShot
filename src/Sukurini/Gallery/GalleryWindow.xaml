@@ -5,7 +5,7 @@
         Title="Sukurini Gallery" WindowStyle="None" AllowsTransparency="True"
         Background="Transparent" Topmost="True" ShowInTaskbar="False"
         Width="664" Height="480" MinWidth="400" MinHeight="300" MaxWidth="1400" MaxHeight="900"
-        Deactivated="OnDeactivated" KeyDown="OnKeyDown">
+        Deactivated="OnDeactivated" PreviewKeyDown="OnPreviewKeyDown">
     <Grid Margin="6">
         <!-- Main window content card -->
         <Border Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource BorderBrushColor}" BorderThickness="1" CornerRadius="12" ClipToBounds="True">

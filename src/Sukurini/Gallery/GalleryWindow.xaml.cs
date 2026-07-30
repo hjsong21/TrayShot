@@ -141,15 +141,25 @@ public partial class GalleryWindow : Window
         Hide();
     }
 
-    private void OnKeyDown(object sender, KeyEventArgs e)
+    private void OnPreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Escape)
         {
-            Hide();
+            if (_viewModel.HasSearchQuery)
+            {
+                _viewModel.SearchQuery = string.Empty;
+                e.Handled = true;
+            }
+            else
+            {
+                Hide();
+                e.Handled = true;
+            }
         }
-        else if (e.Key == Key.Space && _viewModel.SelectedItem != null)
+        else if (e.Key == Key.Space && _viewModel.SelectedItem != null && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
             OnOpenPreview(_viewModel.SelectedItem);
+            e.Handled = true;
         }
     }
 
