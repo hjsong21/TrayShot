@@ -76,6 +76,21 @@ public partial class PreviewWindow : Window
             Close();
             e.Handled = true;
         }
+        else if (e.Key == Key.Delete)
+        {
+            DeleteCurrentItem();
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+        {
+            var restored = GalleryViewModel.UndoDelete();
+            if (restored != null && _items != null)
+            {
+                _items.Add(restored);
+                ShowItemAt(_items.Count - 1);
+            }
+            e.Handled = true;
+        }
         else if (e.Key == Key.Left || e.Key == Key.Up)
         {
             ShowItemAt(_currentIndex - 1);
@@ -95,6 +110,34 @@ public partial class PreviewWindow : Window
         {
             ShowItemAt((_items?.Count ?? 1) - 1);
             e.Handled = true;
+        }
+    }
+
+    private void DeleteCurrentItem()
+    {
+        if (_items == null || _items.Count == 0)
+        {
+            Close();
+            return;
+        }
+
+        if (_currentIndex < 0 || _currentIndex >= _items.Count) return;
+
+        var target = _items[_currentIndex];
+        GalleryViewModel.DeleteScreenshot(target);
+        _items.RemoveAt(_currentIndex);
+
+        if (_items.Count == 0)
+        {
+            Close();
+        }
+        else
+        {
+            if (_currentIndex >= _items.Count)
+            {
+                _currentIndex = _items.Count - 1;
+            }
+            ShowItemAt(_currentIndex);
         }
     }
 

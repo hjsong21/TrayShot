@@ -163,6 +163,23 @@ public partial class GalleryWindow : Window
                 e.Handled = true;
             }
         }
+        else if (e.Key == Key.Delete && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.SelectedItem != null)
+            {
+                _viewModel.DeleteSelectedCommand.Execute(null);
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            var restored = GalleryViewModel.UndoDelete();
+            if (restored != null)
+            {
+                _viewModel.SelectedItem = System.Linq.Enumerable.FirstOrDefault(_viewModel.FilteredScreenshots, i => i.Path.Equals(restored.Path, StringComparison.OrdinalIgnoreCase));
+            }
+            e.Handled = true;
+        }
         else if (e.Key == Key.Space && _viewModel.SelectedItem != null && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
             OnOpenPreview(_viewModel.SelectedItem);
