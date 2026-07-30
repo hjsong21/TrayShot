@@ -7,6 +7,21 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.7.0] - 2026-07-30
+
+### Added
+- **Right-Click Context Menu**: Context menu for gallery items (Open, Copy, Paste, Format Conversion, Delete, Undo)
+- **6-Format Manual Image Conversion**: Submenu for immediate manual conversion to PNG, JPG, WebP, BMP, GIF, and TIFF
+- **HEIC Image Codec Support**: HEIC decoding and cross-format conversion via Windows WIC codec pipeline
+- **Toast Notification Banner**: Toast UI updates for conversion progress ('⏳ Converting...') and success ('✅ Converted!')
+
+### Improved
+- **Original Timestamp Preservation**: Preserved `CreationTime` and `LastWriteTime` timestamps and metadata on converted files
+- **Format Badge Indicator**: Visual format badge (PNG, WEBP, JPG, etc.) on top-right corner of gallery item cards
+
+### Performance
+- **Asynchronous Conversion Execution**: Asynchronous `Task.Run` execution for image conversion to keep UI responsive
+
 ## [v0.6.0] - 2026-07-30
 
 ### Added
