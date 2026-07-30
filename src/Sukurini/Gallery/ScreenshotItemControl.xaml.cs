@@ -32,6 +32,17 @@ public partial class ScreenshotItemControl : UserControl
             control.FileNameText.Text = item.Name;
             control.VideoBadge.Visibility = ScreenshotFile.IsVideo(item.Path) ? Visibility.Visible : Visibility.Collapsed;
 
+            string ext = System.IO.Path.GetExtension(item.Path).TrimStart('.').ToUpperInvariant();
+            if (!string.IsNullOrEmpty(ext))
+            {
+                control.FormatBadgeText.Text = ext;
+                control.FormatBadge.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                control.FormatBadge.Visibility = Visibility.Collapsed;
+            }
+
             var thumbnail = await ThumbnailLoader.Shared.LoadThumbnailAsync(item.Path, 360);
             if (thumbnail != null && control.ScreenshotItem == item)
             {

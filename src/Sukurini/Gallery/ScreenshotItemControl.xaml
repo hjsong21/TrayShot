@@ -6,6 +6,12 @@
         <Grid>
             <Image x:Name="ThumbnailImage" Stretch="UniformToFill" />
             
+            <!-- Format badge indicator at top right -->
+            <Border x:Name="FormatBadge" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6"
+                    Background="#B3000000" CornerRadius="4" Padding="5,2">
+                <TextBlock x:Name="FormatBadgeText" Foreground="White" FontSize="10" FontWeight="Bold" />
+            </Border>
+            
             <!-- Video badge indicator -->
             <Border x:Name="VideoBadge" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="6"
                     Background="#80000000" CornerRadius="4" Padding="6,2" Visibility="Collapsed">
