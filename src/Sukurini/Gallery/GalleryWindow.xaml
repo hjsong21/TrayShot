@@ -81,6 +81,15 @@
                             <MenuItem Header="복사" InputGestureText="Ctrl+C" Command="{Binding CopySelectedCommand}" />
                             <MenuItem Header="붙여넣기" InputGestureText="Ctrl+V" Command="{Binding PasteClipboardCommand}" />
                             <Separator />
+                            <MenuItem Header="포맷 변환">
+                                <MenuItem Header="PNG" Command="{Binding ConvertFormatCommand}" CommandParameter="png" IsEnabled="{Binding IsNotPng}" />
+                                <MenuItem Header="JPG" Command="{Binding ConvertFormatCommand}" CommandParameter="jpg" IsEnabled="{Binding IsNotJpg}" />
+                                <MenuItem Header="WebP" Command="{Binding ConvertFormatCommand}" CommandParameter="webp" IsEnabled="{Binding IsNotWebp}" />
+                                <MenuItem Header="BMP" Command="{Binding ConvertFormatCommand}" CommandParameter="bmp" IsEnabled="{Binding IsNotBmp}" />
+                                <MenuItem Header="GIF" Command="{Binding ConvertFormatCommand}" CommandParameter="gif" IsEnabled="{Binding IsNotGif}" />
+                                <MenuItem Header="TIFF" Command="{Binding ConvertFormatCommand}" CommandParameter="tiff" IsEnabled="{Binding IsNotTiff}" />
+                            </MenuItem>
+                            <Separator />
                             <MenuItem Header="삭제" InputGestureText="Del" Command="{Binding DeleteSelectedCommand}" />
                             <MenuItem Header="취소" InputGestureText="Ctrl+Z" Command="{Binding UndoCommand}" />
                         </ContextMenu>

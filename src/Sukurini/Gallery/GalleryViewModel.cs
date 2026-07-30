@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using SixLabors.ImageSharp;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -24,6 +25,19 @@ public partial class GalleryViewModel : ObservableObject
 
     [ObservableProperty]
     private Screenshot? _selectedItem;
+
+    [ObservableProperty]
+    private bool _isNotPng = true;
+    [ObservableProperty]
+    private bool _isNotJpg = true;
+    [ObservableProperty]
+    private bool _isNotWebp = true;
+    [ObservableProperty]
+    private bool _isNotBmp = true;
+    [ObservableProperty]
+    private bool _isNotGif = true;
+    [ObservableProperty]
+    private bool _isNotTiff = true;
 
     [ObservableProperty]
     private bool _isEmptyState;
@@ -51,6 +65,24 @@ public partial class GalleryViewModel : ObservableObject
         HasSearchQuery = !string.IsNullOrEmpty(value);
         _searchDebounceTimer.Stop();
         _searchDebounceTimer.Start();
+    }
+
+    partial void OnSelectedItemChanged(Screenshot? value)
+    {
+        if (value != null && !string.IsNullOrEmpty(value.Path))
+        {
+            string ext = Path.GetExtension(value.Path).ToLowerInvariant();
+            IsNotPng = ext != ".png";
+            IsNotJpg = ext != ".jpg" && ext != ".jpeg";
+            IsNotWebp = ext != ".webp";
+            IsNotBmp = ext != ".bmp";
+            IsNotGif = ext != ".gif";
+            IsNotTiff = ext != ".tiff" && ext != ".tif";
+        }
+        else
+        {
+            IsNotPng = IsNotJpg = IsNotWebp = IsNotBmp = IsNotGif = IsNotTiff = true;
+        }
     }
 
     [RelayCommand]
@@ -234,6 +266,68 @@ public partial class GalleryViewModel : ObservableObject
         catch (Exception ex)
         {
             Log.App.Error($"Failed to paste from clipboard: {ex.Message}");
+        }
+    }
+
+    [RelayCommand]
+    public void ConvertFormat(string targetExt)
+    {
+        if (SelectedItem == null || !File.Exists(SelectedItem.Path)) return;
+        ConvertImageFormat(SelectedItem, targetExt);
+    }
+
+    public static void ConvertImageFormat(Screenshot item, string targetExtension)
+    {
+        if (item == null || string.IsNullOrEmpty(item.Path) || !File.Exists(item.Path)) return;
+
+        string currentExt = Path.GetExtension(item.Path).ToLowerInvariant();
+        string targetExt = targetExtension.StartsWith(".") ? targetExtension.ToLowerInvariant() : "." + targetExtension.ToLowerInvariant();
+
+        if (currentExt == targetExt) return;
+
+        try
+        {
+            string dir = Path.GetDirectoryName(item.Path) ?? string.Empty;
+            string baseName = Path.GetFileNameWithoutExtension(item.Path);
+            string destPath = GenerateUniqueFilePath(dir, baseName, targetExt);
+
+            using (var image = SixLabors.ImageSharp.Image.Load(item.Path))
+            {
+                switch (targetExt)
+                {
+                    case ".png":
+                        image.SaveAsPng(destPath);
+                        break;
+                    case ".jpg":
+                    case ".jpeg":
+                        image.SaveAsJpeg(destPath);
+                        break;
+                    case ".webp":
+                        image.SaveAsWebp(destPath);
+                        break;
+                    case ".bmp":
+                        image.SaveAsBmp(destPath);
+                        break;
+                    case ".gif":
+                        image.SaveAsGif(destPath);
+                        break;
+                    case ".tiff":
+                    case ".tif":
+                        image.SaveAsTiff(destPath);
+                        break;
+                    default:
+                        image.Save(destPath);
+                        break;
+                }
+            }
+
+            Log.App.Info($"Converted image format from {item.Path} to {destPath}");
+            _undoStack.Push(new PasteUndoAction(new List<string> { destPath }));
+            ScreenshotStore.Shared.TriggerScan();
+        }
+        catch (Exception ex)
+        {
+            Log.App.Error($"Failed format conversion for {item.Path} to {targetExt}: {ex.Message}");
         }
     }
 
