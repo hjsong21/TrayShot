@@ -38,6 +38,8 @@ public partial class MainWindow : Window
 
         // Initialize Gallery Window
         _galleryWindow = new GalleryWindow();
+        _galleryWindow.OpenSettingsRequested += OpenPreferences;
+        _galleryWindow.ExitAppRequested += ExitApplication;
 
         // Initialize Tray Controller
         _trayController = new TrayIconController(

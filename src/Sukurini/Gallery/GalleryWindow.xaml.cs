@@ -177,6 +177,24 @@ public partial class GalleryWindow : Window
         }
     }
 
+    public event Action? OpenSettingsRequested;
+    public event Action? ExitAppRequested;
+
+    private void OnOpenSettingsClick(object sender, RoutedEventArgs e)
+    {
+        OpenSettingsRequested?.Invoke();
+    }
+
+    private void OnExitAppClick(object sender, RoutedEventArgs e)
+    {
+        ExitAppRequested?.Invoke();
+    }
+
+    private void OnCloseClick(object sender, RoutedEventArgs e)
+    {
+        Hide();
+    }
+
     private void OnOpenPreview(Screenshot item)
     {
         var previewWin = new PreviewWindow(item);
