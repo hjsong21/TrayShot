@@ -7,6 +7,50 @@
         PreviewKeyDown="Window_PreviewKeyDown">
     <Grid Margin="20">
         <TabControl Background="Transparent" BorderThickness="0">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <ContentPresenter Content="{Binding}" Margin="12,6" />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border x:Name="Border"
+                                        Background="#374151"
+                                        BorderBrush="#4B5563"
+                                        BorderThickness="1"
+                                        CornerRadius="6,6,0,0"
+                                        Margin="0,0,4,0"
+                                        Padding="8,4">
+                                    <ContentPresenter x:Name="ContentSite"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"
+                                                      ContentSource="Header"
+                                                      TextElement.Foreground="White"
+                                                      TextElement.FontSize="13"
+                                                      TextElement.FontWeight="SemiBold" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="#1F2937" />
+                                        <Setter TargetName="Border" Property="BorderBrush" Value="#2563EB" />
+                                        <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                                        <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White" />
+                                        <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="Bold" />
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="#4B5563" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
             <!-- 일반 탭 -->
             <TabItem Header="일반" Foreground="{DynamicResource TextPrimaryBrush}">
                 <StackPanel Margin="10,20,10,10">
