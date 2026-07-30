@@ -79,9 +79,19 @@ public partial class MainWindow : Window
 
     private void OpenPreferences()
     {
+        if (_galleryWindow != null && !_galleryWindow.IsVisible)
+        {
+            _galleryWindow.Show();
+        }
+
         if (_preferencesWindow == null || !_preferencesWindow.IsLoaded)
         {
             _preferencesWindow = new PreferencesWindow();
+            if (_galleryWindow != null)
+            {
+                _preferencesWindow.Owner = _galleryWindow;
+                _preferencesWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
             _preferencesWindow.Show();
         }
         else
