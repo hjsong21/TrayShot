@@ -131,8 +131,15 @@ public partial class GalleryWindow : Window
         Top = workArea.Bottom - Height - 20;
     }
 
+    private bool _isChildWindowOpen;
+
     private void OnDeactivated(object? sender, EventArgs e)
     {
+        if (_isChildWindowOpen)
+        {
+            return;
+        }
+
         if ((DateTime.UtcNow - _lastToggleTime).TotalMilliseconds < 350)
         {
             return;
@@ -192,7 +199,15 @@ public partial class GalleryWindow : Window
 
     private void OnOpenSettingsClick(object sender, RoutedEventArgs e)
     {
-        OpenSettingsRequested?.Invoke();
+        _isChildWindowOpen = true;
+        try
+        {
+            OpenSettingsRequested?.Invoke();
+        }
+        finally
+        {
+            _isChildWindowOpen = false;
+        }
     }
 
     private void OnExitAppClick(object sender, RoutedEventArgs e)
@@ -207,8 +222,18 @@ public partial class GalleryWindow : Window
 
     private void OnOpenPreview(Screenshot item)
     {
-        var previewWin = new PreviewWindow(item);
-        previewWin.Owner = this;
-        previewWin.ShowDialog();
+        _isChildWindowOpen = true;
+        try
+        {
+            var previewWin = new PreviewWindow(item);
+            previewWin.Owner = this;
+            previewWin.ShowDialog();
+        }
+        finally
+        {
+            _isChildWindowOpen = false;
+            Activate();
+            Focus();
+        }
     }
 }
