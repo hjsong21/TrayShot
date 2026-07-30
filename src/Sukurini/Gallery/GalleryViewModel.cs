@@ -321,6 +321,18 @@ public partial class GalleryViewModel : ObservableObject
                 }
             }
 
+            // Preserve original file timestamps (CreationTime, LastWriteTime, LastAccessTime)
+            try
+            {
+                File.SetCreationTimeUtc(destPath, File.GetCreationTimeUtc(item.Path));
+                File.SetLastWriteTimeUtc(destPath, File.GetLastWriteTimeUtc(item.Path));
+                File.SetLastAccessTimeUtc(destPath, File.GetLastAccessTimeUtc(item.Path));
+            }
+            catch (Exception ex)
+            {
+                Log.App.Warn($"Failed to copy file timestamps: {ex.Message}");
+            }
+
             Log.App.Info($"Converted image format from {item.Path} to {destPath}");
             _undoStack.Push(new PasteUndoAction(new List<string> { destPath }));
             ScreenshotStore.Shared.TriggerScan();
