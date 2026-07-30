@@ -234,6 +234,7 @@ public partial class GalleryWindow : Window
     }
 
     public event Action? OpenSettingsRequested;
+    public event Action? OpenAboutRequested;
     public event Action? ExitAppRequested;
 
     private void OnOpenSettingsClick(object sender, RoutedEventArgs e)
@@ -242,6 +243,19 @@ public partial class GalleryWindow : Window
         try
         {
             OpenSettingsRequested?.Invoke();
+        }
+        finally
+        {
+            _isChildWindowOpen = false;
+        }
+    }
+
+    private void OnOpenAboutClick(object sender, RoutedEventArgs e)
+    {
+        _isChildWindowOpen = true;
+        try
+        {
+            OpenAboutRequested?.Invoke();
         }
         finally
         {

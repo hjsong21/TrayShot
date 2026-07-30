@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using System.Windows.Interop;
+using Sukurini.About;
 using Sukurini.Convert;
 using Sukurini.Core;
 using Sukurini.Gallery;
@@ -15,6 +16,7 @@ public partial class MainWindow : Window
     private TrayIconController? _trayController;
     private GalleryWindow? _galleryWindow;
     private PreferencesWindow? _preferencesWindow;
+    private AboutWindow? _aboutWindow;
     private HotKeyManager? _hotKeyManager;
 
     public MainWindow()
@@ -39,12 +41,14 @@ public partial class MainWindow : Window
         // Initialize Gallery Window
         _galleryWindow = new GalleryWindow();
         _galleryWindow.OpenSettingsRequested += OpenPreferences;
+        _galleryWindow.OpenAboutRequested += OpenAbout;
         _galleryWindow.ExitAppRequested += ExitApplication;
 
         // Initialize Tray Controller
         _trayController = new TrayIconController(
             onToggleGallery: () => _galleryWindow.Toggle(),
             onOpenPreferences: OpenPreferences,
+            onOpenAbout: OpenAbout,
             onExitApp: ExitApplication);
         _trayController.Initialize();
 
@@ -100,12 +104,36 @@ public partial class MainWindow : Window
         }
     }
 
+    private void OpenAbout()
+    {
+        if (_galleryWindow != null && !_galleryWindow.IsVisible)
+        {
+            _galleryWindow.Show();
+        }
+
+        if (_aboutWindow == null || !_aboutWindow.IsLoaded)
+        {
+            _aboutWindow = new AboutWindow();
+            if (_galleryWindow != null)
+            {
+                _aboutWindow.Owner = _galleryWindow;
+                _aboutWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
+            _aboutWindow.Show();
+        }
+        else
+        {
+            _aboutWindow.Activate();
+        }
+    }
+
     private void ExitApplication()
     {
         _hotKeyManager?.Dispose();
         _trayController?.Dispose();
         _galleryWindow?.Close();
         _preferencesWindow?.Close();
+        _aboutWindow?.Close();
         Application.Current.Shutdown();
     }
 }

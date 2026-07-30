@@ -56,6 +56,15 @@
                             </Button>
                         </Border>
 
+                        <!-- About Info Button -->
+                        <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Margin="0,0,6,0">
+                            <Button Click="OnOpenAboutClick" ToolTip="프로그램 정보 (About)"
+                                    Background="Transparent" BorderThickness="0" Cursor="Hand" Padding="10,6">
+                                <Path Data="M 12,2 C 6.48,2 2,6.48 2,12 C 2,17.52 6.48,22 12,22 C 17.52,22 22,17.52 22,12 C 22,6.48 17.52,2 12,2 Z M 13,17 H 11 V 11 H 13 V 17 Z M 13,9 H 11 V 7 H 13 V 9 Z"
+                                      Fill="{DynamicResource TextPrimaryBrush}" Stretch="Uniform" Width="16" Height="16" />
+                            </Button>
+                        </Border>
+
                         <!-- App Exit Button -->
                         <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8">
                             <Button Click="OnExitAppClick" ToolTip="앱 종료"

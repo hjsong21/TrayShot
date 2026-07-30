@@ -14,16 +14,19 @@ public sealed class TrayIconController : IDisposable
     private TrayIconAnimator? _animator;
     private readonly Action _onToggleGallery;
     private readonly Action _onOpenPreferences;
+    private readonly Action _onOpenAbout;
     private readonly Action _onExitApp;
     private bool _isDisposed;
 
     public TrayIconController(
         Action onToggleGallery,
         Action onOpenPreferences,
+        Action onOpenAbout,
         Action onExitApp)
     {
         _onToggleGallery = onToggleGallery;
         _onOpenPreferences = onOpenPreferences;
+        _onOpenAbout = onOpenAbout;
         _onExitApp = onExitApp;
     }
 
@@ -64,6 +67,10 @@ public sealed class TrayIconController : IDisposable
         var prefItem = new MenuItem { Header = "설정..." };
         prefItem.Click += (s, e) => _onOpenPreferences();
         menu.Items.Add(prefItem);
+
+        var aboutItem = new MenuItem { Header = "정보 (About)..." };
+        aboutItem.Click += (s, e) => _onOpenAbout();
+        menu.Items.Add(aboutItem);
 
         menu.Items.Add(new Separator());
 
