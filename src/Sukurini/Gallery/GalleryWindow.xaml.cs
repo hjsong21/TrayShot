@@ -225,7 +225,7 @@ public partial class GalleryWindow : Window
         _isChildWindowOpen = true;
         try
         {
-            var previewWin = new PreviewWindow(item);
+            var previewWin = new PreviewWindow(item, System.Linq.Enumerable.ToList(_viewModel.FilteredScreenshots));
             previewWin.Owner = this;
             previewWin.ShowDialog();
         }

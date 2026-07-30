@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -9,15 +11,42 @@ namespace Sukurini.Gallery;
 
 public partial class PreviewWindow : Window
 {
-    private readonly Screenshot _screenshot;
+    private readonly IList<Screenshot>? _items;
+    private int _currentIndex;
 
-    public PreviewWindow(Screenshot screenshot)
+    public PreviewWindow(Screenshot screenshot, IList<Screenshot>? items = null)
     {
         InitializeComponent();
-        _screenshot = screenshot;
+        _items = items;
 
-        TitleText.Text = screenshot.Name;
-        LoadImage(screenshot.Path);
+        if (_items != null && _items.Count > 0)
+        {
+            _currentIndex = _items.IndexOf(screenshot);
+            if (_currentIndex < 0) _currentIndex = 0;
+            ShowItemAt(_currentIndex);
+        }
+        else
+        {
+            TitleText.Text = screenshot.Name;
+            LoadImage(screenshot.Path);
+        }
+    }
+
+    private void ShowItemAt(int index)
+    {
+        if (_items == null || _items.Count == 0) return;
+
+        if (index < 0) index = 0;
+        if (index >= _items.Count) index = _items.Count - 1;
+
+        _currentIndex = index;
+        var current = _items[_currentIndex];
+
+        TitleText.Text = _items.Count > 1 
+            ? $"{current.Name} ({_currentIndex + 1} / {_items.Count})" 
+            : current.Name;
+
+        LoadImage(current.Path);
     }
 
     private void LoadImage(string path)
@@ -45,6 +74,27 @@ public partial class PreviewWindow : Window
         if (e.Key == Key.Escape || e.Key == Key.Space)
         {
             Close();
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Left || e.Key == Key.Up)
+        {
+            ShowItemAt(_currentIndex - 1);
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Right || e.Key == Key.Down)
+        {
+            ShowItemAt(_currentIndex + 1);
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Home)
+        {
+            ShowItemAt(0);
+            e.Handled = true;
+        }
+        else if (e.Key == Key.End)
+        {
+            ShowItemAt((_items?.Count ?? 1) - 1);
+            e.Handled = true;
         }
     }
 
