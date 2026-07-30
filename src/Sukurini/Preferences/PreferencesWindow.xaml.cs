@@ -13,6 +13,15 @@ public partial class PreferencesWindow : Window
         DataContext = new PreferencesViewModel();
     }
 
+    private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Escape)
+        {
+            Close();
+            e.Handled = true;
+        }
+    }
+
     private void HotKeyTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         e.Handled = true;
