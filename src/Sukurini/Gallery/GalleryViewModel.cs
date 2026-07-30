@@ -121,7 +121,7 @@ public partial class GalleryViewModel : ObservableObject
     [RelayCommand]
     private void Undo()
     {
-        UndoDelete();
+        UndoLastAction();
     }
 
     [RelayCommand]
@@ -175,10 +175,11 @@ public partial class GalleryViewModel : ObservableObject
                 return;
             }
 
+            var pastedPaths = new List<string>();
+
             if (System.Windows.Clipboard.ContainsFileDropList())
             {
                 var dropList = System.Windows.Clipboard.GetFileDropList();
-                bool pastedAny = false;
 
                 foreach (string? srcPath in dropList)
                 {
@@ -200,13 +201,8 @@ public partial class GalleryViewModel : ObservableObject
                     }
 
                     File.Copy(srcPath, destPath, overwrite: false);
-                    pastedAny = true;
+                    pastedPaths.Add(destPath);
                     Log.App.Info($"Pasted file from {srcPath} to {destPath}");
-                }
-
-                if (pastedAny)
-                {
-                    ScreenshotStore.Shared.TriggerScan();
                 }
             }
             else if (System.Windows.Clipboard.ContainsImage())
@@ -224,9 +220,15 @@ public partial class GalleryViewModel : ObservableObject
                         encoder.Save(stream);
                     }
 
+                    pastedPaths.Add(destPath);
                     Log.App.Info($"Pasted clipboard image to {destPath}");
-                    ScreenshotStore.Shared.TriggerScan();
                 }
+            }
+
+            if (pastedPaths.Count > 0)
+            {
+                _undoStack.Push(new PasteUndoAction(pastedPaths));
+                ScreenshotStore.Shared.TriggerScan();
             }
         }
         catch (Exception ex)
@@ -249,9 +251,87 @@ public partial class GalleryViewModel : ObservableObject
         }
     }
 
-    public record DeletedItemBackup(string OriginalPath, string TempBackupPath, Screenshot Item);
+    public interface IUndoAction
+    {
+        Screenshot? PerformUndo();
+    }
 
-    private static readonly Stack<DeletedItemBackup> _undoStack = new();
+    public class DeleteUndoAction : IUndoAction
+    {
+        public string OriginalPath { get; }
+        public string TempBackupPath { get; }
+        public Screenshot Item { get; }
+
+        public DeleteUndoAction(string originalPath, string tempBackupPath, Screenshot item)
+        {
+            OriginalPath = originalPath;
+            TempBackupPath = tempBackupPath;
+            Item = item;
+        }
+
+        public Screenshot? PerformUndo()
+        {
+            try
+            {
+                if (File.Exists(TempBackupPath))
+                {
+                    string? dir = Path.GetDirectoryName(OriginalPath);
+                    if (!string.IsNullOrEmpty(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+
+                    File.Copy(TempBackupPath, OriginalPath, overwrite: true);
+                    try { File.Delete(TempBackupPath); } catch { }
+
+                    Log.App.Info($"Restored deleted file via Undo: {OriginalPath}");
+                    return Item;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.App.Error($"Failed to undo delete for {OriginalPath}: {ex.Message}");
+            }
+
+            return null;
+        }
+    }
+
+    public class PasteUndoAction : IUndoAction
+    {
+        public List<string> CreatedPaths { get; }
+
+        public PasteUndoAction(List<string> createdPaths)
+        {
+            CreatedPaths = createdPaths;
+        }
+
+        public Screenshot? PerformUndo()
+        {
+            foreach (var path in CreatedPaths)
+            {
+                try
+                {
+                    if (File.Exists(path))
+                    {
+                        Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
+                            path,
+                            Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
+                            Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                        Log.App.Info($"Undid paste: moved {path} to Recycle Bin");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.App.Error($"Failed to undo paste for {path}: {ex.Message}");
+                }
+            }
+
+            return null;
+        }
+    }
+
+    private static readonly Stack<IUndoAction> _undoStack = new();
 
     public static bool CanUndo => _undoStack.Count > 0;
 
@@ -267,7 +347,7 @@ public partial class GalleryViewModel : ObservableObject
                 string tempBackupPath = Path.Combine(tempDir, $"{Guid.NewGuid()}{Path.GetExtension(item.Path)}");
                 File.Copy(item.Path, tempBackupPath, overwrite: true);
 
-                _undoStack.Push(new DeletedItemBackup(item.Path, tempBackupPath, item));
+                _undoStack.Push(new DeleteUndoAction(item.Path, tempBackupPath, item));
 
                 // 2. Move ONLY the selected file to Windows Recycle Bin
                 Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
@@ -286,34 +366,15 @@ public partial class GalleryViewModel : ObservableObject
         ScreenshotStore.Shared.TriggerScan();
     }
 
-    public static Screenshot? UndoDelete()
+    public static Screenshot? UndoDelete() => UndoLastAction();
+
+    public static Screenshot? UndoLastAction()
     {
         if (_undoStack.Count == 0) return null;
 
-        var backup = _undoStack.Pop();
-        try
-        {
-            if (File.Exists(backup.TempBackupPath))
-            {
-                string? dir = Path.GetDirectoryName(backup.OriginalPath);
-                if (!string.IsNullOrEmpty(dir))
-                {
-                    Directory.CreateDirectory(dir);
-                }
-
-                File.Copy(backup.TempBackupPath, backup.OriginalPath, overwrite: true);
-                try { File.Delete(backup.TempBackupPath); } catch { }
-
-                Log.App.Info($"Restored file via Undo: {backup.OriginalPath}");
-                ScreenshotStore.Shared.TriggerScan();
-                return backup.Item;
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.App.Error($"Failed to undo delete for {backup.OriginalPath}: {ex.Message}");
-        }
-
-        return null;
+        var action = _undoStack.Pop();
+        var restoredItem = action.PerformUndo();
+        ScreenshotStore.Shared.TriggerScan();
+        return restoredItem;
     }
 }
