@@ -66,11 +66,34 @@ public sealed class ThumbnailLoader
         Log.App.Info("Thumbnail cache cleared");
     }
 
+    public static Image LoadImageUniversal(string path)
+    {
+        try
+        {
+            return Image.Load(path);
+        }
+        catch
+        {
+            var uri = new Uri(path);
+            var decoder = BitmapDecoder.Create(uri, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+            if (decoder.Frames.Count == 0) throw;
+
+            var frame = decoder.Frames[0];
+            using var ms = new MemoryStream();
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(frame);
+            encoder.Save(ms);
+            ms.Position = 0;
+
+            return Image.Load(ms);
+        }
+    }
+
     private static BitmapSource? GenerateThumbnail(string imagePath, int maxPixelSize)
     {
         try
         {
-            using var image = Image.Load(imagePath);
+            using var image = LoadImageUniversal(imagePath);
 
             int width = image.Width;
             int height = image.Height;

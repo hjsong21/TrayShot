@@ -38,6 +38,8 @@ public partial class GalleryViewModel : ObservableObject
     private bool _isNotGif = true;
     [ObservableProperty]
     private bool _isNotTiff = true;
+    [ObservableProperty]
+    private bool _isNotHeic = true;
 
     [ObservableProperty]
     private bool _isEmptyState;
@@ -78,10 +80,11 @@ public partial class GalleryViewModel : ObservableObject
             IsNotBmp = ext != ".bmp";
             IsNotGif = ext != ".gif";
             IsNotTiff = ext != ".tiff" && ext != ".tif";
+            IsNotHeic = ext != ".heic";
         }
         else
         {
-            IsNotPng = IsNotJpg = IsNotWebp = IsNotBmp = IsNotGif = IsNotTiff = true;
+            IsNotPng = IsNotJpg = IsNotWebp = IsNotBmp = IsNotGif = IsNotTiff = IsNotHeic = true;
         }
     }
 
@@ -291,7 +294,7 @@ public partial class GalleryViewModel : ObservableObject
             string baseName = Path.GetFileNameWithoutExtension(item.Path);
             string destPath = GenerateUniqueFilePath(dir, baseName, targetExt);
 
-            using (var image = SixLabors.ImageSharp.Image.Load(item.Path))
+            using (var image = Sukurini.Core.ThumbnailLoader.LoadImageUniversal(item.Path))
             {
                 switch (targetExt)
                 {

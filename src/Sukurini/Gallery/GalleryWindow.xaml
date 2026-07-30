@@ -88,6 +88,7 @@
                                 <MenuItem Header="BMP" Command="{Binding ConvertFormatCommand}" CommandParameter="bmp" IsEnabled="{Binding IsNotBmp}" />
                                 <MenuItem Header="GIF" Command="{Binding ConvertFormatCommand}" CommandParameter="gif" IsEnabled="{Binding IsNotGif}" />
                                 <MenuItem Header="TIFF" Command="{Binding ConvertFormatCommand}" CommandParameter="tiff" IsEnabled="{Binding IsNotTiff}" />
+                                <MenuItem Header="HEIC" Command="{Binding ConvertFormatCommand}" CommandParameter="heic" IsEnabled="{Binding IsNotHeic}" />
                             </MenuItem>
                             <Separator />
                             <MenuItem Header="삭제" InputGestureText="Del" Command="{Binding DeleteSelectedCommand}" />
