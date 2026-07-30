@@ -7,6 +7,13 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.6.0] - 2026-07-30
+
+### Added
+- **Win32 Recycle Bin Deletion**: Safe file deletion to Windows Recycle Bin via `SHFileOperation` API on Delete key press
+- **Bidirectional Clipboard Integration**: Dual file path and bitmap copying on `Ctrl+C`, pasting external images on `Ctrl+V`
+- **Ctrl+Z Undo Stack**: In-memory undo stack for removing pasted files and recovering deleted items from Recycle Bin
+
 ## [v0.5.0] - 2026-07-30
 
 ### Added
