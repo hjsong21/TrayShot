@@ -9,13 +9,6 @@
         <TabControl Background="Transparent" BorderThickness="0">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
-                    <Setter Property="HeaderTemplate">
-                        <Setter.Value>
-                            <DataTemplate>
-                                <ContentPresenter Content="{Binding}" Margin="12,6" />
-                            </DataTemplate>
-                        </Setter.Value>
-                    </Setter>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
@@ -25,7 +18,7 @@
                                         BorderThickness="1"
                                         CornerRadius="6,6,0,0"
                                         Margin="0,0,4,0"
-                                        Padding="8,4">
+                                        Padding="14,8">
                                     <ContentPresenter x:Name="ContentSite"
                                                       VerticalAlignment="Center"
                                                       HorizontalAlignment="Center"
@@ -35,15 +28,19 @@
                                                       TextElement.FontWeight="SemiBold" />
                                 </Border>
                                 <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="True" />
+                                            <Condition Property="IsSelected" Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="Border" Property="Background" Value="#4B5563" />
+                                    </MultiTrigger>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="Border" Property="Background" Value="#1F2937" />
                                         <Setter TargetName="Border" Property="BorderBrush" Value="#2563EB" />
                                         <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
                                         <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White" />
                                         <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="Bold" />
-                                    </Trigger>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="#4B5563" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
