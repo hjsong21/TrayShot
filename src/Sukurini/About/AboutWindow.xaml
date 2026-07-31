@@ -36,7 +36,7 @@
             </Border>
 
             <!-- Copyright -->
-            <TextBlock Text="Copyright © 2026 Sukurini. All rights reserved."
+            <TextBlock x:Name="CopyrightTextBlock" Text="Copyright © 2026 Sukurini. All rights reserved."
                        Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" HorizontalAlignment="Center" Margin="0,0,0,16" />
 
             <!-- Close Button -->

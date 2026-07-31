@@ -27,6 +27,13 @@ public partial class AboutWindow : Window
         }
 
         VersionTextBlock.Text = $"버전 {versionStr} (Win-x64)";
+
+        var copyrightAttr = (AssemblyCopyrightAttribute?)Attribute.GetCustomAttribute(
+            assembly, typeof(AssemblyCopyrightAttribute));
+        if (copyrightAttr != null && !string.IsNullOrEmpty(copyrightAttr.Copyright))
+        {
+            CopyrightTextBlock.Text = copyrightAttr.Copyright;
+        }
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
