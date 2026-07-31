@@ -7,6 +7,23 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.8.0] - 2026-07-31
+
+### Added
+- **About Window Popup**: Implemented `AboutWindow` displaying app version, copyright, and feature highlights
+- **Header Info & Tray Menu Binding**: Wired gallery header info button and system tray context menu to About window
+
+### Improved
+- **Dynamic Assembly Metadata Extraction**: Dynamically extracted Version and Copyright from `Sukurini.csproj` for UI display
+- **Preferences Window Center-Top Alignment**: Automatically positioned `PreferencesWindow` to top-center of gallery panel
+- **ESC Key to Close Preferences**: Added KeyDown handler to close `PreferencesWindow` on ESC key press
+- **Auto-Selection on Deletion**: Automatically selected next image card after item deletion without losing selection
+- **Relative Arrow Key Navigation**: Key navigation moves relative to currently selected item with auto-scrolling
+
+### Fixed
+- **AppSettings Enum Deserialization**: Added `JsonStringEnumConverter` to JSON options to resolve disposal policy reset bug
+- **Preferences Tab Mouseover Flickering**: Fixed background brush flickering issue on tab hover in preferences window
+
 ## [v0.7.0] - 2026-07-30
 
 ### Added
@@ -81,6 +98,6 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 ### Added
 - **Core Data Models**: Defined `Screenshot`, `ScreenshotChange`, and `FileType` domain models
 - **SQLite Local DB Wrapper**: Implemented high-performance thread-safe SQLite wrapper with WAL (Write-Ahead Logging) mode
-- **AppSettings & Logger**: Built JSON serialization configuration singleton infrastructure and asynchronous file logger
-- **Screenshot Folder Watcher**: Implemented reactive debounced `FolderWatcher` and `RecursiveFolderWatcher`
-- **Central State Manager**: Established settlement ladder verification for new captures and `ScreenshotStore` repository
+- **AppSettings & 로거**: JSON 직렬화 설정 싱글톤 인프라 및 비동기 파일 로거 구축
+- **스크린샷 폴더 감시자**: Reactive Debounce 적용 `FolderWatcher` 및 `RecursiveFolderWatcher` 구현
+- **중앙 상태 관리자**: 신규 파일 캡처 안착 검증(Settlement ladder) 및 `ScreenshotStore` 저장소 구축
