@@ -155,6 +155,9 @@ public partial class GalleryViewModel : ObservableObject
         }
 
         var list = query.ToList();
+        var currentSelectedPath = SelectedItem?.Path;
+        int currentSelectedIndex = SelectedItem != null ? FilteredScreenshots.IndexOf(SelectedItem) : -1;
+
         FilteredScreenshots.Clear();
         foreach (var item in list)
         {
@@ -162,6 +165,25 @@ public partial class GalleryViewModel : ObservableObject
         }
 
         IsEmptyState = FilteredScreenshots.Count == 0;
+
+        // Preserve or update selection to next item
+        if (!string.IsNullOrEmpty(currentSelectedPath))
+        {
+            var match = FilteredScreenshots.FirstOrDefault(x => x.Path.Equals(currentSelectedPath, StringComparison.OrdinalIgnoreCase));
+            if (match != null)
+            {
+                SelectedItem = match;
+            }
+            else if (FilteredScreenshots.Count > 0 && currentSelectedIndex >= 0)
+            {
+                int nextIndex = Math.Min(currentSelectedIndex, FilteredScreenshots.Count - 1);
+                SelectedItem = FilteredScreenshots[nextIndex];
+            }
+            else
+            {
+                SelectedItem = null;
+            }
+        }
     }
 
     [RelayCommand]
@@ -178,7 +200,22 @@ public partial class GalleryViewModel : ObservableObject
     {
         if (SelectedItem != null)
         {
-            DeleteScreenshot(SelectedItem);
+            var itemToDelete = SelectedItem;
+            int currentIndex = FilteredScreenshots.IndexOf(itemToDelete);
+
+            DeleteScreenshot(itemToDelete);
+
+            FilteredScreenshots.Remove(itemToDelete);
+
+            if (FilteredScreenshots.Count > 0 && currentIndex >= 0)
+            {
+                int nextIndex = Math.Min(currentIndex, FilteredScreenshots.Count - 1);
+                SelectedItem = FilteredScreenshots[nextIndex];
+            }
+            else
+            {
+                SelectedItem = null;
+            }
         }
     }
 
