@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 
@@ -8,6 +10,23 @@ public partial class AboutWindow : Window
     public AboutWindow()
     {
         InitializeComponent();
+        SetVersionText();
+    }
+
+    private void SetVersionText()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var ver = assembly.GetName().Version;
+        string versionStr = ver != null ? $"{ver.Major}.{ver.Minor}.{ver.Build}" : "1.0.0";
+
+        var infoVersionAttr = (AssemblyInformationalVersionAttribute?)Attribute.GetCustomAttribute(
+            assembly, typeof(AssemblyInformationalVersionAttribute));
+        if (infoVersionAttr != null && !string.IsNullOrEmpty(infoVersionAttr.InformationalVersion))
+        {
+            versionStr = infoVersionAttr.InformationalVersion;
+        }
+
+        VersionTextBlock.Text = $"버전 {versionStr} (Win-x64)";
     }
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e)

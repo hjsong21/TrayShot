@@ -15,7 +15,7 @@
                 </Border>
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Sukurini (수쿠리니)" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="20" FontWeight="Bold" />
-                    <TextBlock Text="버전 0.7.0 (Win-x64)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" Margin="0,2,0,0" />
+                    <TextBlock x:Name="VersionTextBlock" Text="버전 0.7.0 (Win-x64)" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="12" Margin="0,2,0,0" />
                 </StackPanel>
             </StackPanel>
 
