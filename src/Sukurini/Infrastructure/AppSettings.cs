@@ -107,7 +107,11 @@ public sealed class AppSettings : INotifyPropertyChanged
             if (File.Exists(_settingsFilePath))
             {
                 string json = File.ReadAllText(_settingsFilePath);
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    Converters = { new JsonStringEnumConverter() }
+                };
                 return JsonSerializer.Deserialize<SettingsData>(json, options) ?? new SettingsData();
             }
         }
@@ -127,24 +131,17 @@ public sealed class AppSettings : INotifyPropertyChanged
             {
                 Directory.CreateDirectory(dir);
             }
-            var options = new JsonSerializerOptions { WriteIndented = true };
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Converters = { new JsonStringEnumConverter() }
+            };
             string json = JsonSerializer.Serialize(_data, options);
-            File.ReadAllText(_settingsFilePath);
             File.WriteAllText(_settingsFilePath, json);
         }
-        catch
+        catch (Exception ex)
         {
-            try
-            {
-                var dir = Path.GetDirectoryName(_settingsFilePath);
-                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir)) Directory.CreateDirectory(dir);
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                File.WriteAllText(_settingsFilePath, JsonSerializer.Serialize(_data, options));
-            }
-            catch (Exception ex)
-            {
-                Log.Settings.Error($"Failed to save settings: {ex.Message}");
-            }
+            Log.Settings.Error($"Failed to save settings: {ex.Message}");
         }
     }
 
