@@ -77,7 +77,7 @@
                 </Grid>
 
                 <!-- Grid Items View -->
-                <ListBox Grid.Row="1" ItemsSource="{Binding FilteredScreenshots}"
+                <ListBox x:Name="ScreenshotListBox" Grid.Row="1" ItemsSource="{Binding FilteredScreenshots}"
                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                          Background="Transparent" BorderThickness="0"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"

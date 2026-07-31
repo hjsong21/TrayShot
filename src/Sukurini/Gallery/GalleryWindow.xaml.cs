@@ -34,6 +34,14 @@ public partial class GalleryWindow : Window
         Width = AppSettings.Shared.GalleryWidth;
         Height = AppSettings.Shared.GalleryHeight;
 
+        _viewModel.PropertyChanged += (s, args) =>
+        {
+            if (args.PropertyName == nameof(GalleryViewModel.SelectedItem) && _viewModel.SelectedItem != null)
+            {
+                ScreenshotListBox.ScrollIntoView(_viewModel.SelectedItem);
+            }
+        };
+
         SizeChanged += OnGallerySizeChanged;
         AppSettings.Shared.PropertyChanged += OnSettingsPropertyChanged;
     }
@@ -197,6 +205,28 @@ public partial class GalleryWindow : Window
         {
             OnOpenPreview(_viewModel.SelectedItem);
             e.Handled = true;
+        }
+        else if ((e.Key == Key.Left || e.Key == Key.Up) && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
+                int newIndex = currentIndex > 0 ? currentIndex - 1 : 0;
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
+                ScreenshotListBox.ScrollIntoView(_viewModel.SelectedItem);
+                e.Handled = true;
+            }
+        }
+        else if ((e.Key == Key.Right || e.Key == Key.Down) && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
+                int newIndex = currentIndex < _viewModel.FilteredScreenshots.Count - 1 ? currentIndex + 1 : _viewModel.FilteredScreenshots.Count - 1;
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
+                ScreenshotListBox.ScrollIntoView(_viewModel.SelectedItem);
+                e.Handled = true;
+            }
         }
     }
 
