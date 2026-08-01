@@ -98,27 +98,6 @@
                                                   Background="Transparent"
                                                   MouseDoubleClick="OnItemMouseDoubleClick"
                                                   PreviewMouseMove="OnItemPreviewMouseMove">
-                                        <ItemsControl.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="보기" InputGestureText="Space" Command="{Binding DataContext.OpenPreviewCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                <Separator />
-                                                <MenuItem Header="복사" InputGestureText="Ctrl+C" Command="{Binding DataContext.CopySelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                <MenuItem Header="붙여넣기" InputGestureText="Ctrl+V" Command="{Binding DataContext.PasteClipboardCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                <Separator />
-                                                <MenuItem Header="포맷 변환">
-                                                    <MenuItem Header="PNG" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="png" IsEnabled="{Binding DataContext.IsNotPng, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                    <MenuItem Header="JPG" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="jpg" IsEnabled="{Binding DataContext.IsNotJpg, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                    <MenuItem Header="WebP" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="webp" IsEnabled="{Binding DataContext.IsNotWebp, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                    <MenuItem Header="BMP" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="bmp" IsEnabled="{Binding DataContext.IsNotBmp, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                    <MenuItem Header="GIF" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="gif" IsEnabled="{Binding DataContext.IsNotGif, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                    <MenuItem Header="TIFF" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="tiff" IsEnabled="{Binding DataContext.IsNotTiff, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                    <MenuItem Header="HEIC" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="heic" IsEnabled="{Binding DataContext.IsNotHeic, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                </MenuItem>
-                                                <Separator />
-                                                <MenuItem Header="삭제" InputGestureText="Del" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                                <MenuItem Header="취소" InputGestureText="Ctrl+Z" Command="{Binding DataContext.UndoCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                            </ContextMenu>
-                                        </ItemsControl.ContextMenu>
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapPanel />
@@ -127,8 +106,37 @@
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <gallery:ScreenshotItemControl ScreenshotItem="{Binding}"
+                                                    Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
                                                     PreviewMouseLeftButtonDown="OnItemPreviewMouseLeftButtonDown"
-                                                    PreviewMouseRightButtonDown="OnItemPreviewMouseRightButtonDown" />
+                                                    PreviewMouseRightButtonDown="OnItemPreviewMouseRightButtonDown">
+                                                    <gallery:ScreenshotItemControl.ContextMenu>
+                                                        <ContextMenu>
+                                                            <MenuItem Header="보기" InputGestureText="Space"
+                                                                      Command="{Binding PlacementTarget.Tag.OpenPreviewCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                      CommandParameter="{Binding PlacementTarget.Tag.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                            <Separator />
+                                                            <MenuItem Header="복사" InputGestureText="Ctrl+C"
+                                                                      Command="{Binding PlacementTarget.Tag.CopySelectedCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                            <MenuItem Header="붙여넣기" InputGestureText="Ctrl+V"
+                                                                      Command="{Binding PlacementTarget.Tag.PasteClipboardCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                            <Separator />
+                                                            <MenuItem Header="포맷 변환">
+                                                                <MenuItem Header="PNG" Command="{Binding PlacementTarget.Tag.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="png" IsEnabled="{Binding PlacementTarget.Tag.IsNotPng, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                <MenuItem Header="JPG" Command="{Binding PlacementTarget.Tag.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="jpg" IsEnabled="{Binding PlacementTarget.Tag.IsNotJpg, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                <MenuItem Header="WebP" Command="{Binding PlacementTarget.Tag.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="webp" IsEnabled="{Binding PlacementTarget.Tag.IsNotWebp, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                <MenuItem Header="BMP" Command="{Binding PlacementTarget.Tag.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="bmp" IsEnabled="{Binding PlacementTarget.Tag.IsNotBmp, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                <MenuItem Header="GIF" Command="{Binding PlacementTarget.Tag.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="gif" IsEnabled="{Binding PlacementTarget.Tag.IsNotGif, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                <MenuItem Header="TIFF" Command="{Binding PlacementTarget.Tag.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="tiff" IsEnabled="{Binding PlacementTarget.Tag.IsNotTiff, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                <MenuItem Header="HEIC" Command="{Binding PlacementTarget.Tag.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="heic" IsEnabled="{Binding PlacementTarget.Tag.IsNotHeic, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                            </MenuItem>
+                                                            <Separator />
+                                                            <MenuItem Header="삭제" InputGestureText="Del"
+                                                                      Command="{Binding PlacementTarget.Tag.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                            <MenuItem Header="취소" InputGestureText="Ctrl+Z"
+                                                                      Command="{Binding PlacementTarget.Tag.UndoCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                        </ContextMenu>
+                                                    </gallery:ScreenshotItemControl.ContextMenu>
+                                                </gallery:ScreenshotItemControl>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
