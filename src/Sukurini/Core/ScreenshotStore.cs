@@ -218,7 +218,7 @@ public sealed class ScreenshotStore : IDisposable
             {
                 if (ScreenshotFile.IsEligible(file.FullName))
                 {
-                    result.Add(new Screenshot(file.FullName, file.CreationTimeUtc, file.Length));
+                    result.Add(new Screenshot(file.FullName, ScreenshotFile.GetEffectiveCreatedTime(file), file.Length));
                 }
             }
         }

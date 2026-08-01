@@ -169,7 +169,7 @@ public partial class GalleryViewModel : ObservableObject
         // Build date groups
         var today = DateTime.Today;
         var groups = list
-            .GroupBy(item => item.Created.Date)
+            .GroupBy(item => (item.Created.Kind == DateTimeKind.Utc ? item.Created.ToLocalTime() : item.Created).Date)
             .OrderByDescending(g => g.Key)
             .Select(g => new DateGroup(g.Key, today, g.OrderByDescending(i => i.Created).ToList()))
             .ToList();
