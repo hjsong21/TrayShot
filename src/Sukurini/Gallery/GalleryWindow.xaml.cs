@@ -23,6 +23,7 @@ public partial class GalleryWindow : Window
     private const int HTTOP = 12;
     private const int HTTOPLEFT = 13;
 
+    private int? _preferredColumn;
     private readonly GalleryViewModel _viewModel;
 
     public GalleryWindow()
@@ -210,6 +211,7 @@ public partial class GalleryWindow : Window
         }
         else if (e.Key == Key.Left && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
+            _preferredColumn = null;
             if (_viewModel.FilteredScreenshots.Count > 0)
             {
                 int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
@@ -221,6 +223,7 @@ public partial class GalleryWindow : Window
         }
         else if (e.Key == Key.Right && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
+            _preferredColumn = null;
             if (_viewModel.FilteredScreenshots.Count > 0)
             {
                 int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
@@ -232,30 +235,17 @@ public partial class GalleryWindow : Window
         }
         else if (e.Key == Key.Up && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
-            if (_viewModel.FilteredScreenshots.Count > 0)
-            {
-                int columnsCount = GetColumnsCount();
-                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : 0;
-                int newIndex = Math.Max(0, currentIndex - columnsCount);
-                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
-                EnsureSelectedItemVisible();
-                e.Handled = true;
-            }
+            NavigateVertical(-1);
+            e.Handled = true;
         }
         else if (e.Key == Key.Down && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
-            if (_viewModel.FilteredScreenshots.Count > 0)
-            {
-                int columnsCount = GetColumnsCount();
-                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
-                int newIndex = Math.Min(_viewModel.FilteredScreenshots.Count - 1, currentIndex + columnsCount);
-                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
-                EnsureSelectedItemVisible();
-                e.Handled = true;
-            }
+            NavigateVertical(1);
+            e.Handled = true;
         }
         else if (e.Key == Key.Home && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
+            _preferredColumn = null;
             if (_viewModel.FilteredScreenshots.Count > 0)
             {
                 _viewModel.SelectedItem = _viewModel.FilteredScreenshots[0];
@@ -265,6 +255,7 @@ public partial class GalleryWindow : Window
         }
         else if (e.Key == Key.End && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
+            _preferredColumn = null;
             if (_viewModel.FilteredScreenshots.Count > 0)
             {
                 _viewModel.SelectedItem = _viewModel.FilteredScreenshots[_viewModel.FilteredScreenshots.Count - 1];
@@ -274,27 +265,13 @@ public partial class GalleryWindow : Window
         }
         else if (e.Key == Key.PageUp && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
-            if (_viewModel.FilteredScreenshots.Count > 0)
-            {
-                int pageSize = GetPageSize();
-                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : 0;
-                int newIndex = Math.Max(0, currentIndex - pageSize);
-                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
-                EnsureSelectedItemVisible();
-                e.Handled = true;
-            }
+            NavigateVertical(-GetRowsPerPage());
+            e.Handled = true;
         }
         else if (e.Key == Key.PageDown && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
-            if (_viewModel.FilteredScreenshots.Count > 0)
-            {
-                int pageSize = GetPageSize();
-                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
-                int newIndex = Math.Min(_viewModel.FilteredScreenshots.Count - 1, currentIndex + pageSize);
-                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
-                EnsureSelectedItemVisible();
-                e.Handled = true;
-            }
+            NavigateVertical(GetRowsPerPage());
+            e.Handled = true;
         }
     }
 
@@ -305,6 +282,7 @@ public partial class GalleryWindow : Window
 
     private void OnItemPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
+        _preferredColumn = null;
         if (sender is ScreenshotItemControl itemControl && itemControl.ScreenshotItem != null)
         {
             _viewModel.SelectedItem = itemControl.ScreenshotItem;
@@ -315,6 +293,7 @@ public partial class GalleryWindow : Window
 
     private void OnItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
+        _preferredColumn = null;
         if (sender is ScreenshotItemControl itemControl && itemControl.ScreenshotItem != null)
         {
             _viewModel.SelectedItem = itemControl.ScreenshotItem;
@@ -357,12 +336,81 @@ public partial class GalleryWindow : Window
         return Math.Max(1, cols);
     }
 
-    private int GetPageSize()
+    private int GetRowsPerPage()
     {
         double height = GalleryScrollViewer.ActualHeight;
         if (height <= 0) height = Height - 60;
         int rows = Math.Max(1, (int)(height / 136));
-        return GetColumnsCount() * rows;
+        return rows;
+    }
+
+    private record GridRowInfo(int GroupIndex, int RowIndexInGroup, List<Screenshot> Items);
+
+    private List<GridRowInfo> BuildGridRows(int columnsCount)
+    {
+        var rows = new List<GridRowInfo>();
+        for (int g = 0; g < _viewModel.GroupedScreenshots.Count; g++)
+        {
+            var groupItems = _viewModel.GroupedScreenshots[g].Items;
+            int rowCountInGroup = (int)Math.Ceiling((double)groupItems.Count / columnsCount);
+            for (int r = 0; r < rowCountInGroup; r++)
+            {
+                var rowItems = groupItems.Skip(r * columnsCount).Take(columnsCount).ToList();
+                rows.Add(new GridRowInfo(g, r, rowItems));
+            }
+        }
+        return rows;
+    }
+
+    private void NavigateVertical(int rowOffset)
+    {
+        if (_viewModel.GroupedScreenshots.Count == 0) return;
+
+        if (_viewModel.SelectedItem == null)
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[0];
+                EnsureSelectedItemVisible();
+            }
+            return;
+        }
+
+        int columnsCount = GetColumnsCount();
+        var allRows = BuildGridRows(columnsCount);
+        if (allRows.Count == 0) return;
+
+        int currentRowIndex = -1;
+        int currentColIndex = -1;
+
+        for (int r = 0; r < allRows.Count; r++)
+        {
+            int col = allRows[r].Items.IndexOf(_viewModel.SelectedItem);
+            if (col >= 0)
+            {
+                currentRowIndex = r;
+                currentColIndex = col;
+                break;
+            }
+        }
+
+        if (currentRowIndex < 0)
+        {
+            currentRowIndex = 0;
+            currentColIndex = 0;
+        }
+
+        if (!_preferredColumn.HasValue)
+        {
+            _preferredColumn = currentColIndex;
+        }
+
+        int targetRowIndex = Math.Clamp(currentRowIndex + rowOffset, 0, allRows.Count - 1);
+        var targetRow = allRows[targetRowIndex];
+
+        int targetColIndex = Math.Min(_preferredColumn.Value, targetRow.Items.Count - 1);
+        _viewModel.SelectedItem = targetRow.Items[targetColIndex];
+        EnsureSelectedItemVisible();
     }
 
     private void EnsureSelectedItemVisible()
