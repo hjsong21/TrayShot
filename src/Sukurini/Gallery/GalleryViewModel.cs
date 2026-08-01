@@ -77,6 +77,8 @@ public partial class GalleryViewModel : ObservableObject
 
     public ObservableCollection<Screenshot> FilteredScreenshots { get; } = new();
 
+    public ObservableCollection<DateGroup> GroupedScreenshots { get; } = new();
+
     public event Action<Screenshot>? OpenPreviewRequested;
 
     public GalleryViewModel()
@@ -162,6 +164,20 @@ public partial class GalleryViewModel : ObservableObject
         foreach (var item in list)
         {
             FilteredScreenshots.Add(item);
+        }
+
+        // Build date groups
+        var today = DateTime.Today;
+        var groups = list
+            .GroupBy(item => item.Created.Date)
+            .OrderByDescending(g => g.Key)
+            .Select(g => new DateGroup(g.Key, today, g.OrderByDescending(i => i.Created).ToList()))
+            .ToList();
+
+        GroupedScreenshots.Clear();
+        foreach (var group in groups)
+        {
+            GroupedScreenshots.Add(group);
         }
 
         IsEmptyState = FilteredScreenshots.Count == 0;

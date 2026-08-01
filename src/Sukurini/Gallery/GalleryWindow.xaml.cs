@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -36,9 +38,9 @@ public partial class GalleryWindow : Window
 
         _viewModel.PropertyChanged += (s, args) =>
         {
-            if (args.PropertyName == nameof(GalleryViewModel.SelectedItem) && _viewModel.SelectedItem != null)
+            if (args.PropertyName == nameof(GalleryViewModel.SelectedItem))
             {
-                ScreenshotListBox.ScrollIntoView(_viewModel.SelectedItem);
+                UpdateAllItemSelectionVisuals();
             }
         };
 
@@ -213,7 +215,6 @@ public partial class GalleryWindow : Window
                 int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
                 int newIndex = currentIndex > 0 ? currentIndex - 1 : 0;
                 _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
-                ScreenshotListBox.ScrollIntoView(_viewModel.SelectedItem);
                 e.Handled = true;
             }
         }
@@ -224,7 +225,6 @@ public partial class GalleryWindow : Window
                 int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
                 int newIndex = currentIndex < _viewModel.FilteredScreenshots.Count - 1 ? currentIndex + 1 : _viewModel.FilteredScreenshots.Count - 1;
                 _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
-                ScreenshotListBox.ScrollIntoView(_viewModel.SelectedItem);
                 e.Handled = true;
             }
         }
@@ -232,10 +232,25 @@ public partial class GalleryWindow : Window
 
     private void OnListBoxItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (sender is System.Windows.Controls.ListBoxItem item)
+        // Legacy - kept for compatibility but not called from new grouped layout
+    }
+
+    private void OnItemPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is ScreenshotItemControl itemControl && itemControl.ScreenshotItem != null)
         {
-            item.IsSelected = true;
-            item.Focus();
+            _viewModel.SelectedItem = itemControl.ScreenshotItem;
+            itemControl.Focus();
+            e.Handled = true;
+        }
+    }
+
+    private void OnItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is ScreenshotItemControl itemControl && itemControl.ScreenshotItem != null)
+        {
+            _viewModel.SelectedItem = itemControl.ScreenshotItem;
+            itemControl.Focus();
         }
     }
 
@@ -244,6 +259,47 @@ public partial class GalleryWindow : Window
         if (_viewModel.SelectedItem != null)
         {
             OnOpenPreview(_viewModel.SelectedItem);
+        }
+    }
+
+    /// <summary>
+    /// Refreshes the IsSelected visual state on all ScreenshotItemControl instances.
+    /// Called whenever SelectedItem changes.
+    /// </summary>
+    private void UpdateAllItemSelectionVisuals()
+    {
+        foreach (var group in _viewModel.GroupedScreenshots)
+        {
+            foreach (var item in group.Items)
+            {
+                var container = FindItemControl(item);
+                if (container != null)
+                {
+                    container.IsSelected = ReferenceEquals(item, _viewModel.SelectedItem);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Walks the visual tree to find the ScreenshotItemControl for a given Screenshot.
+    /// </summary>
+    private ScreenshotItemControl? FindItemControl(Screenshot target)
+    {
+        return FindVisualChildren<ScreenshotItemControl>(this)
+            .FirstOrDefault(c => ReferenceEquals(c.ScreenshotItem, target));
+    }
+
+    private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+    {
+        int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent);
+        for (int i = 0; i < count; i++)
+        {
+            var child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+            if (child is T match)
+                yield return match;
+            foreach (var grandchild in FindVisualChildren<T>(child))
+                yield return grandchild;
         }
     }
 

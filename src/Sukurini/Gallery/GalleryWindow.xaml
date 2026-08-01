@@ -76,50 +76,67 @@
                     </StackPanel>
                 </Grid>
 
-                <!-- Grid Items View -->
-                <ListBox x:Name="ScreenshotListBox" Grid.Row="1" ItemsSource="{Binding FilteredScreenshots}"
-                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                         Background="Transparent" BorderThickness="0"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         MouseDoubleClick="OnItemMouseDoubleClick"
-                         PreviewMouseMove="OnItemPreviewMouseMove">
-                    <ListBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="보기" InputGestureText="Space" Command="{Binding OpenPreviewCommand}" CommandParameter="{Binding SelectedItem}" />
-                            <Separator />
-                            <MenuItem Header="복사" InputGestureText="Ctrl+C" Command="{Binding CopySelectedCommand}" />
-                            <MenuItem Header="붙여넣기" InputGestureText="Ctrl+V" Command="{Binding PasteClipboardCommand}" />
-                            <Separator />
-                            <MenuItem Header="포맷 변환">
-                                <MenuItem Header="PNG" Command="{Binding ConvertFormatCommand}" CommandParameter="png" IsEnabled="{Binding IsNotPng}" />
-                                <MenuItem Header="JPG" Command="{Binding ConvertFormatCommand}" CommandParameter="jpg" IsEnabled="{Binding IsNotJpg}" />
-                                <MenuItem Header="WebP" Command="{Binding ConvertFormatCommand}" CommandParameter="webp" IsEnabled="{Binding IsNotWebp}" />
-                                <MenuItem Header="BMP" Command="{Binding ConvertFormatCommand}" CommandParameter="bmp" IsEnabled="{Binding IsNotBmp}" />
-                                <MenuItem Header="GIF" Command="{Binding ConvertFormatCommand}" CommandParameter="gif" IsEnabled="{Binding IsNotGif}" />
-                                <MenuItem Header="TIFF" Command="{Binding ConvertFormatCommand}" CommandParameter="tiff" IsEnabled="{Binding IsNotTiff}" />
-                                <MenuItem Header="HEIC" Command="{Binding ConvertFormatCommand}" CommandParameter="heic" IsEnabled="{Binding IsNotHeic}" />
-                            </MenuItem>
-                            <Separator />
-                            <MenuItem Header="삭제" InputGestureText="Del" Command="{Binding DeleteSelectedCommand}" />
-                            <MenuItem Header="취소" InputGestureText="Ctrl+Z" Command="{Binding UndoCommand}" />
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <EventSetter Event="PreviewMouseRightButtonDown" Handler="OnListBoxItemPreviewMouseRightButtonDown" />
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <gallery:ScreenshotItemControl ScreenshotItem="{Binding}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <!-- Date-grouped gallery view -->
+                <ScrollViewer x:Name="GalleryScrollViewer" Grid.Row="1"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl x:Name="GroupItemsControl"
+                                  ItemsSource="{Binding GroupedScreenshots}"
+                                  Background="Transparent">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,16">
+                                    <!-- Date group header -->
+                                    <TextBlock Text="{Binding Label}"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               FontSize="13" FontWeight="SemiBold"
+                                               Margin="4,8,0,8" />
+
+                                    <!-- Screenshots in this date group -->
+                                    <ItemsControl x:Name="DayItemsControl"
+                                                  ItemsSource="{Binding Items}"
+                                                  Background="Transparent"
+                                                  MouseDoubleClick="OnItemMouseDoubleClick"
+                                                  PreviewMouseMove="OnItemPreviewMouseMove">
+                                        <ItemsControl.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="보기" InputGestureText="Space" Command="{Binding DataContext.OpenPreviewCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                <Separator />
+                                                <MenuItem Header="복사" InputGestureText="Ctrl+C" Command="{Binding DataContext.CopySelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                <MenuItem Header="붙여넣기" InputGestureText="Ctrl+V" Command="{Binding DataContext.PasteClipboardCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                <Separator />
+                                                <MenuItem Header="포맷 변환">
+                                                    <MenuItem Header="PNG" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="png" IsEnabled="{Binding DataContext.IsNotPng, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                    <MenuItem Header="JPG" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="jpg" IsEnabled="{Binding DataContext.IsNotJpg, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                    <MenuItem Header="WebP" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="webp" IsEnabled="{Binding DataContext.IsNotWebp, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                    <MenuItem Header="BMP" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="bmp" IsEnabled="{Binding DataContext.IsNotBmp, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                    <MenuItem Header="GIF" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="gif" IsEnabled="{Binding DataContext.IsNotGif, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                    <MenuItem Header="TIFF" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="tiff" IsEnabled="{Binding DataContext.IsNotTiff, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                    <MenuItem Header="HEIC" Command="{Binding DataContext.ConvertFormatCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="heic" IsEnabled="{Binding DataContext.IsNotHeic, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                </MenuItem>
+                                                <Separator />
+                                                <MenuItem Header="삭제" InputGestureText="Del" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                                <MenuItem Header="취소" InputGestureText="Ctrl+Z" Command="{Binding DataContext.UndoCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                                            </ContextMenu>
+                                        </ItemsControl.ContextMenu>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <gallery:ScreenshotItemControl ScreenshotItem="{Binding}"
+                                                    PreviewMouseLeftButtonDown="OnItemPreviewMouseLeftButtonDown"
+                                                    PreviewMouseRightButtonDown="OnItemPreviewMouseRightButtonDown" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
 
                 <!-- Empty state message -->
                 <TextBlock Grid.Row="1" Text="스크린샷이 없습니다." Foreground="{DynamicResource TextSecondaryBrush}" FontSize="14"

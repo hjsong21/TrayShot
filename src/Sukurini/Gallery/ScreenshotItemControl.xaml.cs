@@ -14,10 +14,23 @@ public partial class ScreenshotItemControl : UserControl
             typeof(ScreenshotItemControl),
             new PropertyMetadata(null, OnScreenshotItemChanged));
 
+    public static readonly DependencyProperty IsSelectedProperty =
+        DependencyProperty.Register(
+            nameof(IsSelected),
+            typeof(bool),
+            typeof(ScreenshotItemControl),
+            new PropertyMetadata(false, OnIsSelectedChanged));
+
     public Screenshot? ScreenshotItem
     {
         get => (Screenshot?)GetValue(ScreenshotItemProperty);
         set => SetValue(ScreenshotItemProperty, value);
+    }
+
+    public bool IsSelected
+    {
+        get => (bool)GetValue(IsSelectedProperty);
+        set => SetValue(IsSelectedProperty, value);
     }
 
     public ScreenshotItemControl()
@@ -48,6 +61,29 @@ public partial class ScreenshotItemControl : UserControl
             {
                 control.ThumbnailImage.Source = thumbnail;
             }
+        }
+    }
+
+    private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is ScreenshotItemControl control)
+        {
+            control.UpdateSelectionVisual();
+        }
+    }
+
+    private void UpdateSelectionVisual()
+    {
+        // The root Border is the first child of the control's visual tree
+        if (Content is System.Windows.Controls.Border border)
+        {
+            border.BorderBrush = IsSelected
+                ? new System.Windows.Media.SolidColorBrush(
+                    System.Windows.Media.Color.FromRgb(0x60, 0xA5, 0xFA)) // blue-400
+                : (System.Windows.Media.Brush)FindResource("BorderBrushColor");
+            border.BorderThickness = IsSelected
+                ? new Thickness(2)
+                : new Thickness(1);
         }
     }
 }
