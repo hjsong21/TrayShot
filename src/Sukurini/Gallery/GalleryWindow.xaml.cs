@@ -254,6 +254,48 @@ public partial class GalleryWindow : Window
                 e.Handled = true;
             }
         }
+        else if (e.Key == Key.Home && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[0];
+                EnsureSelectedItemVisible();
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.End && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[_viewModel.FilteredScreenshots.Count - 1];
+                EnsureSelectedItemVisible();
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.PageUp && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                int pageSize = GetPageSize();
+                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : 0;
+                int newIndex = Math.Max(0, currentIndex - pageSize);
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
+                EnsureSelectedItemVisible();
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.PageDown && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                int pageSize = GetPageSize();
+                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
+                int newIndex = Math.Min(_viewModel.FilteredScreenshots.Count - 1, currentIndex + pageSize);
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
+                EnsureSelectedItemVisible();
+                e.Handled = true;
+            }
+        }
     }
 
     private void OnListBoxItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -313,6 +355,14 @@ public partial class GalleryWindow : Window
         if (width <= 0) width = Width - 40;
         int cols = (int)(width / 192);
         return Math.Max(1, cols);
+    }
+
+    private int GetPageSize()
+    {
+        double height = GalleryScrollViewer.ActualHeight;
+        if (height <= 0) height = Height - 60;
+        int rows = Math.Max(1, (int)(height / 136));
+        return GetColumnsCount() * rows;
     }
 
     private void EnsureSelectedItemVisible()
