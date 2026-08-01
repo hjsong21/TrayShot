@@ -208,23 +208,49 @@ public partial class GalleryWindow : Window
             OnOpenPreview(_viewModel.SelectedItem);
             e.Handled = true;
         }
-        else if ((e.Key == Key.Left || e.Key == Key.Up) && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        else if (e.Key == Key.Left && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
             if (_viewModel.FilteredScreenshots.Count > 0)
             {
                 int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
                 int newIndex = currentIndex > 0 ? currentIndex - 1 : 0;
                 _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
+                EnsureSelectedItemVisible();
                 e.Handled = true;
             }
         }
-        else if ((e.Key == Key.Right || e.Key == Key.Down) && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        else if (e.Key == Key.Right && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
             if (_viewModel.FilteredScreenshots.Count > 0)
             {
                 int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
                 int newIndex = currentIndex < _viewModel.FilteredScreenshots.Count - 1 ? currentIndex + 1 : _viewModel.FilteredScreenshots.Count - 1;
                 _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
+                EnsureSelectedItemVisible();
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.Up && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                int columnsCount = GetColumnsCount();
+                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : 0;
+                int newIndex = Math.Max(0, currentIndex - columnsCount);
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
+                EnsureSelectedItemVisible();
+                e.Handled = true;
+            }
+        }
+        else if (e.Key == Key.Down && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            if (_viewModel.FilteredScreenshots.Count > 0)
+            {
+                int columnsCount = GetColumnsCount();
+                int currentIndex = _viewModel.SelectedItem != null ? _viewModel.FilteredScreenshots.IndexOf(_viewModel.SelectedItem) : -1;
+                int newIndex = Math.Min(_viewModel.FilteredScreenshots.Count - 1, currentIndex + columnsCount);
+                _viewModel.SelectedItem = _viewModel.FilteredScreenshots[newIndex];
+                EnsureSelectedItemVisible();
                 e.Handled = true;
             }
         }
@@ -279,6 +305,24 @@ public partial class GalleryWindow : Window
                 }
             }
         }
+    }
+
+    private int GetColumnsCount()
+    {
+        double width = GalleryScrollViewer.ActualWidth;
+        if (width <= 0) width = Width - 40;
+        int cols = (int)(width / 192);
+        return Math.Max(1, cols);
+    }
+
+    private void EnsureSelectedItemVisible()
+    {
+        if (_viewModel.SelectedItem == null) return;
+        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, () =>
+        {
+            var container = FindItemControl(_viewModel.SelectedItem);
+            container?.BringIntoView();
+        });
     }
 
     /// <summary>
