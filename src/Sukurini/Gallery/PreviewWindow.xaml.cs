@@ -14,6 +14,8 @@ public partial class PreviewWindow : Window
     private readonly IList<Screenshot>? _items;
     private int _currentIndex;
 
+    public event Action<Screenshot>? CurrentItemChanged;
+
     public PreviewWindow(Screenshot screenshot, IList<Screenshot>? items = null)
     {
         InitializeComponent();
@@ -47,6 +49,7 @@ public partial class PreviewWindow : Window
             : current.Name;
 
         LoadImage(current.Path);
+        CurrentItemChanged?.Invoke(current);
     }
 
     private void LoadImage(string path)

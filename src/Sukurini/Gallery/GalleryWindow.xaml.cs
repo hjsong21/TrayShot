@@ -508,6 +508,11 @@ public partial class GalleryWindow : Window
         {
             var previewWin = new PreviewWindow(item, System.Linq.Enumerable.ToList(_viewModel.FilteredScreenshots));
             previewWin.Owner = this;
+            previewWin.CurrentItemChanged += (selectedItem) =>
+            {
+                _viewModel.SelectedItem = selectedItem;
+                EnsureSelectedItemVisible();
+            };
             previewWin.ShowDialog();
         }
         finally
