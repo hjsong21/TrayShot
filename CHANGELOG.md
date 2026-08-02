@@ -7,6 +7,22 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.9.0] - 2026-08-02
+
+### Added
+- **Date-Grouped Gallery UI**: Grouped screenshots in gallery panel under date section headers (Today, Yesterday, etc.)
+- **2D Grid Keyboard Navigation**: 2D grid row/column keyboard navigation engine calculated across grouped items
+- **Home/End/PgUp/PgDn Fast Navigation**: Fast jump to first/last item and page up/down navigation with synchronized scrolling
+
+### Improved
+- **Column-Preserving Vertical Navigation**: Maintained preferred column position across date group boundaries via `GridRowInfo`
+- **Preview Selection & Scroll Sync**: Synchronized main gallery selection cursor and scroll position during preview navigation
+- **Refined Date Grouping**: Grouped screenshots using combined actual file timestamps (`CreationTime`) and filename parsing
+
+### Fixed
+- **Grouped View Command Bindings**: Resolved broken context menu command bindings (Copy, Convert, Delete, etc.) in grouped view
+- **Selection Visual Update on Deletion**: Ensured immediate visual selection border update on the next item following deletion
+
 ## [v0.8.0] - 2026-07-31
 
 ### Added
