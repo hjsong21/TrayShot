@@ -36,6 +36,19 @@ public partial class ScreenshotItemControl : UserControl
     public ScreenshotItemControl()
     {
         InitializeComponent();
+        Loaded += OnLoaded;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (Tag is GalleryViewModel vm && ScreenshotItem != null)
+        {
+            IsSelected = ReferenceEquals(vm.SelectedItem, ScreenshotItem);
+        }
+        else
+        {
+            UpdateSelectionVisual();
+        }
     }
 
     private static async void OnScreenshotItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

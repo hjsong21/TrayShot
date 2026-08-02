@@ -221,7 +221,7 @@ public partial class GalleryViewModel : ObservableObject
 
             DeleteScreenshot(itemToDelete);
 
-            FilteredScreenshots.Remove(itemToDelete);
+            ApplyFilter();
 
             if (FilteredScreenshots.Count > 0 && currentIndex >= 0)
             {

@@ -41,7 +41,10 @@ public partial class GalleryWindow : Window
         {
             if (args.PropertyName == nameof(GalleryViewModel.SelectedItem))
             {
-                UpdateAllItemSelectionVisuals();
+                Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, () =>
+                {
+                    UpdateAllItemSelectionVisuals();
+                });
             }
         };
 
