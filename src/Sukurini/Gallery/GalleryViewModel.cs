@@ -366,7 +366,7 @@ public partial class GalleryViewModel : ObservableObject
         string srcExt = Path.GetExtension(item.Path).TrimStart('.').ToUpperInvariant();
         string destExt = targetExt.TrimStart('.').ToUpperInvariant();
 
-        ShowStatus($"⏳ {srcExt} → {destExt} 포맷 변환 중...");
+        ShowStatus(LanguageManager.GetString("Gallery_Status_Converting", srcExt, destExt));
 
         bool success = false;
         await Task.Run(() =>
@@ -376,11 +376,11 @@ public partial class GalleryViewModel : ObservableObject
 
         if (success)
         {
-            ShowStatus($"✅ {destExt} 포맷 변환 완료!", autoHideMs: 2500);
+            ShowStatus(LanguageManager.GetString("Gallery_Status_Converted", destExt), autoHideMs: 2500);
         }
         else
         {
-            ShowStatus($"❌ {destExt} 포맷 변환 실패", autoHideMs: 3500);
+            ShowStatus(LanguageManager.GetString("Gallery_Status_Failed", destExt), autoHideMs: 3500);
         }
     }
 

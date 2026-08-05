@@ -26,7 +26,8 @@ public partial class AboutWindow : Window
             versionStr = infoVersionAttr.InformationalVersion;
         }
 
-        VersionTextBlock.Text = $"버전 {versionStr} (Win-x64)";
+        string versionPrefix = Infrastructure.LanguageManager.GetString("About_VersionPrefix");
+        VersionTextBlock.Text = $"{versionPrefix} {versionStr} (Win-x64)";
 
         var copyrightAttr = (AssemblyCopyrightAttribute?)Attribute.GetCustomAttribute(
             assembly, typeof(AssemblyCopyrightAttribute));

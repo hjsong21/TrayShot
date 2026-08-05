@@ -58,23 +58,27 @@ public sealed class TrayIconController : IDisposable
     {
         var menu = new ContextMenu();
 
-        var openItem = new MenuItem { Header = "갤러리 열기 / 닫기" };
+        var openItem = new MenuItem();
+        openItem.SetResourceReference(HeaderedItemsControl.HeaderProperty, "Tray_Toggle");
         openItem.Click += (s, e) => _onToggleGallery();
         menu.Items.Add(openItem);
 
         menu.Items.Add(new Separator());
 
-        var prefItem = new MenuItem { Header = "설정..." };
+        var prefItem = new MenuItem();
+        prefItem.SetResourceReference(HeaderedItemsControl.HeaderProperty, "Tray_Settings");
         prefItem.Click += (s, e) => _onOpenPreferences();
         menu.Items.Add(prefItem);
 
-        var aboutItem = new MenuItem { Header = "정보 (About)..." };
+        var aboutItem = new MenuItem();
+        aboutItem.SetResourceReference(HeaderedItemsControl.HeaderProperty, "Tray_About");
         aboutItem.Click += (s, e) => _onOpenAbout();
         menu.Items.Add(aboutItem);
 
         menu.Items.Add(new Separator());
 
-        var exitItem = new MenuItem { Header = "종료" };
+        var exitItem = new MenuItem();
+        exitItem.SetResourceReference(HeaderedItemsControl.HeaderProperty, "Tray_Exit");
         exitItem.Click += (s, e) => _onExitApp();
         menu.Items.Add(exitItem);
 

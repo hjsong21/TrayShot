@@ -19,6 +19,7 @@ public partial class App : Application
         }
 
         base.OnStartup(e);
+        Infrastructure.LanguageManager.Initialize();
     }
 
     protected override void OnExit(ExitEventArgs e)

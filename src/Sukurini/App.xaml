@@ -5,6 +5,10 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resources/Languages/Strings.ko-KR.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#1E1E1E" />

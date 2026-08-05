@@ -27,6 +27,9 @@ public partial class PreferencesViewModel : ObservableObject
     private int _selectedThemeIndex;
 
     [ObservableProperty]
+    private int _selectedLanguageIndex;
+
+    [ObservableProperty]
     private int _selectedDisposalIndex;
 
     [ObservableProperty]
@@ -53,11 +56,16 @@ public partial class PreferencesViewModel : ObservableObject
         _webpConversionEnabled = AppSettings.Shared.WebpConversionEnabled;
         _semanticSearchEnabled = AppSettings.Shared.SemanticSearchEnabled;
         _selectedThemeIndex = (int)AppSettings.Shared.Theme;
+
+        string currentLang = AppSettings.Shared.Language;
+        _selectedLanguageIndex = currentLang.Equals("ko-KR", StringComparison.OrdinalIgnoreCase) || currentLang.Equals("ko", StringComparison.OrdinalIgnoreCase) ? 1 :
+                                currentLang.Equals("en-US", StringComparison.OrdinalIgnoreCase) || currentLang.Equals("en", StringComparison.OrdinalIgnoreCase) ? 2 : 0;
+
         _selectedDisposalIndex = (int)AppSettings.Shared.WebpDisposal;
 
         var currentBinding = AppSettings.Shared.GalleryHotKey;
         HotKeyDisplayText = HotKeyFormatter.Format(currentBinding.Modifiers, currentBinding.KeyCode);
-        HotKeyStatusText = "✓ 현재 사용 중인 전역 단축키";
+        HotKeyStatusText = LanguageManager.GetString("Pref_Hotkey_Status_Active");
         HotKeyStatusBrush = new SolidColorBrush(Color.FromRgb(0x4C, 0xAF, 0x50)); // Green
 
         foreach (var folder in AppSettings.Shared.Folders)
@@ -94,6 +102,17 @@ public partial class PreferencesViewModel : ObservableObject
         {
             AppSettings.Shared.Theme = (AppTheme)value;
         }
+    }
+
+    partial void OnSelectedLanguageIndexChanged(int value)
+    {
+        string langCode = value switch
+        {
+            1 => "ko-KR",
+            2 => "en-US",
+            _ => "system"
+        };
+        AppSettings.Shared.Language = langCode;
     }
 
     partial void OnSelectedDisposalIndexChanged(int value)

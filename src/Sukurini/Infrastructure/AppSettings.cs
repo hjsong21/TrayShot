@@ -46,6 +46,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     public event Action? WebpConversionChanged;
     public event Action? OrganizeChanged;
     public event Action? ThemeChanged;
+    public event Action? LanguageChanged;
     public event Action? IncludeSubfoldersChanged;
     public event Action? SemanticEnabledChanged;
     public event Action? SemanticModelChanged;
@@ -376,6 +377,8 @@ public sealed class AppSettings : INotifyPropertyChanged
                 _data.Language = value;
                 SaveSettings();
                 OnPropertyChanged();
+                LanguageManager.ApplyLanguage(value);
+                LanguageChanged?.Invoke();
             }
         }
     }

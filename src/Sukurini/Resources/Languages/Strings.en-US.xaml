@@ -1,0 +1,73 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- App / General -->
+    <system:String x:Key="String_AppName">Sukurini</system:String>
+    <system:String x:Key="String_AppDescription">Smart Windows Screenshot Gallery &amp; Image Manager</system:String>
+    <system:String x:Key="String_OK">OK</system:String>
+    <system:String x:Key="String_Cancel">Cancel</system:String>
+
+    <!-- Gallery Window -->
+    <system:String x:Key="Gallery_SearchPlaceholder">Search screenshots...</system:String>
+    <system:String x:Key="Gallery_ClearSearchToolTip">Clear search</system:String>
+    <system:String x:Key="Gallery_SettingsToolTip">Settings</system:String>
+    <system:String x:Key="Gallery_AboutToolTip">About Sukurini</system:String>
+    <system:String x:Key="Gallery_ExitToolTip">Exit App</system:String>
+    <system:String x:Key="Gallery_EmptyState">No screenshots found.</system:String>
+
+    <!-- Context Menu -->
+    <system:String x:Key="Gallery_ContextMenu_View">View</system:String>
+    <system:String x:Key="Gallery_ContextMenu_Copy">Copy</system:String>
+    <system:String x:Key="Gallery_ContextMenu_Paste">Paste</system:String>
+    <system:String x:Key="Gallery_ContextMenu_ConvertFormat">Convert Format</system:String>
+    <system:String x:Key="Gallery_ContextMenu_Delete">Delete</system:String>
+    <system:String x:Key="Gallery_ContextMenu_Undo">Undo</system:String>
+
+    <!-- Status Toast -->
+    <system:String x:Key="Gallery_Status_Converting">⏳ Converting {0} → {1}...</system:String>
+    <system:String x:Key="Gallery_Status_Converted">✅ Converted to {0}!</system:String>
+    <system:String x:Key="Gallery_Status_Failed">❌ Failed to convert to {0}</system:String>
+
+    <!-- Preferences Window -->
+    <system:String x:Key="Pref_WindowTitle">Sukurini Preferences</system:String>
+    <system:String x:Key="Pref_Tab_General">General</system:String>
+    <system:String x:Key="Pref_Tab_SearchOcr">Search &amp; OCR</system:String>
+    <system:String x:Key="Pref_Tab_Conversion">Image Conversion</system:String>
+    <system:String x:Key="Pref_Hotkey_Title">Toggle Gallery Hotkey (Global)</system:String>
+    <system:String x:Key="Pref_Hotkey_Desc">Click the box and press your preferred hotkey (e.g., Ctrl + Alt + S).</system:String>
+    <system:String x:Key="Pref_Hotkey_Conflict">⚠️ Conflict</system:String>
+    <system:String x:Key="Pref_Hotkey_Status_Active">✓ Currently active hotkey</system:String>
+    <system:String x:Key="Pref_Language_Title">Language</system:String>
+    <system:String x:Key="Pref_Language_System">💻 System Default</system:String>
+    <system:String x:Key="Pref_Language_Korean">🇰🇷 Korean (한국어)</system:String>
+    <system:String x:Key="Pref_Language_English">🇺🇸 English</system:String>
+    <system:String x:Key="Pref_Theme_Title">Appearance Theme</system:String>
+    <system:String x:Key="Pref_Theme_Dark">🌙 Dark Mode</system:String>
+    <system:String x:Key="Pref_Theme_Light">☀️ Light Mode</system:String>
+    <system:String x:Key="Pref_Theme_System">💻 Sync with System</system:String>
+    <system:String x:Key="Pref_LaunchAtStartup">Launch automatically on Windows startup</system:String>
+    <system:String x:Key="Pref_ResetGallerySize">Reset Gallery Panel Size</system:String>
+    <system:String x:Key="Pref_OcrEnabled">Enable Automatic OCR Text Extraction &amp; Search</system:String>
+    <system:String x:Key="Pref_SemanticEnabled">Enable MobileCLIP Semantic Image Search</system:String>
+    <system:String x:Key="Pref_WebpAutoConversion">Auto convert new PNG screenshots to lossless WebP</system:String>
+    <system:String x:Key="Pref_DisposalPolicy_Title">Original PNG disposal policy after conversion</system:String>
+    <system:String x:Key="Pref_Disposal_Trash">🗑️ Move to Windows Recycle Bin (Default)</system:String>
+    <system:String x:Key="Pref_Disposal_Delete">❌ Delete Permanently</system:String>
+    <system:String x:Key="Pref_Disposal_Keep">📁 Keep Original PNG</system:String>
+    <system:String x:Key="Pref_Disposal_Note">* Source file is disposed only after 1:1 pixel verification and size reduction checks pass.</system:String>
+
+    <!-- About Window -->
+    <system:String x:Key="About_WindowTitle">About Sukurini</system:String>
+    <system:String x:Key="About_VersionPrefix">Version</system:String>
+    <system:String x:Key="About_Feature1">• Real-time screenshot folder watcher &amp; fast thumbnail gallery</system:String>
+    <system:String x:Key="About_Feature2">• Convert image formats including HEIC, PNG, JPG, WebP, BMP, GIF, TIFF</system:String>
+    <system:String x:Key="About_Feature3">• Windows Recycle Bin integration &amp; Ctrl+Z Undo support</system:String>
+    <system:String x:Key="About_Feature4">• 2-way Clipboard integration with File Explorer, Chat apps, Web Browsers</system:String>
+    <system:String x:Key="About_Feature5">• Customizable global hotkey (Default: Ctrl + Alt + S)</system:String>
+
+    <!-- System Tray -->
+    <system:String x:Key="Tray_Toggle">Toggle Gallery</system:String>
+    <system:String x:Key="Tray_Settings">Preferences...</system:String>
+    <system:String x:Key="Tray_About">About Sukurini...</system:String>
+    <system:String x:Key="Tray_Exit">Exit</system:String>
+</ResourceDictionary>

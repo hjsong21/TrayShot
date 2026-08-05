@@ -1,0 +1,73 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- App / General -->
+    <system:String x:Key="String_AppName">Sukurini</system:String>
+    <system:String x:Key="String_AppDescription">Windows 스마트 스크린샷 갤러리 &amp; 이미지 매니저</system:String>
+    <system:String x:Key="String_OK">확인</system:String>
+    <system:String x:Key="String_Cancel">취소</system:String>
+
+    <!-- Gallery Window -->
+    <system:String x:Key="Gallery_SearchPlaceholder">검색어 입력...</system:String>
+    <system:String x:Key="Gallery_ClearSearchToolTip">검색어 지우기</system:String>
+    <system:String x:Key="Gallery_SettingsToolTip">설정</system:String>
+    <system:String x:Key="Gallery_AboutToolTip">프로그램 정보 (About)</system:String>
+    <system:String x:Key="Gallery_ExitToolTip">앱 종료</system:String>
+    <system:String x:Key="Gallery_EmptyState">스크린샷이 없습니다.</system:String>
+
+    <!-- Context Menu -->
+    <system:String x:Key="Gallery_ContextMenu_View">보기</system:String>
+    <system:String x:Key="Gallery_ContextMenu_Copy">복사</system:String>
+    <system:String x:Key="Gallery_ContextMenu_Paste">붙여넣기</system:String>
+    <system:String x:Key="Gallery_ContextMenu_ConvertFormat">포맷 변환</system:String>
+    <system:String x:Key="Gallery_ContextMenu_Delete">삭제</system:String>
+    <system:String x:Key="Gallery_ContextMenu_Undo">취소</system:String>
+
+    <!-- Status Toast -->
+    <system:String x:Key="Gallery_Status_Converting">⏳ {0} → {1} 포맷 변환 중...</system:String>
+    <system:String x:Key="Gallery_Status_Converted">✅ {0} 포맷 변환 완료!</system:String>
+    <system:String x:Key="Gallery_Status_Failed">❌ {0} 포맷 변환 실패</system:String>
+
+    <!-- Preferences Window -->
+    <system:String x:Key="Pref_WindowTitle">Sukurini 설정</system:String>
+    <system:String x:Key="Pref_Tab_General">일반</system:String>
+    <system:String x:Key="Pref_Tab_SearchOcr">검색 및 OCR</system:String>
+    <system:String x:Key="Pref_Tab_Conversion">이미지 변환</system:String>
+    <system:String x:Key="Pref_Hotkey_Title">갤러리 열기 핫키 (전역 단축키)</system:String>
+    <system:String x:Key="Pref_Hotkey_Desc">상자를 클릭하고 바꿀 단축키(예: Ctrl + Alt + S)를 직접 입력하세요.</system:String>
+    <system:String x:Key="Pref_Hotkey_Conflict">⚠️ 충돌</system:String>
+    <system:String x:Key="Pref_Hotkey_Status_Active">✓ 현재 사용 중인 전역 단축키</system:String>
+    <system:String x:Key="Pref_Language_Title">언어 설정 (Language)</system:String>
+    <system:String x:Key="Pref_Language_System">💻 시스템 언어 (System)</system:String>
+    <system:String x:Key="Pref_Language_Korean">🇰🇷 한국어 (Korean)</system:String>
+    <system:String x:Key="Pref_Language_English">🇺🇸 English (영어)</system:String>
+    <system:String x:Key="Pref_Theme_Title">화면 테마 설정</system:String>
+    <system:String x:Key="Pref_Theme_Dark">🌙 다크 모드 (Dark)</system:String>
+    <system:String x:Key="Pref_Theme_Light">☀️ 라이트 모드 (Light)</system:String>
+    <system:String x:Key="Pref_Theme_System">💻 시스템 설정 동기화 (System)</system:String>
+    <system:String x:Key="Pref_LaunchAtStartup">Windows 시작 시 자동 실행</system:String>
+    <system:String x:Key="Pref_ResetGallerySize">갤러리 패널 크기 기본값 복원</system:String>
+    <system:String x:Key="Pref_OcrEnabled">OCR 텍스트 자동 추출 및 검색 활성화</system:String>
+    <system:String x:Key="Pref_SemanticEnabled">MobileCLIP 시맨틱 이미지 검색 활성화</system:String>
+    <system:String x:Key="Pref_WebpAutoConversion">새 PNG 스크린샷 무손실 WebP 자동 변환</system:String>
+    <system:String x:Key="Pref_DisposalPolicy_Title">변환 성공 후 원본 PNG 처분 정책</system:String>
+    <system:String x:Key="Pref_Disposal_Trash">🗑️ Windows 휴지통으로 이동 (기본값)</system:String>
+    <system:String x:Key="Pref_Disposal_Delete">❌ 영구 삭제 (Delete)</system:String>
+    <system:String x:Key="Pref_Disposal_Keep">📁 원본 PNG 보존 (Keep)</system:String>
+    <system:String x:Key="Pref_Disposal_Note">* 안전 검증(1:1 픽셀 일치, 용량 절감 등)을 완전히 통과한 경우에만 처분됩니다.</system:String>
+
+    <!-- About Window -->
+    <system:String x:Key="About_WindowTitle">Sukurini 정보</system:String>
+    <system:String x:Key="About_VersionPrefix">버전</system:String>
+    <system:String x:Key="About_Feature1">• 캡처 폴더 실시간 자동 감지 및 Fast 썸네일 브라우징</system:String>
+    <system:String x:Key="About_Feature2">• HEIC 포함 주요 이미지 포맷 변환 (PNG, JPG, WebP, BMP, GIF, TIFF)</system:String>
+    <system:String x:Key="About_Feature3">• 윈도우 휴지통 연동 및 Ctrl+Z 삭제/붙여넣기 실행 취소</system:String>
+    <system:String x:Key="About_Feature4">• 윈도우 탐색기 / 카카오톡 / 웹 브라우저 양방향 클립보드 (Ctrl+C, Ctrl+V)</system:String>
+    <system:String x:Key="About_Feature5">• 사용자 지정 전역 단축키 (기본: Ctrl + Alt + S)</system:String>
+
+    <!-- System Tray -->
+    <system:String x:Key="Tray_Toggle">갤러리 열기 / 닫기</system:String>
+    <system:String x:Key="Tray_Settings">설정...</system:String>
+    <system:String x:Key="Tray_About">정보 (About)...</system:String>
+    <system:String x:Key="Tray_Exit">종료</system:String>
+</ResourceDictionary>
