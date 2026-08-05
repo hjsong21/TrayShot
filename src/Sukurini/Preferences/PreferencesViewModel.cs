@@ -72,6 +72,8 @@ public partial class PreferencesViewModel : ObservableObject
         {
             MonitoredFolders.Add(folder);
         }
+
+        AppSettings.Shared.LanguageChanged += OnLanguageChanged;
     }
 
     public void TrySetHotKey(uint modifiers, uint keyCode)
@@ -113,6 +115,14 @@ public partial class PreferencesViewModel : ObservableObject
             _ => "system"
         };
         AppSettings.Shared.Language = langCode;
+    }
+
+    private void OnLanguageChanged()
+    {
+        if (!HasConflict)
+        {
+            HotKeyStatusText = LanguageManager.GetString("Pref_Hotkey_Status_Active");
+        }
     }
 
     partial void OnSelectedDisposalIndexChanged(int value)
