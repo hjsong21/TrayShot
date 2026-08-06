@@ -32,8 +32,6 @@ public sealed class TrayIconController : IDisposable
 
     public void Initialize()
     {
-        _animator = new TrayIconAnimator(OnIconFrameRendered);
-
         _taskbarIcon = new TaskbarIcon
         {
             ToolTipText = "Sukurini — 스크린샷 갤러리 & 검색",
@@ -41,6 +39,8 @@ public sealed class TrayIconController : IDisposable
         };
 
         _taskbarIcon.TrayLeftMouseDown += (s, e) => _onToggleGallery();
+
+        _animator = new TrayIconAnimator(OnIconFrameRendered);
 
         // ScreenshotStore 새 스크린샷 등록 시 애니메이션 실행
         ScreenshotStore.Shared.Changed += change =>
