@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using Sukurini.Infrastructure;
 using Sukurini.Models;
 
@@ -283,14 +284,16 @@ public partial class GalleryWindow : Window
         // Legacy - kept for compatibility but not called from new grouped layout
     }
 
+    private Point _dragStartPoint;
+
     private void OnItemPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
+        _dragStartPoint = e.GetPosition(this);
         _preferredColumn = null;
         if (sender is ScreenshotItemControl itemControl && itemControl.ScreenshotItem != null)
         {
             _viewModel.SelectedItem = itemControl.ScreenshotItem;
             itemControl.Focus();
-            e.Handled = true;
         }
     }
 
@@ -452,14 +455,48 @@ public partial class GalleryWindow : Window
     {
         if (e.LeftButton == MouseButtonState.Pressed && _viewModel.SelectedItem != null)
         {
-            try
+            Point currentPos = e.GetPosition(this);
+            Vector diff = _dragStartPoint - currentPos;
+
+            if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                var dataObj = new DataObject(DataFormats.FileDrop, new string[] { _viewModel.SelectedItem.Path });
-                DragDrop.DoDragDrop(this, dataObj, DragDropEffects.Copy);
-            }
-            catch (Exception ex)
-            {
-                Log.App.Error($"Drag drop failed: {ex.Message}");
+                string path = _viewModel.SelectedItem.Path;
+                if (string.IsNullOrEmpty(path) || !System.IO.File.Exists(path)) return;
+
+                try
+                {
+                    var dataObj = new DataObject();
+
+                    // 1. FileDrop list (File Explorer, Chrome, VS Code, Discord, etc.)
+                    var fileList = new System.Collections.Specialized.StringCollection { path };
+                    dataObj.SetFileDropList(fileList);
+                    dataObj.SetData(DataFormats.FileDrop, new string[] { path });
+
+                    // 2. Full-resolution Bitmap image data (KakaoTalk, Antigravity 2.0, MS Word, Paint, etc.)
+                    try
+                    {
+                        var bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.UriSource = new Uri(path);
+                        bitmap.EndInit();
+                        bitmap.Freeze();
+
+                        dataObj.SetImage(bitmap);
+                        dataObj.SetData(DataFormats.Bitmap, bitmap);
+                    }
+                    catch (Exception bitmapEx)
+                    {
+                        Log.App.Warn($"Could not load bitmap for drag drop multi-format: {bitmapEx.Message}");
+                    }
+
+                    DragDrop.DoDragDrop(this, dataObj, DragDropEffects.Copy);
+                }
+                catch (Exception ex)
+                {
+                    Log.App.Error($"Drag drop failed: {ex.Message}");
+                }
             }
         }
     }
