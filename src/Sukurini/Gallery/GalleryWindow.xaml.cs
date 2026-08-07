@@ -488,8 +488,9 @@ public partial class GalleryWindow : Window
 
         string ext = Path.GetExtension(imagePath).ToLowerInvariant();
 
-        // 1. Generate a temporary PNG file for Electron/Web dropzones that reject .webp / non-png (e.g. Antigravity 2.0)
-        string pngPath = imagePath;
+        // 1. Generate a single temporary PNG file for non-PNG images (e.g. .webp)
+        // so that all web/Electron apps (Antigravity 2.0) and chat apps (KakaoTalk) receive a single valid PNG file.
+        string targetFilePath = imagePath;
         if (ext != ".png")
         {
             try
@@ -503,7 +504,7 @@ public partial class GalleryWindow : Window
                 {
                     img.SaveAsPng(tempPngPath);
                 }
-                pngPath = tempPngPath;
+                targetFilePath = tempPngPath;
             }
             catch (Exception ex)
             {
@@ -511,19 +512,15 @@ public partial class GalleryWindow : Window
             }
         }
 
-        // 2. Set FileDrop list (Provide PNG temp path so Electron/Web apps like Antigravity 2.0 accept the file)
-        var fileList = new System.Collections.Specialized.StringCollection { pngPath };
-        if (!pngPath.Equals(imagePath, StringComparison.OrdinalIgnoreCase))
-        {
-            fileList.Add(imagePath);
-        }
+        // 2. Set FileDrop list with EXACTLY ONE single file path to prevent duplicate item insertion
+        var fileList = new System.Collections.Specialized.StringCollection { targetFilePath };
         dataObj.SetFileDropList(fileList);
-        dataObj.SetData(DataFormats.FileDrop, fileList.Cast<string>().ToArray());
+        dataObj.SetData(DataFormats.FileDrop, new string[] { targetFilePath });
 
         // 3. Set DeviceIndependentBitmap (CF_DIB) stream for MS Office (Word/PPT), HWP (한글), and Paint (그림판)
         try
         {
-            using var img = ThumbnailLoader.LoadImageUniversal(imagePath);
+            using var img = ThumbnailLoader.LoadImageUniversal(targetFilePath);
             using var bmpMs = new MemoryStream();
             img.SaveAsBmp(bmpMs);
             byte[] bmpBytes = bmpMs.ToArray();
@@ -549,7 +546,7 @@ public partial class GalleryWindow : Window
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(pngPath);
+            bitmap.UriSource = new Uri(targetFilePath);
             bitmap.EndInit();
             bitmap.Freeze();
 
