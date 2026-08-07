@@ -7,6 +7,18 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v0.10.0] - 2026-08-07
+
+### Added
+- **DynamicResource Runtime Localization**: Real-time language switching (Korean/English) based on WPF `ResourceDictionary` and `DynamicResource`
+- **Universal OLE Drag-and-Drop**: Built Win32 `CF_DIB` (DIBv5) memory stream pipeline for seamless MS Office and HWP compatibility
+- **Web Editor In-Memory PNG**: In-memory PNG conversion support for web browsers and editors like Antigravity 2.0
+
+### Fixed
+- **Duplicate Drag-and-Drop Insertion**: Resolved single file path in FileDrop payload to prevent duplicate image insertion in KakaoTalk and Office
+- **Dynamic Hotkey Status Refresh**: Real-time translation update of global hotkey status text when language changes
+- **Initial Tray Icon Rendering**: Fixed transparent icon issue on initial startup by initializing TaskbarIcon before TrayIconAnimator
+
 ## [v0.9.0] - 2026-08-02
 
 ### Added
