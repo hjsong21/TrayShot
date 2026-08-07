@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using SixLabors.ImageSharp;
+using Sukurini.Core;
 using Sukurini.Infrastructure;
 using Sukurini.Models;
+using Point = System.Windows.Point;
 
 namespace Sukurini.Gallery;
 
@@ -462,35 +466,11 @@ public partial class GalleryWindow : Window
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
                 string path = _viewModel.SelectedItem.Path;
-                if (string.IsNullOrEmpty(path) || !System.IO.File.Exists(path)) return;
+                if (string.IsNullOrEmpty(path) || !File.Exists(path)) return;
 
                 try
                 {
-                    var dataObj = new DataObject();
-
-                    // 1. FileDrop list (File Explorer, Chrome, VS Code, Discord, etc.)
-                    var fileList = new System.Collections.Specialized.StringCollection { path };
-                    dataObj.SetFileDropList(fileList);
-                    dataObj.SetData(DataFormats.FileDrop, new string[] { path });
-
-                    // 2. Full-resolution Bitmap image data (KakaoTalk, Antigravity 2.0, MS Word, Paint, etc.)
-                    try
-                    {
-                        var bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmap.UriSource = new Uri(path);
-                        bitmap.EndInit();
-                        bitmap.Freeze();
-
-                        dataObj.SetImage(bitmap);
-                        dataObj.SetData(DataFormats.Bitmap, bitmap);
-                    }
-                    catch (Exception bitmapEx)
-                    {
-                        Log.App.Warn($"Could not load bitmap for drag drop multi-format: {bitmapEx.Message}");
-                    }
-
+                    var dataObj = CreateDragDataObject(path);
                     DragDrop.DoDragDrop(this, dataObj, DragDropEffects.Copy);
                 }
                 catch (Exception ex)
@@ -499,6 +479,89 @@ public partial class GalleryWindow : Window
                 }
             }
         }
+    }
+
+    private static DataObject CreateDragDataObject(string imagePath)
+    {
+        var dataObj = new DataObject();
+        if (string.IsNullOrEmpty(imagePath) || !File.Exists(imagePath)) return dataObj;
+
+        string ext = Path.GetExtension(imagePath).ToLowerInvariant();
+
+        // 1. Generate a temporary PNG file for Electron/Web dropzones that reject .webp / non-png (e.g. Antigravity 2.0)
+        string pngPath = imagePath;
+        if (ext != ".png")
+        {
+            try
+            {
+                string tempDir = Path.Combine(Path.GetTempPath(), "SukuriniTemp");
+                if (!Directory.Exists(tempDir)) Directory.CreateDirectory(tempDir);
+                string tempPngName = $"{Path.GetFileNameWithoutExtension(imagePath)}_drag.png";
+                string tempPngPath = Path.Combine(tempDir, tempPngName);
+
+                using (var img = ThumbnailLoader.LoadImageUniversal(imagePath))
+                {
+                    img.SaveAsPng(tempPngPath);
+                }
+                pngPath = tempPngPath;
+            }
+            catch (Exception ex)
+            {
+                Log.App.Warn($"Failed to create temp PNG for drag-drop: {ex.Message}");
+            }
+        }
+
+        // 2. Set FileDrop list (Provide PNG temp path so Electron/Web apps like Antigravity 2.0 accept the file)
+        var fileList = new System.Collections.Specialized.StringCollection { pngPath };
+        if (!pngPath.Equals(imagePath, StringComparison.OrdinalIgnoreCase))
+        {
+            fileList.Add(imagePath);
+        }
+        dataObj.SetFileDropList(fileList);
+        dataObj.SetData(DataFormats.FileDrop, fileList.Cast<string>().ToArray());
+
+        // 3. Set DeviceIndependentBitmap (CF_DIB) stream for MS Office (Word/PPT), HWP (한글), and Paint (그림판)
+        try
+        {
+            using var img = ThumbnailLoader.LoadImageUniversal(imagePath);
+            using var bmpMs = new MemoryStream();
+            img.SaveAsBmp(bmpMs);
+            byte[] bmpBytes = bmpMs.ToArray();
+
+            // BMP file header is 14 bytes (0x00..0x0D).
+            // CF_DIB is the BMP payload starting immediately after the 14-byte BITMAPFILEHEADER.
+            if (bmpBytes.Length > 14)
+            {
+                byte[] dibBytes = new byte[bmpBytes.Length - 14];
+                Array.Copy(bmpBytes, 14, dibBytes, 0, dibBytes.Length);
+                var dibStream = new MemoryStream(dibBytes);
+                dataObj.SetData("DeviceIndependentBitmap", dibStream);
+            }
+        }
+        catch (Exception dibEx)
+        {
+            Log.App.Warn($"Failed to set DeviceIndependentBitmap for drag-drop: {dibEx.Message}");
+        }
+
+        // 4. Set WPF BitmapSource & SetImage for WPF/Standard apps
+        try
+        {
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.UriSource = new Uri(pngPath);
+            bitmap.EndInit();
+            bitmap.Freeze();
+
+            dataObj.SetImage(bitmap);
+            dataObj.SetData(DataFormats.Bitmap, bitmap);
+        }
+        catch (Exception bmpEx)
+        {
+            Log.App.Warn($"Failed to set Bitmap for drag-drop: {bmpEx.Message}");
+        }
+
+        return dataObj;
     }
 
     public event Action? OpenSettingsRequested;
