@@ -42,7 +42,7 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 - **Header Info & Tray Menu Binding**: Wired gallery header info button and system tray context menu to About window
 
 ### Improved
-- **Dynamic Assembly Metadata Extraction**: Dynamically extracted Version and Copyright from `Sukurini.csproj` for UI display
+- **Dynamic Assembly Metadata Extraction**: Dynamically extracted Version and Copyright from `TrayShot.csproj` for UI display
 - **Preferences Window Center-Top Alignment**: Automatically positioned `PreferencesWindow` to top-center of gallery panel
 - **ESC Key to Close Preferences**: Added KeyDown handler to close `PreferencesWindow` on ESC key press
 - **Auto-Selection on Deletion**: Automatically selected next image card after item deletion without losing selection

@@ -42,7 +42,7 @@
 - **정보 아이콘 & 트레이 연동**: 갤러리 헤더 정보 버튼 및 시스템 트레이 우클릭 메뉴의 '앱 정보' 항목 바인딩
 
 ### 기능 개선 (Improved)
-- **메타데이터 동적 파싱**: `Sukurini.csproj` 내의 Version 및 Copyright 태그 값을 Assembly 특성에서 동적으로 파싱하여 UI 반영
+- **메타데이터 동적 파싱**: `TrayShot.csproj` 내의 Version 및 Copyright 태그 값을 Assembly 특성에서 동적으로 파싱하여 UI 반영
 - **설정 창 위치 중앙 상단 정렬**: `PreferencesWindow` 팝업 위치가 메인 갤러리 창의 중앙 상단에 자동으로 정렬되도록 조정
 - **설정 창 ESC 닫기 지원**: `PreferencesWindow`에 KeyDown 핸들러를 연결하여 ESC 키 누름 시 즉시 닫기 지원
 - **삭제 후 다음 항목 자동 선택**: 스크린샷 삭제 시 선택 해제 없이 다음 순서 이미지 카드가 자동 선택되도록 개선

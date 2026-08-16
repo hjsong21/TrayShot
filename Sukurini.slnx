@@ -1,8 +1,0 @@
-<Solution>
-  <Folder Name="/src/">
-    <Project Path="src/Sukurini/Sukurini.csproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/Sukurini.Tests/Sukurini.Tests.csproj" />
-  </Folder>
-</Solution>
