@@ -56,11 +56,13 @@
     <system:String x:Key="Pref_ResetGallerySize">기본값 복원</system:String>
     <system:String x:Key="Pref_OcrEnabled">OCR 텍스트 자동 추출 및 검색 활성화</system:String>
     <system:String x:Key="Pref_SemanticEnabled">MobileCLIP 시맨틱 이미지 검색 활성화</system:String>
-    <system:String x:Key="Pref_WebpAutoConversion">새 PNG 스크린샷 무손실 WebP 자동 변환</system:String>
-    <system:String x:Key="Pref_DisposalPolicy_Title">변환 성공 후 원본 PNG 처분 정책</system:String>
-    <system:String x:Key="Pref_Disposal_Trash">🗑️ Windows 휴지통으로 이동 (기본값)</system:String>
-    <system:String x:Key="Pref_Disposal_Delete">❌ 영구 삭제 (Delete)</system:String>
-    <system:String x:Key="Pref_Disposal_Keep">📁 원본 PNG 보존 (Keep)</system:String>
+    <system:String x:Key="Pref_Webp_Section">WebP</system:String>
+    <system:String x:Key="Pref_WebpAutoConversion_Title">새 스크린샷을 WebP 형식으로 변환</system:String>
+    <system:String x:Key="Pref_WebpAutoConversion_Note">용량은 보통 PNG보다 3분의 2쯤 작아지지만, 무손실이라 화질은 그대로예요.</system:String>
+    <system:String x:Key="Pref_DisposalPolicy_Title">원본 PNG 이미지</system:String>
+    <system:String x:Key="Pref_Disposal_Trash">휴지통으로 옮기기 (기본값)</system:String>
+    <system:String x:Key="Pref_Disposal_Delete">영구 삭제하기 (Delete)</system:String>
+    <system:String x:Key="Pref_Disposal_Keep">원본 보존하기 (Keep)</system:String>
     <system:String x:Key="Pref_Disposal_Note">* 안전 검증(1:1 픽셀 일치, 용량 절감 등)을 완전히 통과한 경우에만 처분됩니다.</system:String>
 
     <!-- About Window -->

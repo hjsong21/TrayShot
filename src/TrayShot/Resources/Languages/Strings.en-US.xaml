@@ -56,11 +56,13 @@
     <system:String x:Key="Pref_ResetGallerySize">Reset to Default</system:String>
     <system:String x:Key="Pref_OcrEnabled">Enable Automatic OCR Text Extraction &amp; Search</system:String>
     <system:String x:Key="Pref_SemanticEnabled">Enable MobileCLIP Semantic Image Search</system:String>
-    <system:String x:Key="Pref_WebpAutoConversion">Auto convert new PNG screenshots to lossless WebP</system:String>
-    <system:String x:Key="Pref_DisposalPolicy_Title">Original PNG disposal policy after conversion</system:String>
-    <system:String x:Key="Pref_Disposal_Trash">🗑️ Move to Windows Recycle Bin (Default)</system:String>
-    <system:String x:Key="Pref_Disposal_Delete">❌ Delete Permanently</system:String>
-    <system:String x:Key="Pref_Disposal_Keep">📁 Keep Original PNG</system:String>
+    <system:String x:Key="Pref_Webp_Section">WebP</system:String>
+    <system:String x:Key="Pref_WebpAutoConversion_Title">Convert new screenshots to WebP format</system:String>
+    <system:String x:Key="Pref_WebpAutoConversion_Note">File size is typically 2/3 smaller than PNG, but lossy-free so image quality remains identical.</system:String>
+    <system:String x:Key="Pref_DisposalPolicy_Title">Original PNG Image</system:String>
+    <system:String x:Key="Pref_Disposal_Trash">Move to Recycle Bin (Default)</system:String>
+    <system:String x:Key="Pref_Disposal_Delete">Delete Permanently</system:String>
+    <system:String x:Key="Pref_Disposal_Keep">Keep Original PNG</system:String>
     <system:String x:Key="Pref_Disposal_Note">* Source file is disposed only after 1:1 pixel verification and size reduction checks pass.</system:String>
 
     <!-- About Window -->
