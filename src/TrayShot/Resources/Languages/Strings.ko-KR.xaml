@@ -54,8 +54,12 @@
     <system:String x:Key="Pref_GallerySize_Section">갤러리 패널 크기</system:String>
     <system:String x:Key="Pref_GallerySize_Title">패널 해상도 (가로 × 세로)</system:String>
     <system:String x:Key="Pref_ResetGallerySize">기본값 복원</system:String>
-    <system:String x:Key="Pref_OcrEnabled">OCR 텍스트 자동 추출 및 검색 활성화</system:String>
-    <system:String x:Key="Pref_SemanticEnabled">MobileCLIP 시맨틱 이미지 검색 활성화</system:String>
+    <system:String x:Key="Pref_Ocr_Section">텍스트 감지 (OCR)</system:String>
+    <system:String x:Key="Pref_OcrEnabled_Title">OCR 텍스트 자동 추출 및 검색</system:String>
+    <system:String x:Key="Pref_OcrEnabled_Note">스크린샷 속 글자를 자동으로 인식해서 검색창에서 바로 찾을 수 있게 해줘요.</system:String>
+    <system:String x:Key="Pref_Semantic_Section">시맨틱 검색 (AI)</system:String>
+    <system:String x:Key="Pref_SemanticEnabled_Title">MobileCLIP 시맨틱 이미지 검색</system:String>
+    <system:String x:Key="Pref_SemanticEnabled_Note">텍스트뿐만 아니라 그림이나 장면 묘사로도 비슷한 스크린샷을 탐색해요.</system:String>
     <system:String x:Key="Pref_Webp_Section">WebP</system:String>
     <system:String x:Key="Pref_WebpAutoConversion_Title">새 스크린샷을 WebP 형식으로 변환</system:String>
     <system:String x:Key="Pref_WebpAutoConversion_Note">용량은 보통 PNG보다 3분의 2쯤 작아지지만, 무손실이라 화질은 그대로예요.</system:String>

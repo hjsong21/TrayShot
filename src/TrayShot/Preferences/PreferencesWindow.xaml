@@ -203,12 +203,41 @@
 
             <!-- 검색 탭 -->
             <TabItem Header="{DynamicResource Pref_Tab_SearchOcr}" Foreground="{DynamicResource TextPrimaryBrush}">
-                <StackPanel Margin="10,20,10,10">
-                    <CheckBox Content="{DynamicResource Pref_OcrEnabled}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14"
-                               IsChecked="{Binding OcrEnabled}" Margin="0,0,0,15" />
-                    <CheckBox Content="{DynamicResource Pref_SemanticEnabled}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="14"
-                               IsChecked="{Binding SemanticSearchEnabled}" Margin="0,0,0,15" />
-                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10,16,10,16">
+                        <!-- 1. OCR 섹션 -->
+                        <TextBlock Text="{DynamicResource Pref_Ocr_Section}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="15" FontWeight="Bold" Margin="0,0,0,8" />
+                        <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="14,14" Margin="0,0,0,20">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource Pref_OcrEnabled_Title}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13" FontWeight="SemiBold" />
+                                    <TextBlock Text="{DynamicResource Pref_OcrEnabled_Note}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" Margin="0,2,0,0" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" IsChecked="{Binding OcrEnabled}" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <!-- 2. 시맨틱 AI 섹션 -->
+                        <TextBlock Text="{DynamicResource Pref_Semantic_Section}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="15" FontWeight="Bold" Margin="0,0,0,8" />
+                        <Border Background="{DynamicResource CardBackgroundBrush}" CornerRadius="8" Padding="14,14">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource Pref_SemanticEnabled_Title}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13" FontWeight="SemiBold" />
+                                    <TextBlock Text="{DynamicResource Pref_SemanticEnabled_Note}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="11" Margin="0,2,0,0" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" IsChecked="{Binding SemanticSearchEnabled}" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
         </TabControl>
     </Grid>

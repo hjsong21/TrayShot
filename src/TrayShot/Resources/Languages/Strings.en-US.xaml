@@ -54,8 +54,12 @@
     <system:String x:Key="Pref_GallerySize_Section">Gallery Panel Size</system:String>
     <system:String x:Key="Pref_GallerySize_Title">Panel Resolution (Width × Height)</system:String>
     <system:String x:Key="Pref_ResetGallerySize">Reset to Default</system:String>
-    <system:String x:Key="Pref_OcrEnabled">Enable Automatic OCR Text Extraction &amp; Search</system:String>
-    <system:String x:Key="Pref_SemanticEnabled">Enable MobileCLIP Semantic Image Search</system:String>
+    <system:String x:Key="Pref_Ocr_Section">Text Recognition (OCR)</system:String>
+    <system:String x:Key="Pref_OcrEnabled_Title">Auto Extract Text &amp; Search</system:String>
+    <system:String x:Key="Pref_OcrEnabled_Note">Recognizes text in screenshots automatically so you can search them.</system:String>
+    <system:String x:Key="Pref_Semantic_Section">Semantic Search (AI)</system:String>
+    <system:String x:Key="Pref_SemanticEnabled_Title">MobileCLIP Semantic Search</system:String>
+    <system:String x:Key="Pref_SemanticEnabled_Note">Find screenshots by describing scenes, objects, or content concepts.</system:String>
     <system:String x:Key="Pref_Webp_Section">WebP</system:String>
     <system:String x:Key="Pref_WebpAutoConversion_Title">Convert new screenshots to WebP format</system:String>
     <system:String x:Key="Pref_WebpAutoConversion_Note">File size is typically 2/3 smaller than PNG, but lossy-free so image quality remains identical.</system:String>
