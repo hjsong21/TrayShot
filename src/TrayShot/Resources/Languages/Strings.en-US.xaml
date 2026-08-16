@@ -66,8 +66,8 @@
     <system:String x:Key="About_Feature5">• Customizable global hotkey (Default: Ctrl + Alt + S)</system:String>
 
     <!-- System Tray -->
-    <system:String x:Key="Tray_Toggle">Toggle Gallery</system:String>
+    <system:String x:Key="Tray_Toggle">Open Gallery</system:String>
     <system:String x:Key="Tray_Settings">Preferences...</system:String>
-    <system:String x:Key="Tray_About">About TrayShot...</system:String>
-    <system:String x:Key="Tray_Exit">Exit</system:String>
+    <system:String x:Key="Tray_About">About TrayShot</system:String>
+    <system:String x:Key="Tray_Exit">Exit TrayShot</system:String>
 </ResourceDictionary>

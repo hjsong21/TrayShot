@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
@@ -564,6 +565,15 @@ public partial class GalleryWindow : Window
     public event Action? OpenSettingsRequested;
     public event Action? OpenAboutRequested;
     public event Action? ExitAppRequested;
+
+    private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.ContextMenu != null)
+        {
+            btn.ContextMenu.PlacementTarget = btn;
+            btn.ContextMenu.IsOpen = true;
+        }
+    }
 
     private void OnOpenSettingsClick(object sender, RoutedEventArgs e)
     {

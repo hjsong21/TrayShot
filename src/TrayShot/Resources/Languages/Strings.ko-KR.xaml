@@ -40,7 +40,7 @@
     <system:String x:Key="Pref_Language_Title">언어 설정 (Language)</system:String>
     <system:String x:Key="Pref_Language_System">💻 시스템 언어 (System)</system:String>
     <system:String x:Key="Pref_Language_Korean">🇰🇷 한국어 (Korean)</system:String>
-    <system:String x:Key="Pref_Language_English">🇺🇸 English (영어)</system:String>
+    <system:String x:Key="Pref_Language_English">🇺🇸 English</system:String>
     <system:String x:Key="Pref_Theme_Title">화면 테마 설정</system:String>
     <system:String x:Key="Pref_Theme_Dark">🌙 다크 모드 (Dark)</system:String>
     <system:String x:Key="Pref_Theme_Light">☀️ 라이트 모드 (Light)</system:String>
@@ -66,8 +66,8 @@
     <system:String x:Key="About_Feature5">• 사용자 지정 전역 단축키 (기본: Ctrl + Alt + S)</system:String>
 
     <!-- System Tray -->
-    <system:String x:Key="Tray_Toggle">갤러리 열기 / 닫기</system:String>
+    <system:String x:Key="Tray_Toggle">갤러리 열기</system:String>
     <system:String x:Key="Tray_Settings">설정...</system:String>
-    <system:String x:Key="Tray_About">정보 (About)...</system:String>
-    <system:String x:Key="Tray_Exit">종료</system:String>
+    <system:String x:Key="Tray_About">TrayShot 정보</system:String>
+    <system:String x:Key="Tray_Exit">TrayShot 종료</system:String>
 </ResourceDictionary>
