@@ -47,6 +47,9 @@ public partial class PreferencesViewModel : ObservableObject
     [ObservableProperty]
     private Brush _hotKeyBorderBrush = new SolidColorBrush(Color.FromRgb(58, 58, 58));
 
+    [ObservableProperty]
+    private string _gallerySizeDisplayText = "";
+
     public ObservableCollection<string> MonitoredFolders { get; } = new();
 
     public PreferencesViewModel()
@@ -68,12 +71,30 @@ public partial class PreferencesViewModel : ObservableObject
         HotKeyStatusText = LanguageManager.GetString("Pref_Hotkey_Status_Active");
         HotKeyStatusBrush = new SolidColorBrush(Color.FromRgb(0x4C, 0xAF, 0x50)); // Green
 
+        UpdateGallerySizeDisplay();
+
         foreach (var folder in AppSettings.Shared.Folders)
         {
             MonitoredFolders.Add(folder);
         }
 
         AppSettings.Shared.LanguageChanged += OnLanguageChanged;
+        AppSettings.Shared.PropertyChanged += OnAppSettingsPropertyChanged;
+    }
+
+    private void UpdateGallerySizeDisplay()
+    {
+        int width = (int)Math.Round(AppSettings.Shared.GalleryWidth);
+        int height = (int)Math.Round(AppSettings.Shared.GalleryHeight);
+        GallerySizeDisplayText = $"{width} × {height}";
+    }
+
+    private void OnAppSettingsPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppSettings.GalleryWidth) || e.PropertyName == nameof(AppSettings.GalleryHeight))
+        {
+            UpdateGallerySizeDisplay();
+        }
     }
 
     public void TrySetHotKey(uint modifiers, uint keyCode)
