@@ -17,6 +17,15 @@
             <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FFFFFF" />
             <SolidColorBrush x:Key="TextSecondaryBrush" Color="#888888" />
             <SolidColorBrush x:Key="ItemCardBackgroundBrush" Color="#1E1E1E" />
+
+            <!-- TabControl Brushes Defaults -->
+            <SolidColorBrush x:Key="TabSelectedBackgroundBrush" Color="#2563EB" />
+            <SolidColorBrush x:Key="TabSelectedTextBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="TabSelectedBorderBrush" Color="#3B82F6" />
+            <SolidColorBrush x:Key="TabUnselectedBackgroundBrush" Color="#E5E7EB" />
+            <SolidColorBrush x:Key="TabUnselectedTextBrush" Color="#4B5563" />
+            <SolidColorBrush x:Key="TabUnselectedBorderBrush" Color="#D1D5DB" />
+            <SolidColorBrush x:Key="TabHoverBackgroundBrush" Color="#D1D5DB" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
