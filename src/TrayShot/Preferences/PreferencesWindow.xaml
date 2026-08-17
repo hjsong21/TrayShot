@@ -32,6 +32,7 @@
                                         <MultiTrigger.Conditions>
                                             <Condition Property="IsMouseOver" Value="True" />
                                             <Condition Property="IsSelected" Value="False" />
+                                            <Condition Property="IsEnabled" Value="True" />
                                         </MultiTrigger.Conditions>
                                         <Setter TargetName="Border" Property="Background" Value="{DynamicResource TabHoverBackgroundBrush}" />
                                     </MultiTrigger>
@@ -41,6 +42,11 @@
                                         <Setter TargetName="Border" Property="BorderThickness" Value="1" />
                                         <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{DynamicResource TabSelectedTextBrush}" />
                                         <Setter TargetName="ContentSite" Property="TextElement.FontWeight" Value="Bold" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="Border" Property="Opacity" Value="0.45" />
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource TabUnselectedBackgroundBrush}" />
+                                        <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{DynamicResource TextSecondaryBrush}" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -201,8 +207,8 @@
                 </ScrollViewer>
             </TabItem>
 
-            <!-- 검색 탭 -->
-            <TabItem Header="{DynamicResource Pref_Tab_SearchOcr}" Foreground="{DynamicResource TextPrimaryBrush}">
+            <!-- 검색 탭 (비활성화) -->
+            <TabItem Header="{DynamicResource Pref_Tab_SearchOcr}" Foreground="{DynamicResource TextPrimaryBrush}" IsEnabled="False">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10,16,10,16">
                         <!-- 1. OCR 섹션 -->
