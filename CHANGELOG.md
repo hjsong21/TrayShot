@@ -7,6 +7,22 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
 ---
 
+## [v1.0.0] - 2026-08-17
+
+### Added
+- **Gallery Settings Context Menu**: Right-clicking or clicking the settings gear button in gallery panel now opens a context menu with [Preferences, About TrayShot, Separator, Exit TrayShot] options
+- **Open-Source Compliance & Documentation**: Added official `LICENSE` (Apache 2.0), `NOTICE`, `README.md`, and `README.ko.md`
+
+### Improved
+- **Redesigned Preferences Window UI**: Reordered tabs to `[General] -> [Image Conversion] -> [Search & OCR]` and restructured options into modern rounded card containers
+- **General Tab Enhancements**: Organized options (Language -> Startup -> Hotkey -> Appearance Theme -> Panel Size), added dynamic resolution display (Width × Height), and added `[Reset to Default]` size button
+- **Image Conversion Tab Enhancements**: Structured WebP auto-conversion toggle (with lossless quality subtext) and original PNG disposal policy dropdown into clean card layouts
+- **High-Contrast Tab Styling across Themes**: Applied vibrant Accent Blue (`#2563EB`) for active tab and unified light gray (`#E5E7EB`) for inactive tabs across both Dark and Light themes
+- **Prevented Dropdown Label Truncation**: Expanded theme mode dropdown width to 250px so labels like "Sync with System (System)" are not truncated
+
+### Changed
+- **Temporarily Disabled Search & OCR Tab**: Disabled `Search & OCR` tab until OCR extraction functionality undergoes complete revision and enhancement
+
 ## [v0.10.0] - 2026-08-07
 
 ### Added
