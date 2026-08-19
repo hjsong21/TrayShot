@@ -7,6 +7,7 @@ using TrayShot.Core;
 using TrayShot.Gallery;
 using TrayShot.Infrastructure;
 using TrayShot.Preferences;
+using TrayShot.QuickDrop;
 using TrayShot.StatusBar;
 
 namespace TrayShot;
@@ -14,6 +15,7 @@ namespace TrayShot;
 public partial class MainWindow : Window
 {
     private TrayIconController? _trayController;
+    private QuickDropController? _quickDropController;
     private GalleryWindow? _galleryWindow;
     private PreferencesWindow? _preferencesWindow;
     private AboutWindow? _aboutWindow;
@@ -43,6 +45,16 @@ public partial class MainWindow : Window
         _galleryWindow.OpenSettingsRequested += OpenPreferences;
         _galleryWindow.OpenAboutRequested += OpenAbout;
         _galleryWindow.ExitAppRequested += ExitApplication;
+
+        // Initialize QuickDrop Controller
+        _quickDropController = new QuickDropController(screenshot =>
+        {
+            Dispatcher.Invoke(() =>
+            {
+                _galleryWindow?.ShowAndSelect(screenshot);
+            });
+        });
+        _quickDropController.Initialize();
 
         // Initialize Tray Controller
         _trayController = new TrayIconController(
@@ -130,6 +142,7 @@ public partial class MainWindow : Window
     private void ExitApplication()
     {
         _hotKeyManager?.Dispose();
+        _quickDropController?.Dispose();
         _trayController?.Dispose();
         _galleryWindow?.Close();
         _preferencesWindow?.Close();
