@@ -22,7 +22,7 @@
             </DoubleAnimation>
             <DoubleAnimation Storyboard.TargetName="RootBorder"
                              Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
-                             From="20" To="0" Duration="0:0:0.25">
+                             From="-20" To="0" Duration="0:0:0.25">
                 <DoubleAnimation.EasingFunction>
                     <CubicEase EasingMode="EaseOut"/>
                 </DoubleAnimation.EasingFunction>
@@ -38,7 +38,7 @@
             </DoubleAnimation>
             <DoubleAnimation Storyboard.TargetName="RootBorder"
                              Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
-                             From="0" To="15" Duration="0:0:0.20">
+                             From="0" To="-15" Duration="0:0:0.20">
                 <DoubleAnimation.EasingFunction>
                     <CubicEase EasingMode="EaseIn"/>
                 </DoubleAnimation.EasingFunction>

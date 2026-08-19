@@ -1,7 +1,9 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -12,6 +14,15 @@ namespace TrayShot.QuickDrop;
 
 public partial class QuickDropOverlayWindow : Window
 {
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+    private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+    private const uint SWP_NOSIZE = 0x0001;
+    private const uint SWP_NOMOVE = 0x0002;
+    private const uint SWP_NOACTIVATE = 0x0010;
+    private const uint SWP_SHOWWINDOW = 0x0040;
+
     private readonly Screenshot _screenshot;
     private readonly DispatcherTimer _dismissTimer;
     private Point _dragStartPoint;
@@ -52,6 +63,13 @@ public partial class QuickDropOverlayWindow : Window
         PositionWindow();
         LoadThumbnail();
 
+        // Enforce topmost window order without stealing focus
+        var handle = new WindowInteropHelper(this).Handle;
+        if (handle != IntPtr.Zero)
+        {
+            SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
+        }
+
         if (Resources["FadeInStoryboard"] is Storyboard sb)
         {
             sb.Begin(this);
@@ -63,8 +81,8 @@ public partial class QuickDropOverlayWindow : Window
     private void PositionWindow()
     {
         var workArea = SystemParameters.WorkArea;
-        Left = workArea.Right - Width - 16;
-        Top = workArea.Bottom - Height - 16;
+        Left = workArea.Right - Width - 20;
+        Top = workArea.Top + 20;
     }
 
     private void LoadThumbnail()
