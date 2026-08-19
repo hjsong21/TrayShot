@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrayShot — 작업표시줄 트레이에서 바로 꺼내 쓰는 스크린샷 셸프</title>
+<meta name="description" content="스크린샷 폴더를 실시간 감지하여 우측 상단 플로팅 퀵 드롭 썸네일을 띄우고, 파일 탐색기를 열지 않고도 워드·한글·카톡 어디든 즉시 끌어다 붙여넣는 Windows 트레이 생산성 도구입니다.">
+<meta name="theme-color" content="#0f1012" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TrayShot — Screenshot shelf for the Windows system tray">
+<meta property="og:description" content="Instant floating quick-drop widget, multi-format OLE drag & drop, spotlight-style gallery shelf, and lossless WebP storage optimizer for Windows.">
+<meta property="og:image" content="og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="og.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<!-- Top Header Navigation -->
+<header class="topbar">
+  <div class="nav">
+    <a class="brand" href="#main">
+      <img src="icon.svg" alt="TrayShot Logo" width="24" height="24">
+      <span>TrayShot</span>
+    </a>
+
+    <div class="nav-actions">
+      <!-- Buy me a coffee -->
+      <a class="nav-btn bmc" href="https://buymeacoffee.com/hjsong21" target="_blank" rel="noopener" aria-label="Buy me a coffee">
+        <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3.4 6.6h11v6.1a3.4 3.4 0 0 1-3.4 3.4H6.8a3.4 3.4 0 0 1-3.4-3.4V6.6Z"/>
+          <path d="M14.4 8.1h1.3a2 2 0 0 1 0 4h-1.3"/>
+          <path d="M6.3 3.5v1.3M9.6 2.9v1.9M12.9 3.5v1.3"/>
+        </svg>
+        <span data-i18n="nav.bmc">Buy me a coffee</span>
+      </a>
+
+      <!-- GitHub Star -->
+      <a class="nav-btn ghstar" href="https://github.com/hjsong21/TrayShot" target="_blank" rel="noopener" aria-label="Star TrayShot on GitHub">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
+          <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+        </svg>
+        <span data-i18n="nav.star">Star</span>
+        <b id="ghstar-count" class="ghstar-count" hidden></b>
+      </a>
+
+      <!-- Language Selector -->
+      <div class="lang-group" role="group" aria-label="Language Selector">
+        <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" class="lang-btn" data-lang="ko" aria-pressed="true">한국어</button>
+      </div>
+
+      <!-- Theme Switcher -->
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch Theme">
+        <svg class="theme-sun" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="10" cy="10" r="3.6"/>
+          <path d="M10 1.4v2.2M10 16.4v2.2M18.6 10h-2.2M3.6 10H1.4M16.1 3.9l-1.6 1.6M5.5 14.5l-1.6 1.6M16.1 16.1l-1.6-1.6M5.5 5.5 3.9 3.9"/>
+        </svg>
+        <svg class="theme-moon" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 12.3A7.5 7.5 0 0 1 7.7 3a7.5 7.5 0 1 0 9.3 9.3Z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge" data-i18n="hero.badge">🚀 v1.1.0 Released · Windows 10 / 11 Supported</div>
+    <h1 data-i18n="hero.title">작업표시줄 트레이에서 바로 꺼내 쓰는 스크린샷 셸프.</h1>
+    <p class="hero-desc" data-i18n="hero.desc">
+      화면을 캡처하는 순간, 화면 우측 상단에 플로팅 퀵 드롭 썸네일이 부드럽게 나타납니다. 마우스로 끌어서 워드, 한글(HWP), 카카오톡에 바로 놓으세요. 파일 탐색기를 뒤적일 필요가 없습니다.
+    </p>
+    <div class="cta-group">
+      <a class="btn-primary" id="download-btn" href="https://github.com/hjsong21/TrayShot/releases/latest">
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 3v10M6 9l4 4 4-4M3 17h14"/>
+        </svg>
+        <span id="download-label" data-i18n="hero.download">v1.1.0 다운로드</span>
+      </a>
+      <span class="req-meta" data-i18n="hero.req">Windows 10/11 (64-bit) · .NET 9 · Apache-2.0 라이선스</span>
+    </div>
+  </section>
+
+  <!-- Feature 1: Floating Quick-Drop Widget -->
+  <section id="quickdrop" class="section">
+    <div class="section-header">
+      <p class="section-eyebrow" data-i18n="feature1.eyebrow">Instant Floating Quick-Drop</p>
+      <h2 data-i18n="feature1.title">캡처 즉시 끌어다 워드·한글·카톡에 쏙!</h2>
+      <p class="section-lede" data-i18n="feature1.lede">
+        캡처 후 저장 폴더나 다운로드 폴더를 열 필요가 없습니다. PrtSc나 캡처 도구로 화면을 찍으면, 우측 상단에 최상위 썸네일 위젯이 슬라이드되어 나타납니다. 4초 자동 소멸 전 원하는 앱으로 바로 드래그 앤 드롭하세요.
+      </p>
+    </div>
+
+    <!-- Image / GIF Showcase Slot 1 -->
+    <div class="showcase-card">
+      <div class="window-frame-bar">
+        <div class="win-controls"><i class="win-dot"></i><i class="win-dot"></i><i class="win-dot"></i></div>
+        <span>QuickDrop Floating Widget Demo</span>
+      </div>
+
+      <div class="img-placeholder-slot">
+        <span class="placeholder-badge" data-i18n="placeholder.f1.badge">📷 이미지 / GIF 권장 위치: 플로팅 퀵 드롭 위젯</span>
+        <h3 class="placeholder-title" data-i18n="placeholder.f1.title">우측 상단 플로팅 썸네일 및 드래그 앤 드롭 시연 화면</h3>
+        <p class="placeholder-guide" data-i18n="placeholder.f1.guide">
+          권장 콘텐츠: 1) PrtSc 캡처 발생, 2) 화면 우측 상단에 퀵 드롭 미니 썸네일 슬라이드 등장, 3) 마우스로 끌어서 MS Word, 한글(HWP), 카카오톡 대화창에 바로 첨부/삽입하는 시연 GIF 또는 스크린샷 이미지.
+        </p>
+        <span class="placeholder-specs" data-i18n="placeholder.f1.specs">권장 규격: 1200×675 (16:9) 또는 800×480 · PNG / WebP / 움직이는 GIF</span>
+
+        <!-- Wireframe Simulation Mockup -->
+        <div class="ui-mock-screen">
+          <div class="mock-quickdrop">
+            <div class="mock-thumb">📸 CAPTURE</div>
+            <div class="mock-qd-info">
+              <span class="mock-qd-title">QuickDrop Widget (Topmost)</span>
+              <span class="mock-qd-sub">Drag to Word / HWP / KakaoTalk · 4s</span>
+            </div>
+          </div>
+          <div style="height: 90px; display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 0.85rem; border: 1px dashed var(--border); border-radius: 8px;">
+            📄 Target Document Window (MS Word / 한글 / 카카오톡) — Drop image here
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <h3>우측 상단 스마트 슬라이드</h3>
+        <p>Windows 10/11 기본 캡처 도구의 우측 하단 토스트 알림과 전혀 간섭 없이 상단에서 부드럽게 등장합니다.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <h3>범용 OLE 멀티포맷 지원</h3>
+        <p>CF_DIB(DIBv5) 메모리 스트림과 FileDrop을 자동 패키징하여 오피스, 한글(HWP), 그림판, 웹 에디터 어디든 붙여넣어집니다.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>4초 타이머 & 호버 일시정지</h3>
+        <p>4초 후 자연스럽게 사라지며, 마우스를 올리면 타이머가 일시정지되어 여유 있게 드래그할 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: Tray Gallery Shelf -->
+  <section id="gallery" class="section">
+    <div class="section-header">
+      <p class="section-eyebrow" data-i18n="feature2.eyebrow">Spotlight Tray Gallery</p>
+      <h2 data-i18n="feature2.title">단축키 하나로 과거 스크린샷까지 한눈에 탐색.</h2>
+      <p class="section-lede" data-i18n="feature2.lede">
+        언제든지 전역 단축키(기본 Alt+Q)나 트레이 아이콘을 누르면 갤러리 창이 열립니다. 오늘, 어제, 지난주 등 날짜별 그룹화와 2차원 키보드 탐색, 스페이스바 전체 화면 미리보기, Delete 및 Ctrl+Z 복구를 지원합니다.
+      </p>
+    </div>
+
+    <!-- Image / GIF Showcase Slot 2 -->
+    <div class="showcase-card">
+      <div class="window-frame-bar">
+        <div class="win-controls"><i class="win-dot"></i><i class="win-dot"></i><i class="win-dot"></i></div>
+        <span>Gallery Window & Full Preview</span>
+      </div>
+
+      <div class="img-placeholder-slot">
+        <span class="placeholder-badge" data-i18n="placeholder.f2.badge">📷 이미지 / GIF 권장 위치: 갤러리 패널 및 미리보기 창</span>
+        <h3 class="placeholder-title" data-i18n="placeholder.f2.title">날짜별 그룹화 갤러리 패널 및 스페이스바 빠른 미리보기</h3>
+        <p class="placeholder-guide" data-i18n="placeholder.f2.guide">
+          권장 콘텐츠: 1) 날짜별 그룹 헤더(오늘, 어제 등)로 정돈된 TrayShot 갤러리 창, 2) 파란색 키보드 선택 포커스 테두리, 3) 스페이스바로 띄운 고해상도 미리보기(PreviewWindow) 화면.
+        </p>
+        <span class="placeholder-specs" data-i18n="placeholder.f2.specs">권장 규격: 1200×720 · PNG / WebP</span>
+
+        <!-- Wireframe Simulation Mockup -->
+        <div class="ui-mock-screen">
+          <div style="font-weight: 700; font-size: 0.85rem; color: var(--accent); margin-bottom: 0.25rem;">오늘 (Today)</div>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+            <div style="height: 65px; background: rgba(37,99,235,0.25); border: 2px solid var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #fff;">Selected [Space]</div>
+            <div style="height: 65px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;"></div>
+            <div style="height: 65px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;"></div>
+            <div style="height: 65px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;"></div>
+          </div>
+          <div style="font-weight: 700; font-size: 0.85rem; color: var(--text-dim); margin-top: 0.5rem; margin-bottom: 0.25rem;">어제 (Yesterday)</div>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+            <div style="height: 65px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;"></div>
+            <div style="height: 65px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;"></div>
+            <div style="height: 65px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;"></div>
+            <div style="height: 65px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <h3>날짜별 섹션 자동 분류</h3>
+        <p>오늘, 어제, 이번 주 등 촬영 일시와 파일명을 분석하여 깔끔한 타임라인 섹션으로 자동 정리합니다.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></svg>
+        </div>
+        <h3>2차원 키보드 탐색 엔진</h3>
+        <p>방향키, Home, End, PageUp, PageDown 및 그룹 간 열 위치(Column)를 기억하여 쾌속 탐색이 가능합니다.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </div>
+        <h3>휴지통 삭제 및 Ctrl+Z 복구</h3>
+        <p>Delete 키로 즉시 휴지통으로 안전하게 이동하며, 실수로 지웠을 경우 Ctrl+Z로 즉시 되살릴 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: Storage Optimization -->
+  <section id="storage" class="section">
+    <div class="section-header">
+      <p class="section-eyebrow" data-i18n="feature3.eyebrow">Lossless WebP Optimization</p>
+      <h2 data-i18n="feature3.title">쌓여가는 스크린샷 용량, 화질 손실 없이 65% 절약.</h2>
+      <p class="section-lede" data-i18n="feature3.lede">
+        용량을 많이 차지하는 PNG 스크린샷을 백그라운드에서 무손실 WebP로 자동 변환합니다. 1:1 픽셀 검증과 파일 타임스탬프 상속을 거치며 원본 용량을 평균 65% 이상 절약합니다.
+      </p>
+    </div>
+
+    <!-- Image / Diagram Showcase Slot 3 -->
+    <div class="showcase-card">
+      <div class="window-frame-bar">
+        <div class="win-controls"><i class="win-dot"></i><i class="win-dot"></i><i class="win-dot"></i></div>
+        <span>Lossless WebP Compression Engine</span>
+      </div>
+
+      <div class="img-placeholder-slot">
+        <span class="placeholder-badge" data-i18n="placeholder.f3.badge">📷 이미지 / 다이어그램 권장 위치: WebP 용량 절감 비교 화면</span>
+        <h3 class="placeholder-title" data-i18n="placeholder.f3.title">PNG vs WebP 파일 용량 비교 및 원본 처분 정책 설정 화면</h3>
+        <p class="placeholder-guide" data-i18n="placeholder.f3.guide">
+          권장 콘텐츠: 1) 원본 PNG(4.5MB)가 무손실 WebP(1.4MB)로 압축되어 용량이 줄어든 파일 탐색기 비교 화면, 2) 설정 창의 이미지 변환 탭(휴지통/삭제/보존 처분 정책) 스크린샷.
+        </p>
+        <span class="placeholder-specs" data-i18n="placeholder.f3.specs">권장 규격: 1000×560 · PNG / WebP / SVG 다이어그램</span>
+
+        <!-- Wireframe Simulation Mockup -->
+        <div class="ui-mock-screen">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border);">
+            <div>
+              <span style="font-weight: 700; color: #ef4444;">Original Screenshot.png</span>
+              <div style="font-size: 0.8rem; color: var(--text-dim);">4.8 MB · 2560 × 1440</div>
+            </div>
+            <div style="font-size: 1.2rem; color: var(--accent);">➔ 68% REDUCED ➔</div>
+            <div>
+              <span style="font-weight: 700; color: #10b981;">Screenshot.webp (Lossless)</span>
+              <div style="font-size: 0.8rem; color: var(--text-dim);">1.5 MB · Identical Pixels</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <h3>1:1 픽셀 무손실 완벽 검증</h3>
+        <p>변환 후 픽셀 데이터를 대조 검증하여 화질 저하나 왜곡이 단 1픽셀도 발생하지 않도록 보장합니다.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>유연한 원본 PNG 처분 정책</h3>
+        <p>변환 완료 후 원본 PNG 파일을 안전하게 '휴지통으로 이동', '완전 삭제', 또는 '그대로 보존'하도록 선택 가능합니다.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+        </div>
+        <h3>타임스탬프 원본 유지</h3>
+        <p>변환된 WebP 파일은 원본 스크린샷의 촬영 시간(CreationTime/LastWriteTime)을 그대로 물려받습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 4: Fluent Design Settings -->
+  <section id="settings" class="section">
+    <div class="section-header">
+      <p class="section-eyebrow" data-i18n="feature4.eyebrow">Fluent Design & Customization</p>
+      <h2 data-i18n="feature4.title">내 작업 환경에 딱 맞춘 유연한 설정과 테마.</h2>
+      <p class="section-lede" data-i18n="feature4.lede">
+        Windows 스타일에 최적화된 Fluent Design 설정 화면에서 시작 프로그램 등록, 전역 단축키 변경, 다크/라이트 테마 전환, 갤러리 창 해상도 조절 등을 손쉽게 커스터마이징할 수 있습니다.
+      </p>
+    </div>
+
+    <!-- Image Showcase Slot 4 -->
+    <div class="showcase-card">
+      <div class="window-frame-bar">
+        <div class="win-controls"><i class="win-dot"></i><i class="win-dot"></i><i class="win-dot"></i></div>
+        <span>Preferences Window & Theming</span>
+      </div>
+
+      <div class="img-placeholder-slot">
+        <span class="placeholder-badge" data-i18n="placeholder.f4.badge">📷 이미지 권장 위치: 환경설정 창 (Preferences)</span>
+        <h3 class="placeholder-title" data-i18n="placeholder.f4.title">Fluent Design 기반의 환경설정 및 다크/라이트 테마 화면</h3>
+        <p class="placeholder-guide" data-i18n="placeholder.f4.guide">
+          권장 콘텐츠: 일반(단축키/테마/크기), 이미지 변환 탭이 포함된 모던한 설정(Preferences) 창 및 정보(About) 창 캡처 이미지.
+        </p>
+        <span class="placeholder-specs" data-i18n="placeholder.f4.specs">권장 규격: 1000×650 · PNG / WebP</span>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+        <h3>다크 / 라이트 테마 지원</h3>
+        <p>Windows 시스템 테마와 완벽히 동기화되거나 원하는 테마 모드로 고정하여 사용할 수 있습니다.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h8M6 16h12"/></svg>
+        </div>
+        <h3>전역 단축키 충돌 감지</h3>
+        <p>원하는 키 조합으로 갤러리 호출 단축키를 변경하며, 시스템 단축키 충돌을 실시간으로 감지합니다.</p>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        </div>
+        <h3>Windows 시작 시 자동 실행</h3>
+        <p>레지스트리 기반 부팅 시 자동 시작 옵션 및 갤러리 창 크기 기억/초기화 기능을 제공합니다.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span data-i18n="footer.copyright">Copyright © 2026 Ho-Jeong Song · Apache-2.0 License</span>
+    <div class="footer-links">
+      <a href="https://github.com/hjsong21/TrayShot" target="_blank" rel="noopener" data-i18n="footer.source">소스 코드</a>
+      <a href="https://github.com/hjsong21/TrayShot/releases" target="_blank" rel="noopener" data-i18n="footer.releases">릴리스 목록</a>
+      <a href="https://github.com/hjsong21/TrayShot/blob/master/LICENSE" target="_blank" rel="noopener" data-i18n="footer.license">라이선스</a>
+      <a href="https://buymeacoffee.com/hjsong21" target="_blank" rel="noopener" data-i18n="nav.bmc">커피 한 잔 후원</a>
+    </div>
+  </div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
