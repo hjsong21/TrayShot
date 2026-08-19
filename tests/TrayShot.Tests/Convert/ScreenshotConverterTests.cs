@@ -11,9 +11,12 @@ namespace TrayShot.Tests.Convert;
 public class ScreenshotConverterTests : IDisposable
 {
     private readonly string _tempPngPath;
+    private readonly TestSettingsScope _settingsScope;
 
     public ScreenshotConverterTests()
     {
+        _settingsScope = new TestSettingsScope();
+
         _tempPngPath = Path.Combine(Path.GetTempPath(), $"trayshot_test_{Guid.NewGuid():N}.png");
         CreateComplexTestPng(_tempPngPath);
     }
@@ -95,6 +98,7 @@ public class ScreenshotConverterTests : IDisposable
 
     public void Dispose()
     {
+        _settingsScope.Dispose();
         if (File.Exists(_tempPngPath))
         {
             try { File.Delete(_tempPngPath); } catch { }

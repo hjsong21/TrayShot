@@ -1,11 +1,19 @@
 using System;
+using System.IO;
 using TrayShot.Infrastructure;
 using Xunit;
 
 namespace TrayShot.Tests.Infrastructure;
 
-public class ThemeManagerTests
+public class ThemeManagerTests : IDisposable
 {
+    private readonly TestSettingsScope _settingsScope;
+
+    public ThemeManagerTests()
+    {
+        _settingsScope = new TestSettingsScope();
+    }
+
     [Fact]
     public void AppSettings_ChangesThemePropertyCorrectly()
     {
@@ -26,7 +34,11 @@ public class ThemeManagerTests
         finally
         {
             settings.ThemeChanged -= handler;
-            settings.Theme = initialTheme;
         }
+    }
+
+    public void Dispose()
+    {
+        _settingsScope.Dispose();
     }
 }

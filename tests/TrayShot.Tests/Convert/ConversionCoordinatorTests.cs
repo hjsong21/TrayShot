@@ -14,11 +14,14 @@ namespace TrayShot.Tests.Convert;
 public class ConversionCoordinatorTests : IDisposable
 {
     private readonly string _tempDirPath;
+    private readonly TestSettingsScope _settingsScope;
 
     public ConversionCoordinatorTests()
     {
         _tempDirPath = Path.Combine(Path.GetTempPath(), $"trayshot_conv_{Guid.NewGuid():N}");
         Directory.CreateDirectory(_tempDirPath);
+
+        _settingsScope = new TestSettingsScope();
     }
 
     [Fact]
@@ -48,6 +51,7 @@ public class ConversionCoordinatorTests : IDisposable
 
     public void Dispose()
     {
+        _settingsScope.Dispose();
         if (Directory.Exists(_tempDirPath))
         {
             try { Directory.Delete(_tempDirPath, true); } catch { }
