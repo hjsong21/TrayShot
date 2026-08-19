@@ -5,7 +5,18 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
----
+## [v1.1.0] - 2026-08-19
+
+### 기능 추가 (Added)
+- **플로팅 퀵 드롭(Quick-Drop) 썸네일 위젯**: 스크린샷 캡처 감지 시 화면 우측 상단에 부드럽게 등장하는 미니 썸네일 팝업 위젯(`QuickDropOverlayWindow`) 구현
+- **범용 OLE 멀티포맷 드래그 앤 드롭**: Win32 `CF_DIB`(DIBv5) 및 `FileDrop` 페이로드 패키징(`DragDropHelper`)을 적용하여 MS Office(Word/PPT/Excel), 한글(HWP), Windows 그림판, 카카오톡 등에 즉시 끌어다 붙여넣기 기능 지원
+
+### 기능 개선 (Improved)
+- **화면 우측 상단 포지셔닝 & 최상위 Z-Order**: Windows 기본 캡처 도구의 하단 토스트 알림과의 겹침을 피하기 위해 우측 상단 배치 및 상단 슬라이드 애니메이션 적용, Win32 `SetWindowPos(HWND_TOPMOST)`로 포커스를 뺏지 않는 최상위 노출 보장
+- **자동 소멸 타이머 및 갤러리 연동**: 4초 자동 소멸 타이머(마우스 호버 시 일시정지) 적용 및 위젯 단순 클릭 시 메인 갤러리 창이 열리며 해당 스크린샷 자동 선택 포커스 연동
+
+### 버그 수정 (Fixed)
+- **단위 테스트 설정값 격리**: 단위 테스트 실행 시 `AppSettings.Shared`가 실제 사용자 `%APPDATA%` 설정 파일을 덮어쓰지 않도록 임시 디렉터리(`%TEMP%`)의 독립된 파일로 격리하는 `TestSettingsScope` 구축
 
 ## [v1.0.0] - 2026-08-17
 

@@ -5,7 +5,18 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
----
+## [v1.1.0] - 2026-08-19
+
+### Added
+- **Floating Quick-Drop Thumbnail Overlay Widget**: Automatically displays a floating mini thumbnail widget (`QuickDropOverlayWindow`) in the top-right corner of the screen upon screenshot capture
+- **Universal Multi-Format Drag-and-Drop Payload**: Integrated Win32 `CF_DIB` (DIBv5) and `FileDrop` payload generation (`DragDropHelper`) enabling direct drag-and-drop pasting into MS Office (Word/PPT/Excel), Hancom Hangul (HWP), Windows Paint, and KakaoTalk
+
+### Improved
+- **Top-Right Screen Positioning & Topmost Z-Order**: Positioned Quick-Drop overlay at the top-right corner of the screen with a top-to-bottom slide animation to prevent interference with Windows default Snipping Tool toast notifications, enforcing Win32 `SetWindowPos(HWND_TOPMOST)` without stealing focus
+- **Auto-Dismiss & Gallery Interaction**: Applied 4-second auto-dismiss timer with mouse-hover pause, and single-click interaction to open the main gallery window and automatically select the captured screenshot
+
+### Fixed
+- **Unit Test Settings Isolation**: Added `TestSettingsScope` fixture in unit tests to redirect `AppSettings.Shared` to temporary `%TEMP%` files during test execution, preventing test runs from overwriting user settings in `%APPDATA%`
 
 ## [v1.0.0] - 2026-08-17
 
