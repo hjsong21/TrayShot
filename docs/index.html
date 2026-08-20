@@ -104,7 +104,7 @@
 
     <!-- Live Interactive HTML/CSS/JS Canvas Scene -->
     <div class="scene-wrap">
-      <div class="scene" data-scene="capture" role="img" aria-label="A conceptual screen recording: a region of a web article is captured with Snipping Tool, the TrayShot floating Quick-Drop overlay widget appears at the top-right corner, and the cursor drags the thumbnail into a Gmail compose window to paste it instantly.">
+      <div class="scene" data-scene="capture" role="img" aria-label="A conceptual screen recording: a region of a web article is captured with Snipping Tool, the TrayShot floating Quick-Drop overlay widget appears at the top-right corner, and the cursor drags the thumbnail into a Gmail compose window to paste it instantly." data-i18n-aria="a11y.scene.capture">
         
         <!-- Scene Topbar -->
         <div class="scene-topbar">
@@ -269,20 +269,254 @@
       </p>
     </div>
 
-    <!-- Image / GIF Showcase Slot 2 -->
-    <div class="showcase-card">
-      <div class="window-frame-bar">
-        <div class="win-controls"><i class="win-dot"></i><i class="win-dot"></i><i class="win-dot"></i></div>
-        <span>Gallery Window & Full Preview</span>
-      </div>
+    <!-- Live Interactive HTML/CSS/JS Gallery Scene -->
+    <div class="scene-wrap">
+      <div class="scene scene-gallery" data-scene="gallery" role="img" aria-label="TrayShot 갤러리 패널 및 스페이스바 빠른 미리보기 인터랙티브 시뮬레이션" data-i18n-aria="a11y.scene.gallery">
+        
+        <!-- Scene Topbar: Windows 11 Desktop Taskbar / Environment -->
+        <div class="scene-topbar">
+          <span class="scene-app-name">Windows 11 Desktop</span>
+          <span class="scene-tab-title">Spotlight Gallery &amp; QuickLook Preview</span>
+          <span class="scene-spacer"></span>
+          <span class="scene-sys-tray">
+            <span class="scene-hotkey-badge">Alt + Q</span>
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13Z"/></svg>
+            <span class="scene-clock">23:33</span>
+          </span>
+        </div>
 
-      <div class="img-placeholder-slot">
-        <span class="placeholder-badge" data-i18n="placeholder.f2.badge">📷 이미지 / GIF 권장 위치: 갤러리 패널 및 미리보기 창</span>
-        <h3 class="placeholder-title" data-i18n="placeholder.f2.title">날짜별 그룹화 갤러리 패널 및 스페이스바 빠른 미리보기</h3>
-        <p class="placeholder-guide" data-i18n="placeholder.f2.guide">
-          권장 콘텐츠: 1) 날짜별 그룹 헤더(오늘, 어제 등)로 정돈된 TrayShot 갤러리 창, 2) 파란색 키보드 선택 포커스 테두리, 3) 스페이스바로 띄운 고해상도 미리보기(PreviewWindow) 화면.
-        </p>
-        <span class="placeholder-specs" data-i18n="placeholder.f2.specs">권장 규격: 1200×720 · PNG / WebP</span>
+        <div class="scene-desk scene-desk-gallery">
+          
+          <!-- Background Wallpaper Art (Scenic Coastal Cliff / Paraglider vibe like in mp4) -->
+          <div class="desk-wallpaper">
+            <div class="wp-sky"></div>
+            <div class="wp-sea"></div>
+            <div class="wp-glider">
+              <svg viewBox="0 0 60 40" width="54" height="36" fill="none">
+                <path d="M4 14 C 20 4, 40 4, 56 14 C 42 11, 18 11, 4 14 Z" fill="#2563eb" />
+                <path d="M8 13 C 22 7, 38 7, 52 13 C 40 10, 20 10, 8 13 Z" fill="#ef4444" />
+                <line x1="12" y1="13" x2="30" y2="28" stroke="rgba(255,255,255,0.7)" stroke-width="0.8" />
+                <line x1="48" y1="13" x2="30" y2="28" stroke="rgba(255,255,255,0.7)" stroke-width="0.8" />
+                <circle cx="30" cy="29" r="2.5" fill="#111" />
+              </svg>
+            </div>
+            <!-- Desktop Shortcuts (Left) -->
+            <div class="desk-shortcuts">
+              <div class="desk-icon">
+                <div class="icon-glyph icon-trash">🗑️</div>
+                <span>휴지통</span>
+              </div>
+              <div class="desk-icon">
+                <div class="icon-glyph icon-edge">🌐</div>
+                <span>Edge</span>
+              </div>
+              <div class="desk-icon">
+                <div class="icon-glyph icon-app">📸</div>
+                <span>TrayShot</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom-Right: TrayShot Gallery Popup Window -->
+          <div class="win-gallery" id="win-gallery">
+            <div class="gallery-inner">
+              
+              <!-- Gallery Header / Search Bar -->
+              <div class="gallery-head">
+                <div class="gallery-search">
+                  <span class="search-icon">🔍</span>
+                  <span class="search-text" data-i18n="gallery.search.placeholder">검색어 입력...</span>
+                </div>
+                <button type="button" class="gallery-gear" aria-label="Settings">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+                    <path d="M19.43 12.97c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-.97l2.11-1.66c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.66c-.04.31-.07.64-.07.97 0 .33.03.66.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.39 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Gallery Scroll Body -->
+              <div class="gallery-scroll">
+                
+                <!-- Group 1: Yesterday -->
+                <div class="gallery-group">
+                  <div class="group-label" data-i18n="gallery.group.yesterday">어제</div>
+                  <div class="group-items">
+                    <div class="gallery-item item-claude" id="gitem-claude">
+                      <div class="item-thumb thumb-claude">
+                        <span class="badge-webp">WEBP</span>
+                        <div class="claude-art">
+                          <span class="claude-spark">✳</span>
+                          <span class="claude-brand">Claude</span>
+                        </div>
+                      </div>
+                      <span class="item-name">스크린샷 2026-08-19 232916...</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Group 2: Aug 18 -->
+                <div class="gallery-group">
+                  <div class="group-label" data-i18n="gallery.group.aug18">8월 18일 화요일</div>
+                  <div class="group-items">
+                    <!-- Item Odyssey (Focus Target) -->
+                    <div class="gallery-item item-odyssey" id="gitem-odyssey">
+                      <div class="item-thumb thumb-odyssey">
+                        <span class="badge-webp">WEBP</span>
+                        <div class="odyssey-art">
+                          <span class="odyssey-title">THE ODYSSEY</span>
+                          <span class="odyssey-sub">LAMBERT WILSON · PIERRE NINEY</span>
+                        </div>
+                      </div>
+                      <span class="item-name">스크린샷 2026-08-18 232922...</span>
+                    </div>
+
+                    <!-- Item Astronaut -->
+                    <div class="gallery-item item-astronaut" id="gitem-astro">
+                      <div class="item-thumb thumb-astronaut">
+                        <span class="badge-webp">WEBP</span>
+                        <div class="astro-art">
+                          <span class="astro-tag">CYBERNETIC</span>
+                        </div>
+                      </div>
+                      <span class="item-name">스크린샷 2026-08-18 233122...</span>
+                    </div>
+
+                    <!-- Item Pink Flip -->
+                    <div class="gallery-item item-flip" id="gitem-flip">
+                      <div class="item-thumb thumb-flip">
+                        <span class="badge-webp">WEBP</span>
+                        <div class="flip-art">
+                          <span class="flip-tag">Galaxy Z Flip</span>
+                        </div>
+                      </div>
+                      <span class="item-name">스크린샷 2026-08-18 233247...</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Group 3: Aug 17 -->
+                <div class="gallery-group">
+                  <div class="group-label" data-i18n="gallery.group.aug17">8월 17일 월요일</div>
+                  <div class="group-items">
+                    <div class="gallery-item item-fold" id="gitem-fold">
+                      <div class="item-thumb thumb-fold">
+                        <span class="badge-webp">WEBP</span>
+                        <div class="fold-art">
+                          <span class="fold-tag">Galaxy Z Fold</span>
+                        </div>
+                      </div>
+                      <span class="item-name">스크린샷 2026-08-17 231133...</span>
+                    </div>
+                    <div class="gallery-item item-chart" id="gitem-chart">
+                      <div class="item-thumb thumb-chart">
+                        <span class="badge-webp">WEBP</span>
+                        <div class="chart-art">
+                          <div class="chart-bars"><span style="height:40%"></span><span style="height:70%"></span><span style="height:100%"></span></div>
+                        </div>
+                      </div>
+                      <span class="item-name">스크린샷 2026-08-17 230912...</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Center: High-Res Spacebar Preview Window Modal (QuickLook) -->
+          <div class="win-preview" id="win-preview">
+            <div class="preview-backdrop"></div>
+            <div class="preview-card">
+              <!-- Preview Header Chip -->
+              <div class="preview-header-chip" id="preview-chip">
+                <span class="preview-chip-title" id="preview-title">스크린샷 2026-08-18 232922.webp (2 / 9)</span>
+              </div>
+              
+              <!-- Close Button -->
+              <button type="button" class="preview-close-btn" aria-label="Close Preview">✕</button>
+
+              <!-- Preview Media Stage -->
+              <div class="preview-stage">
+                <!-- Slide 1: Odyssey Poster -->
+                <div class="preview-slide slide-odyssey active" id="pslide-1">
+                  <div class="preview-poster">
+                    <div class="poster-badge-top">AUDREY TAUTOU · LAMBERT WILSON · PIERRE NINEY</div>
+                    <div class="poster-hero-title">THE ODYSSEY</div>
+                    <div class="poster-tagline">EXPERIENCE THE ADVENTURE OF THE WORLD'S GREATEST EXPLORER</div>
+                    <div class="poster-critics">"VISUALLY STUNNING" · "AN EPIC VOYAGE"</div>
+                  </div>
+                </div>
+
+                <!-- Slide 2: Pink Z Flip Phone -->
+                <div class="preview-slide slide-flip" id="pslide-2">
+                  <div class="preview-device flip-preview-box">
+                    <div class="flip-body">
+                      <div class="flip-screen">
+                        <div class="flip-screen-art">
+                          <span class="screen-flow-8">8</span>
+                        </div>
+                      </div>
+                      <div class="flip-cam-bar">
+                        <div class="cam-lens"></div>
+                        <div class="cam-lens"></div>
+                      </div>
+                    </div>
+                    <span class="device-label">Galaxy Z Flip Series · 233247.webp</span>
+                  </div>
+                </div>
+
+                <!-- Slide 3: Dark Z Fold Phone -->
+                <div class="preview-slide slide-fold" id="pslide-3">
+                  <div class="preview-device fold-preview-box">
+                    <div class="fold-body">
+                      <div class="fold-front-screen">
+                        <span class="screen-flow-8">8</span>
+                      </div>
+                      <div class="fold-back-spine">
+                        <div class="cam-triple">
+                          <div class="cam-lens"></div>
+                          <div class="cam-lens"></div>
+                          <div class="cam-lens"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="device-label">Galaxy Z Fold Ultra · 231133.webp</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Keyboard navigation hint overlay -->
+              <div class="preview-key-hint" id="preview-key-hint">
+                <span class="key-badge" id="active-key-badge">Space</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Animated Cursor for Gallery Scene -->
+          <div class="cursor cursor-gallery" id="cursor-gallery">
+            <svg class="cur cur-arrow" viewBox="0 0 13 20" width="13" height="20">
+              <path d="M1.2 1.1 1.2 15.9 5 12.4 7.4 18.1 9.7 17.1 7.3 11.5 11.2Z"
+                    fill="#000" stroke="#fff" stroke-width="1.15" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+        </div>
+
+        <!-- Caption / Step indicator bar -->
+        <div class="caption caption-gallery">Ready</div>
+
+        <!-- Replay button -->
+        <div class="replay-layer replay-gallery">
+          <button type="button">
+            <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 10a7 7 0 1 1-2.2-5.1"/>
+              <path d="M17.4 2.6v4.2h-4.2"/>
+            </svg>
+            <span data-i18n="scene.replay">다시 보기</span>
+          </button>
+        </div>
+
       </div>
     </div>
 

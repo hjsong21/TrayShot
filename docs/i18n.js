@@ -157,6 +157,51 @@ window.TRAYSHOT_I18N = {
     "en": "Press Alt + Q or click the system tray icon to summon the spotlight gallery. Grouped by dates (Today, Yesterday, Last Week) with full 2D keyboard navigation, spacebar preview, and Recycle Bin deletion with Ctrl+Z undo.",
     "ko": "언제든지 전역 단축키(기본 Alt+Q)나 트레이 아이콘을 누르면 갤러리 창이 열립니다. 오늘, 어제, 지난주 등 날짜별 그룹화와 2차원 키보드 탐색, 스페이스바 전체 화면 미리보기, Delete 및 Ctrl+Z 복구를 지원합니다."
   },
+  /* Interactive Scene 2 (Gallery) Translations */
+  "a11y.scene.gallery": {
+    "en": "Interactive animation: TrayShot gallery panel summons from system tray, keyboard selects Odyssey screenshot, spacebar opens high-res QuickLook preview modal, arrow keys cycle through next screenshots.",
+    "ko": "대화형 애니메이션: 시스템 트레이에서 TrayShot 갤러리 패널이 열리고, 오디세이 스크린샷을 선택하여 스페이스바로 고해상도 미리보기를 띄운 후 방향키로 연속 탐색합니다."
+  },
+  "gallery.search.placeholder": {
+    "en": "Search captures...",
+    "ko": "검색어 입력..."
+  },
+  "gallery.group.yesterday": {
+    "en": "Yesterday",
+    "ko": "어제"
+  },
+  "gallery.group.aug18": {
+    "en": "Tuesday, August 18",
+    "ko": "8월 18일 화요일"
+  },
+  "gallery.group.aug17": {
+    "en": "Monday, August 17",
+    "ko": "8월 17일 월요일"
+  },
+  "gallery.caption.1": {
+    "en": "Alt + Q or Tray Click — Spotlight gallery summons",
+    "ko": "Alt + Q 단축키 또는 트레이 클릭 — 갤러리 패널 즉시 호출"
+  },
+  "gallery.caption.2": {
+    "en": "Select screenshot & press Space — instant high-res preview",
+    "ko": "스크린샷 선택 후 스페이스바 — 고해상도 빠른 미리보기(QuickLook)"
+  },
+  "gallery.caption.3": {
+    "en": "Press Right Arrow (→) — smoothly navigate next capture",
+    "ko": "오른쪽 방향키(→) 입력 — 다음 스크린샷으로 부드럽게 연속 전환"
+  },
+  "gallery.caption.4": {
+    "en": "Press Right Arrow (→) — date-grouped 2D keyboard navigation",
+    "ko": "오른쪽 방향키(→) 입력 — 날짜 그룹을 넘나드는 2차원 키보드 탐색"
+  },
+  "gallery.caption.5": {
+    "en": "Press Space or Esc — instantly dismiss preview window",
+    "ko": "스페이스바 또는 Esc 입력 — 미리보기 창 즉시 닫기"
+  },
+  "gallery.caption.6": {
+    "en": "Delete to Recycle Bin, Ctrl+Z to undo — quick & safe management",
+    "ko": "Delete 키로 휴지통 이동, Ctrl+Z로 즉시 복구 — 안전하고 빠른 관리"
+  },
   "placeholder.f2.badge": {
     "en": "📷 Image / GIF Placeholder: Gallery Panel & Preview",
     "ko": "📷 이미지 / GIF 권장 위치: 갤러리 패널 및 미리보기 창"

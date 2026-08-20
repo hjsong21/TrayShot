@@ -59,6 +59,10 @@
       var text = t(el.getAttribute("data-i18n"));
       if (text) el.textContent = text;
     });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      var text = t(el.getAttribute("data-i18n-aria"));
+      if (text) el.setAttribute("aria-label", text);
+    });
 
     document.title = t("meta.title");
     var dm = document.querySelector('meta[name="description"]');
@@ -292,6 +296,222 @@
 
   } else {
     console.warn("[TrayShot] scene[data-scene=capture] not found in DOM");
+  }
+
+  /* ---- 4-2. Gallery Scene Animation ---- */
+  var sceneRootGallery = document.querySelector('[data-scene="gallery"]');
+
+  if (sceneRootGallery) {
+    var galDesk       = sceneRootGallery.querySelector(".scene-desk-gallery");
+    var winGallery    = sceneRootGallery.querySelector("#win-gallery");
+    var winPreview    = sceneRootGallery.querySelector("#win-preview");
+    var cursorGal     = sceneRootGallery.querySelector("#cursor-gallery");
+    var captionGal    = sceneRootGallery.querySelector(".caption-gallery");
+    var replayGal     = sceneRootGallery.querySelector(".replay-gallery button");
+    var previewTitle  = sceneRootGallery.querySelector("#preview-title");
+    var activeKeyBadge= sceneRootGallery.querySelector("#active-key-badge");
+    var closePreviewBtn = sceneRootGallery.querySelector(".preview-close-btn");
+
+    var itemOdyssey   = sceneRootGallery.querySelector("#gitem-odyssey");
+    var itemFlip      = sceneRootGallery.querySelector("#gitem-flip");
+    var itemFold      = sceneRootGallery.querySelector("#gitem-fold");
+    var allItems      = sceneRootGallery.querySelectorAll(".gallery-item");
+
+    var pslide1       = sceneRootGallery.querySelector("#pslide-1");
+    var pslide2       = sceneRootGallery.querySelector("#pslide-2");
+    var pslide3       = sceneRootGallery.querySelector("#pslide-3");
+
+    var galTimers = [];
+
+    function galAt(ms, fn) { galTimers.push(setTimeout(fn, ms)); }
+    function galStop() { galTimers.forEach(clearTimeout); galTimers = []; }
+
+    function galBoxOf(el) {
+      if (!el || !galDesk) return { x: 0, y: 0, w: 0, h: 0 };
+      var o = galDesk.getBoundingClientRect();
+      var b = el.getBoundingClientRect();
+      return { x: b.left - o.left, y: b.top - o.top, w: b.width, h: b.height };
+    }
+
+    function galCenterOf(el) {
+      var b = galBoxOf(el);
+      return { x: b.x + b.w / 2, y: b.y + b.h / 2 };
+    }
+
+    function galPlace(x, y) {
+      if (!cursorGal) return;
+      cursorGal.style.transition = "none";
+      cursorGal.style.transform = "translate(" + x + "px," + y + "px)";
+      cursorGal.offsetHeight;
+    }
+
+    function galMove(x, y, ms) {
+      if (!cursorGal) return;
+      cursorGal.style.transition = "transform " + ms + "ms cubic-bezier(0.42,0,0.24,1), opacity 0.25s ease";
+      cursorGal.style.transform = "translate(" + x + "px," + y + "px)";
+    }
+
+    function galMoveToEl(el, ms) {
+      var p = galCenterOf(el);
+      galMove(p.x, p.y, ms);
+    }
+
+    function showSlide(idx) {
+      [pslide1, pslide2, pslide3].forEach(function (s, i) {
+        if (!s) return;
+        if (i === idx) s.classList.add("active");
+        else s.classList.remove("active");
+      });
+      allItems.forEach(function (it) { it.classList.remove("focused"); });
+
+      if (idx === 0) {
+        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-18 232922.webp (2 / 9)";
+        if (itemOdyssey) itemOdyssey.classList.add("focused");
+      } else if (idx === 1) {
+        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-18 233247.webp (4 / 9)";
+        if (itemFlip) itemFlip.classList.add("focused");
+      } else if (idx === 2) {
+        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-17 231133.webp (5 / 9)";
+        if (itemFold) itemFold.classList.add("focused");
+      }
+    }
+
+    function showKeyBadge(keyText) {
+      if (!activeKeyBadge) return;
+      activeKeyBadge.textContent = keyText;
+      activeKeyBadge.style.animation = "none";
+      activeKeyBadge.offsetHeight;
+      activeKeyBadge.style.animation = "pulse-key 0.4s ease";
+    }
+
+    function resetGallery() {
+      galStop();
+      if (cursorGal) {
+        cursorGal.className = "cursor cursor-gallery";
+        cursorGal.setAttribute("data-mode", "arrow");
+        galPlace(520, 360);
+      }
+
+      if (winGallery) winGallery.classList.remove("shown");
+      if (winPreview) winPreview.classList.remove("shown");
+
+      allItems.forEach(function (it) { it.classList.remove("focused"); });
+      showSlide(0);
+
+      if (captionGal) captionGal.textContent = t("scene.caption.idle");
+      sceneRootGallery.classList.remove("done");
+    }
+
+    function playGallery() {
+      resetGallery();
+      console.log("[TrayShot] gallery scene animation starting");
+
+      // Step 1: Spotlight gallery summons from tray
+      galAt(500, function () {
+        if (winGallery) winGallery.classList.add("shown");
+        if (captionGal) captionGal.textContent = t("gallery.caption.1");
+      });
+
+      // Step 2: Cursor enters & moves to Odyssey capture card
+      galAt(1300, function () {
+        if (cursorGal) cursorGal.classList.add("on");
+        if (itemOdyssey) galMoveToEl(itemOdyssey, 1000);
+      });
+
+      // Step 3: Selection focus & Spacebar press -> QuickLook Preview pops up
+      galAt(2500, function () {
+        if (itemOdyssey) itemOdyssey.classList.add("focused");
+      });
+
+      galAt(3200, function () {
+        showKeyBadge("Space");
+        showSlide(0);
+        if (winPreview) winPreview.classList.add("shown");
+        if (captionGal) captionGal.textContent = t("gallery.caption.2");
+      });
+
+      // Step 4: Arrow Right -> Navigate to Pink Flip capture
+      galAt(5200, function () {
+        showKeyBadge("→");
+        showSlide(1);
+        if (captionGal) captionGal.textContent = t("gallery.caption.3");
+      });
+
+      // Step 5: Arrow Right -> Navigate to Dark Fold capture
+      galAt(7000, function () {
+        showKeyBadge("→");
+        showSlide(2);
+        if (captionGal) captionGal.textContent = t("gallery.caption.4");
+      });
+
+      // Step 6: Press Esc -> Preview dismisses
+      galAt(8800, function () {
+        showKeyBadge("Esc");
+        if (winPreview) winPreview.classList.remove("shown");
+        if (captionGal) captionGal.textContent = t("gallery.caption.5");
+      });
+
+      // Step 7: Gallery dismisses & safe management note
+      galAt(10200, function () {
+        if (winGallery) winGallery.classList.remove("shown");
+        if (cursorGal) cursorGal.classList.remove("on");
+        if (captionGal) captionGal.textContent = t("gallery.caption.6");
+      });
+
+      // Step 8: Loop
+      galAt(12000, function () {
+        console.log("[TrayShot] gallery scene animation complete, looping in 3s");
+        sceneRootGallery.classList.add("done");
+        galAt(3000, playGallery);
+      });
+    }
+
+    // Replay button handler
+    if (replayGal) {
+      replayGal.addEventListener("click", function (e) {
+        e.stopPropagation();
+        playGallery();
+      });
+    }
+
+    // Click scene to replay
+    sceneRootGallery.addEventListener("click", function () { playGallery(); });
+
+    // Interactive controls when clicked directly
+    if (closePreviewBtn) {
+      closePreviewBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (winPreview) winPreview.classList.remove("shown");
+      });
+    }
+
+    if (itemOdyssey) {
+      itemOdyssey.addEventListener("click", function (e) {
+        e.stopPropagation();
+        showSlide(0);
+        if (winPreview) winPreview.classList.add("shown");
+      });
+    }
+    if (itemFlip) {
+      itemFlip.addEventListener("click", function (e) {
+        e.stopPropagation();
+        showSlide(1);
+        if (winPreview) winPreview.classList.add("shown");
+      });
+    }
+    if (itemFold) {
+      itemFold.addEventListener("click", function (e) {
+        e.stopPropagation();
+        showSlide(2);
+        if (winPreview) winPreview.classList.add("shown");
+      });
+    }
+
+    // Auto-start gallery scene
+    console.log("[TrayShot] gallery scene elements found, scheduling play in 500ms");
+    setTimeout(playGallery, 500);
+  } else {
+    console.warn("[TrayShot] scene[data-scene=gallery] not found in DOM");
   }
 
   /* ---- 5. Init ---- */
