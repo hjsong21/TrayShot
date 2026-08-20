@@ -316,7 +316,6 @@
               </div>
             </div>
           </div>
-
           <!-- Bottom-Right: TrayShot Gallery Popup Window -->
           <div class="win-gallery" id="win-gallery">
             <div class="gallery-inner">
@@ -341,12 +340,13 @@
                 <div class="gallery-group">
                   <div class="group-label" data-i18n="gallery.group.yesterday">어제</div>
                   <div class="group-items">
-                    <div class="gallery-item item-claude" id="gitem-claude">
-                      <div class="item-thumb thumb-claude">
+                    <div class="gallery-item item-chat" id="gitem-chat">
+                      <div class="item-thumb thumb-shot" data-shot="chat">
                         <span class="badge-webp">WEBP</span>
-                        <div class="claude-art">
-                          <span class="claude-spark">✳</span>
-                          <span class="claude-brand">Claude</span>
+                        <div class="shot-mini-chat">
+                          <div class="mini-bubble b1"></div>
+                          <div class="mini-bubble b2"></div>
+                          <div class="mini-bubble b3"></div>
                         </div>
                       </div>
                       <span class="item-name">스크린샷 2026-08-19 232916...</span>
@@ -358,52 +358,50 @@
                 <div class="gallery-group">
                   <div class="group-label" data-i18n="gallery.group.aug18">8월 18일 화요일</div>
                   <div class="group-items">
-                    <!-- Item Odyssey (Focus Target) -->
-                    <div class="gallery-item item-odyssey" id="gitem-odyssey">
-                      <div class="item-thumb thumb-odyssey">
+                    <!-- Item 1: Dashboard KPI (Focus 1) -->
+                    <div class="gallery-item item-dashboard" id="gitem-dashboard">
+                      <div class="item-thumb thumb-shot" data-shot="dashboard">
                         <span class="badge-webp">WEBP</span>
-                        <div class="odyssey-art-sync">
-                          <div class="ody-actors">
-                            <div class="actor-diver"></div>
-                            <div class="actor-profiles">
-                              <div class="profile-f"></div>
-                              <div class="profile-m"></div>
-                            </div>
+                        <div class="shot-mini-dashboard">
+                          <div class="mini-donut-wrap"><div class="mini-donut"></div></div>
+                          <div class="mini-kpi-bars">
+                            <span style="height:45%"></span><span style="height:80%"></span><span style="height:60%"></span>
                           </div>
-                          <div class="ody-title">THE ODYSSEY</div>
                         </div>
                       </div>
                       <span class="item-name">스크린샷 2026-08-18 232922...</span>
                     </div>
 
-                    <!-- Item Astronaut -->
-                    <div class="gallery-item item-astronaut" id="gitem-astro">
-                      <div class="item-thumb thumb-astronaut">
+                    <!-- Item 2: Figma UI Design (Focus 2) -->
+                    <div class="gallery-item item-figma" id="gitem-figma">
+                      <div class="item-thumb thumb-shot" data-shot="figma">
                         <span class="badge-webp">WEBP</span>
-                        <div class="astro-art">
-                          <div class="astro-visage"></div>
-                          <span class="astro-tag">ODYSSEY</span>
-                        </div>
-                      </div>
-                      <span class="item-name">스크린샷 2026-08-18 233122...</span>
-                    </div>
-
-                    <!-- Item Pink Flip -->
-                    <div class="gallery-item item-flip" id="gitem-flip">
-                      <div class="item-thumb thumb-flip">
-                        <span class="badge-webp">WEBP</span>
-                        <div class="flip-art-sync">
-                          <div class="flip-mini-standing">
-                            <span class="mini-flow-8">8</span>
-                          </div>
-                          <div class="flip-mini-flat">
-                            <div class="mini-cam-cluster">
-                              <span></span><span></span>
+                        <div class="shot-mini-figma">
+                          <div class="mini-fig-sidebar"></div>
+                          <div class="mini-fig-canvas">
+                            <div class="mini-fig-frame">
+                              <span class="fig-dot"></span>
+                              <span class="fig-line"></span>
                             </div>
                           </div>
                         </div>
                       </div>
                       <span class="item-name">스크린샷 2026-08-18 233247...</span>
+                    </div>
+
+                    <!-- Item 3: Spreadsheet -->
+                    <div class="gallery-item item-sheets" id="gitem-sheets">
+                      <div class="item-thumb thumb-shot" data-shot="sheets">
+                        <span class="badge-webp">WEBP</span>
+                        <div class="shot-mini-sheets">
+                          <div class="mini-sheets-head"></div>
+                          <div class="mini-sheets-grid">
+                            <span></span><span></span><span></span>
+                            <span></span><span></span><span></span>
+                          </div>
+                        </div>
+                      </div>
+                      <span class="item-name">스크린샷 2026-08-18 233510...</span>
                     </div>
                   </div>
                 </div>
@@ -412,28 +410,27 @@
                 <div class="gallery-group">
                   <div class="group-label" data-i18n="gallery.group.aug17">8월 17일 월요일</div>
                   <div class="group-items">
-                    <div class="gallery-item item-fold" id="gitem-fold">
-                      <div class="item-thumb thumb-fold">
+                    <!-- Item 4: VS Code IDE (Focus 3) -->
+                    <div class="gallery-item item-code" id="gitem-code">
+                      <div class="item-thumb thumb-shot" data-shot="code">
                         <span class="badge-webp">WEBP</span>
-                        <div class="fold-art-sync">
-                          <div class="fold-mini-front">
-                            <span class="mini-flow-8-purple">8</span>
-                          </div>
-                          <div class="fold-mini-back">
-                            <div class="mini-cam-triple">
-                              <span></span><span></span><span></span>
-                            </div>
+                        <div class="shot-mini-code">
+                          <div class="mini-code-sidebar"></div>
+                          <div class="mini-code-lines">
+                            <span class="cl-p"></span><span class="cl-y"></span><span class="cl-g"></span><span class="cl-b"></span>
                           </div>
                         </div>
                       </div>
                       <span class="item-name">스크린샷 2026-08-17 231133...</span>
                     </div>
-                    <div class="gallery-item item-chart" id="gitem-chart">
-                      <div class="item-thumb thumb-chart">
+
+                    <!-- Item 5: Video Player -->
+                    <div class="gallery-item item-video" id="gitem-video">
+                      <div class="item-thumb thumb-shot" data-shot="video">
                         <span class="badge-webp">WEBP</span>
-                        <div class="chart-art">
-                          <div class="chart-num-badge">6,471 <span>498%</span></div>
-                          <div class="chart-bars"><span style="height:35%"></span><span style="height:60%"></span><span style="height:100%"></span><span style="height:75%"></span></div>
+                        <div class="shot-mini-video">
+                          <div class="mini-play-icon">▶</div>
+                          <div class="mini-prog-bar"><span style="width:65%"></span></div>
                         </div>
                       </div>
                       <span class="item-name">스크린샷 2026-08-17 230912...</span>
@@ -459,71 +456,119 @@
 
               <!-- Preview Media Stage -->
               <div class="preview-stage">
-                <!-- Slide 1: Odyssey Poster -->
-                <div class="preview-slide slide-odyssey active" id="pslide-1">
-                  <div class="preview-poster">
-                    <div class="poster-badge-top">AUDREY TAUTOU · LAMBERT WILSON · PIERRE NINEY</div>
-                    <div class="poster-actors-art">
-                      <div class="actor-diver-lg">
-                        <div class="diver-head"></div>
-                        <div class="diver-gear"></div>
-                      </div>
-                      <div class="actor-profiles-lg">
-                        <div class="profile-f-lg"></div>
-                        <div class="profile-m-lg"></div>
-                      </div>
+                
+                <!-- Slide 1: Analytics Dashboard & KPI (Sync with thumb-dashboard) -->
+                <div class="preview-slide slide-dashboard active" id="pslide-1">
+                  <div class="preview-schematic-card card-dashboard-lg">
+                    <div class="sch-top-bar">
+                      <span class="sch-badge">Analytics Overview</span>
+                      <span class="sch-meta">Q3 Growth &amp; KPI Metrics</span>
                     </div>
-                    <div class="poster-hero-title">THE ODYSSEY</div>
-                    <div class="poster-tagline">EXPERIENCE THE ADVENTURE OF THE WORLD'S GREATEST EXPLORER</div>
-                    <div class="poster-critics">"VISUALLY STUNNING" · "AN EPIC VOYAGE"</div>
-                  </div>
-                </div>
-
-                <!-- Slide 2: Pink Z Flip Phone -->
-                <div class="preview-slide slide-flip" id="pslide-2">
-                  <div class="preview-device flip-preview-box">
-                    <div class="flip-phones-duo">
-                      <div class="flip-phone-standing">
-                        <div class="flip-screen-inner">
-                          <span class="screen-flow-8">8</span>
+                    <div class="sch-dash-content">
+                      <div class="dash-donut-panel">
+                        <div class="lg-donut">
+                          <div class="donut-center">84%<span>Conversion</span></div>
+                        </div>
+                        <div class="kpi-mini-chips">
+                          <div class="kpi-chip"><b class="up">+42.8%</b><span>Sales</span></div>
+                          <div class="kpi-chip"><b>128.4k</b><span>Visitors</span></div>
                         </div>
                       </div>
-                      <div class="flip-phone-flat">
-                        <div class="flip-screen-flat-art">
-                          <span class="screen-flow-8-sub">8</span>
-                        </div>
-                        <div class="flip-cam-cluster-lg">
-                          <div class="cam-lens"></div>
-                          <div class="cam-lens"></div>
+                      <div class="dash-chart-panel">
+                        <div class="dash-bar-group">
+                          <div class="dash-col"><span style="height:45%"></span><i>Mon</i></div>
+                          <div class="dash-col"><span style="height:70%"></span><i>Tue</i></div>
+                          <div class="dash-col"><span style="height:90%" class="highlight"></span><i>Wed</i></div>
+                          <div class="dash-col"><span style="height:60%"></span><i>Thu</i></div>
+                          <div class="dash-col"><span style="height:85%"></span><i>Fri</i></div>
                         </div>
                       </div>
                     </div>
-                    <span class="device-label">스크린샷 2026-08-18 233247.webp (4 / 9)</span>
+                    <span class="sch-footer-label">Dashboard Analytics · 232922.webp</span>
                   </div>
                 </div>
 
-                <!-- Slide 3: Dark Z Fold Phone -->
-                <div class="preview-slide slide-fold" id="pslide-3">
-                  <div class="preview-device fold-preview-box">
-                    <div class="fold-phones-duo">
-                      <div class="fold-phone-front">
-                        <div class="fold-screen-inner">
-                          <span class="screen-flow-8 purple">8</span>
-                        </div>
+                <!-- Slide 2: Figma UI Design Studio (Sync with thumb-figma) -->
+                <div class="preview-slide slide-figma" id="pslide-2">
+                  <div class="preview-schematic-card card-figma-lg">
+                    <div class="fig-top-toolbar">
+                      <div class="fig-tool-icons">
+                        <span class="fig-btn active">↖</span>
+                        <span class="fig-btn">#</span>
+                        <span class="fig-btn">▢</span>
+                        <span class="fig-btn">T</span>
                       </div>
-                      <div class="fold-phone-back">
-                        <div class="fold-back-spine-lg">
-                          <div class="cam-triple-lg">
-                            <div class="cam-lens"></div>
-                            <div class="cam-lens"></div>
-                            <div class="cam-lens"></div>
+                      <span class="fig-doc-title">Mobile Banking UI · Design System</span>
+                    </div>
+                    <div class="fig-workspace">
+                      <div class="fig-layers-panel">
+                        <div class="layer-item"><span class="layer-ico">#</span> Mobile_Screen</div>
+                        <div class="layer-item sub"><span class="layer-ico">▢</span> Header_Card</div>
+                        <div class="layer-item sub"><span class="layer-ico">T</span> Balance_Text</div>
+                        <div class="layer-item sub"><span class="layer-ico">🔘</span> Action_Button</div>
+                      </div>
+                      <div class="fig-canvas-stage">
+                        <div class="fig-app-frame">
+                          <div class="app-card-head">
+                            <span class="app-avatar"></span>
+                            <div class="app-text-lines">
+                              <span class="line-sm"></span><span class="line-lg"></span>
+                            </div>
                           </div>
+                          <div class="app-balance-box">
+                            <span class="bal-label">Total Balance</span>
+                            <span class="bal-num">$24,850.00</span>
+                          </div>
+                          <div class="app-cta-btn">Transfer Now</div>
+                        </div>
+                      </div>
+                      <div class="fig-props-panel">
+                        <div class="prop-swatches">
+                          <span style="background:#2563eb"></span>
+                          <span style="background:#10b981"></span>
+                          <span style="background:#f59e0b"></span>
                         </div>
                       </div>
                     </div>
-                    <span class="device-label">스크린샷 2026-08-17 231133.webp (5 / 9)</span>
+                    <span class="sch-footer-label">Figma Design System · 233247.webp</span>
                   </div>
                 </div>
+
+                <!-- Slide 3: VS Code Dark IDE (Sync with thumb-code) -->
+                <div class="preview-slide slide-code" id="pslide-3">
+                  <div class="preview-schematic-card card-code-lg">
+                    <div class="code-top-tabs">
+                      <span class="code-tab active"><i class="tab-dot"></i> App.tsx</span>
+                      <span class="code-tab">styles.css</span>
+                      <span class="code-tab">main.rs</span>
+                    </div>
+                    <div class="code-body-grid">
+                      <div class="code-tree-side">
+                        <div class="tree-node open">📁 src</div>
+                        <div class="tree-node file active">📄 App.tsx</div>
+                        <div class="tree-node file">📄 styles.css</div>
+                        <div class="tree-node file">📄 index.html</div>
+                      </div>
+                      <div class="code-editor-area">
+                        <div class="code-line"><span class="c-kw">import</span> <span class="c-fn">React</span>, { <span class="c-fn">useState</span> } <span class="c-kw">from</span> <span class="c-str">'react'</span>;</div>
+                        <div class="code-line"><span class="c-kw">export function</span> <span class="c-fn">TrayShotGallery</span>() {</div>
+                        <div class="code-line indent"><span class="c-kw">const</span> [<span class="c-var">selected</span>, <span class="c-fn">setSelected</span>] = <span class="c-fn">useState</span>(<span class="c-num">0</span>);</div>
+                        <div class="code-line indent"><span class="c-kw">return</span> (</div>
+                        <div class="code-line indent-2">&lt;<span class="c-tag">div</span> <span class="c-prop">className</span>=<span class="c-str">"spotlight-shelf"</span>&gt;</div>
+                        <div class="code-line indent-3">&lt;<span class="c-tag">QuickLookPreview</span> <span class="c-prop">item</span>={<span class="c-var">selected</span>} /&gt;</div>
+                        <div class="code-line indent-2">&lt;/<span class="c-tag">div</span>&gt;</div>
+                        <div class="code-line indent">);</div>
+                        <div class="code-line">}</div>
+                      </div>
+                      <div class="code-minimap">
+                        <span style="width:80%"></span><span style="width:60%"></span><span style="width:90%"></span>
+                        <span style="width:40%"></span><span style="width:75%"></span><span style="width:50%"></span>
+                      </div>
+                    </div>
+                    <span class="sch-footer-label">VS Code Dark IDE · 231133.webp</span>
+                  </div>
+                </div>
+
               </div>
 
               <!-- Keyboard navigation hint overlay -->

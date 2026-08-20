@@ -179,20 +179,20 @@ window.TRAYSHOT_I18N = {
     "ko": "8월 17일 월요일"
   },
   "gallery.caption.1": {
-    "en": "Alt + Q or Tray Click — Spotlight gallery summons",
-    "ko": "Alt + Q 단축키 또는 트레이 클릭 — 갤러리 패널 즉시 호출"
+    "en": "Ctrl + Alt + S or Tray Click — Spotlight gallery summons",
+    "ko": "Ctrl + Alt + S 단축키 또는 트레이 클릭 — 갤러리 패널 즉시 호출"
   },
   "gallery.caption.2": {
-    "en": "Select screenshot & press Space — instant high-res preview",
-    "ko": "스크린샷 선택 후 스페이스바 — 고해상도 빠른 미리보기(QuickLook)"
+    "en": "Select Dashboard & press Space — instant KPI metrics preview",
+    "ko": "대시보드 스크린샷 선택 후 스페이스바 — KPI 지표 차트 즉시 확대"
   },
   "gallery.caption.3": {
-    "en": "Press Right Arrow (→) — smoothly navigate next capture",
-    "ko": "오른쪽 방향키(→) 입력 — 다음 스크린샷으로 부드럽게 연속 전환"
+    "en": "Press Right Arrow (→) — smoothly navigate to Figma UI design canvas",
+    "ko": "오른쪽 방향키(→) 입력 — 피그마 UI 디자인 캔버스 스크린샷으로 전환"
   },
   "gallery.caption.4": {
-    "en": "Press Right Arrow (→) — date-grouped 2D keyboard navigation",
-    "ko": "오른쪽 방향키(→) 입력 — 날짜 그룹을 넘나드는 2차원 키보드 탐색"
+    "en": "Press Right Arrow (→) — fast jump to VS Code dark editor capture",
+    "ko": "오른쪽 방향키(→) 입력 — VS Code 개발 환경 스크린샷으로 쾌속 전환"
   },
   "gallery.caption.5": {
     "en": "Press Space or Esc — instantly dismiss preview window",

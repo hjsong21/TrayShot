@@ -312,9 +312,12 @@
     var activeKeyBadge= sceneRootGallery.querySelector("#active-key-badge");
     var closePreviewBtn = sceneRootGallery.querySelector(".preview-close-btn");
 
-    var itemOdyssey   = sceneRootGallery.querySelector("#gitem-odyssey");
-    var itemFlip      = sceneRootGallery.querySelector("#gitem-flip");
-    var itemFold      = sceneRootGallery.querySelector("#gitem-fold");
+    var itemDashboard = sceneRootGallery.querySelector("#gitem-dashboard");
+    var itemFigma     = sceneRootGallery.querySelector("#gitem-figma");
+    var itemSheets    = sceneRootGallery.querySelector("#gitem-sheets");
+    var itemCode      = sceneRootGallery.querySelector("#gitem-code");
+    var itemVideo     = sceneRootGallery.querySelector("#gitem-video");
+    var itemChat      = sceneRootGallery.querySelector("#gitem-chat");
     var allItems      = sceneRootGallery.querySelectorAll(".gallery-item");
 
     var pslide1       = sceneRootGallery.querySelector("#pslide-1");
@@ -366,13 +369,13 @@
 
       if (idx === 0) {
         if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-18 232922.webp (2 / 9)";
-        if (itemOdyssey) itemOdyssey.classList.add("focused");
+        if (itemDashboard) itemDashboard.classList.add("focused");
       } else if (idx === 1) {
-        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-18 233247.webp (4 / 9)";
-        if (itemFlip) itemFlip.classList.add("focused");
+        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-18 233247.webp (3 / 9)";
+        if (itemFigma) itemFigma.classList.add("focused");
       } else if (idx === 2) {
-        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-17 231133.webp (5 / 9)";
-        if (itemFold) itemFold.classList.add("focused");
+        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-17 231133.webp (4 / 9)";
+        if (itemCode) itemCode.classList.add("focused");
       }
     }
 
@@ -412,15 +415,15 @@
         if (captionGal) captionGal.textContent = t("gallery.caption.1");
       });
 
-      // Step 2: Cursor enters & moves to Odyssey capture card
+      // Step 2: Cursor enters & moves to Dashboard KPI capture card
       galAt(1300, function () {
         if (cursorGal) cursorGal.classList.add("on");
-        if (itemOdyssey) galMoveToEl(itemOdyssey, 1000);
+        if (itemDashboard) galMoveToEl(itemDashboard, 1000);
       });
 
       // Step 3: Selection focus & Spacebar press -> QuickLook Preview pops up
       galAt(2500, function () {
-        if (itemOdyssey) itemOdyssey.classList.add("focused");
+        if (itemDashboard) itemDashboard.classList.add("focused");
       });
 
       galAt(3200, function () {
@@ -430,14 +433,14 @@
         if (captionGal) captionGal.textContent = t("gallery.caption.2");
       });
 
-      // Step 4: Arrow Right -> Navigate to Pink Flip capture
+      // Step 4: Arrow Right -> Navigate to Figma Design capture
       galAt(5200, function () {
         showKeyBadge("→");
         showSlide(1);
         if (captionGal) captionGal.textContent = t("gallery.caption.3");
       });
 
-      // Step 5: Arrow Right -> Navigate to Dark Fold capture
+      // Step 5: Arrow Right -> Navigate to VS Code IDE capture
       galAt(7000, function () {
         showKeyBadge("→");
         showSlide(2);
@@ -485,22 +488,22 @@
       });
     }
 
-    if (itemOdyssey) {
-      itemOdyssey.addEventListener("click", function (e) {
+    if (itemDashboard) {
+      itemDashboard.addEventListener("click", function (e) {
         e.stopPropagation();
         showSlide(0);
         if (winPreview) winPreview.classList.add("shown");
       });
     }
-    if (itemFlip) {
-      itemFlip.addEventListener("click", function (e) {
+    if (itemFigma) {
+      itemFigma.addEventListener("click", function (e) {
         e.stopPropagation();
         showSlide(1);
         if (winPreview) winPreview.classList.add("shown");
       });
     }
-    if (itemFold) {
-      itemFold.addEventListener("click", function (e) {
+    if (itemCode) {
+      itemCode.addEventListener("click", function (e) {
         e.stopPropagation();
         showSlide(2);
         if (winPreview) winPreview.classList.add("shown");
