@@ -537,6 +537,7 @@
     var prefCloseBtn = document.getElementById("pref-close-btn");
     var themeSelectTrigger = document.getElementById("theme-select-trigger");
     var themeDropdownMenu = document.getElementById("theme-dropdown-menu");
+    var optLight = document.getElementById("opt-light");
     var optDark = document.getElementById("opt-dark");
     var themeCurrLabel = document.getElementById("theme-curr-label");
     var cursorTheme = document.getElementById("cursor-theme");
@@ -611,6 +612,18 @@
       if (themeDropdownMenu) themeDropdownMenu.classList.remove("shown");
       if (themeCurrLabel) themeCurrLabel.textContent = "라이트 모드 (Light)";
       if (btnAboutOk) btnAboutOk.classList.remove("clicked");
+
+      // Reset dropdown options: Light active, Dark inactive
+      if (optLight) {
+        optLight.classList.add("active");
+        var rl = optLight.querySelector(".opt-radio");
+        if (rl) rl.classList.add("active");
+      }
+      if (optDark) {
+        optDark.classList.remove("active");
+        var rd = optDark.querySelector(".opt-radio");
+        if (rd) rd.classList.remove("active");
+      }
 
       if (captionTheme) captionTheme.textContent = t("scene.caption.idle");
       sceneRootTheme.classList.remove("done");
@@ -691,44 +704,46 @@
       // 2. Cursor moves to Left Resize Handle
       themeAt(900, function () {
         if (cursorTheme) cursorTheme.classList.add("on");
-        if (galleryResizeHandle) themeMoveToEl(galleryResizeHandle, 800);
+        if (galleryResizeHandle) themeMoveToEl(galleryResizeHandle, 700);
       });
 
       // 3. Switch to ew-resize cursor (↔)
-      themeAt(1800, function () {
+      themeAt(1700, function () {
         if (cursorTheme) cursorTheme.setAttribute("data-mode", "resize");
         if (winGalleryTheme) winGalleryTheme.classList.add("resizing");
       });
 
-      // 4. Drag left to expand (440px -> 580px / 4-columns)
-      themeAt(2400, function () {
-        var box = themeBoxOf(deskTheme);
-        var targetX = Math.max(30, box.w - 580);
-        themeMove(targetX, 220, 800);
+      // 4. Drag left to expand (440px -> 580px / 4-columns) with 1:1 cursor sync
+      themeAt(2200, function () {
+        var deskW = (deskTheme && deskTheme.clientWidth) ? deskTheme.clientWidth : 780;
+        var handleY = galleryResizeHandle ? themeCenterOf(galleryResizeHandle).y : 220;
+        var targetX = deskW - 580 + 5; // Left edge of expanded 580px gallery
+        themeMove(targetX, handleY, 800);
         if (winGalleryTheme) winGalleryTheme.classList.add("expanded");
         if (captionTheme) captionTheme.textContent = t("theme.caption.size.2");
       });
 
       // 5. Hold wide 4-column state
-      themeAt(4200, function () {
+      themeAt(4000, function () {
         if (captionTheme) captionTheme.textContent = t("theme.caption.size.3");
       });
 
-      // 6. Drag back right to shrink (580px -> 440px standard)
-      themeAt(4800, function () {
-        var box = themeBoxOf(deskTheme);
-        var targetX = box.w - 440;
-        themeMove(targetX, 220, 800);
+      // 6. Drag back right to shrink (580px -> 440px standard) with 1:1 cursor sync
+      themeAt(4600, function () {
+        var deskW = (deskTheme && deskTheme.clientWidth) ? deskTheme.clientWidth : 780;
+        var handleY = galleryResizeHandle ? themeCenterOf(galleryResizeHandle).y : 220;
+        var targetX = deskW - 440 + 5; // Left edge of standard 440px gallery
+        themeMove(targetX, handleY, 800);
         if (winGalleryTheme) winGalleryTheme.classList.remove("expanded");
       });
 
       // 7. Release drag and revert to arrow cursor
-      themeAt(5800, function () {
+      themeAt(5600, function () {
         if (cursorTheme) cursorTheme.setAttribute("data-mode", "arrow");
         if (winGalleryTheme) winGalleryTheme.classList.remove("resizing");
       });
 
-      themeAt(6800, function () {
+      themeAt(6600, function () {
         if (onComplete) {
           onComplete();
         } else {
@@ -782,35 +797,50 @@
         if (themeDropdownMenu) themeDropdownMenu.classList.add("shown");
       });
 
-      // 6. Select "다크 모드 (Dark)" option -> Instant theme switch!
-      themeAt(5900, function () {
+      // 6. Move cursor to "다크 모드 (Dark)" option
+      themeAt(5800, function () {
         if (optDark) themeMoveToEl(optDark, 500);
       });
 
-      themeAt(6600, function () {
-        if (themeDropdownMenu) themeDropdownMenu.classList.remove("shown");
+      // 7. Click "다크 모드 (Dark)" -> selection changes & dark theme activates!
+      themeAt(6500, function () {
+        if (optLight) {
+          optLight.classList.remove("active");
+          var rl = optLight.querySelector(".opt-radio");
+          if (rl) rl.classList.remove("active");
+        }
+        if (optDark) {
+          optDark.classList.add("active");
+          var rd = optDark.querySelector(".opt-radio");
+          if (rd) rd.classList.add("active");
+        }
         if (themeCurrLabel) themeCurrLabel.textContent = "다크 모드 (Dark)";
         sceneRootTheme.classList.add("dark-theme");
         if (captionTheme) captionTheme.textContent = t("theme.caption.theme.3");
       });
 
-      // 7. Cursor moves to Close button on modal and clicks
-      themeAt(8000, function () {
+      // 8. Dropdown closes after showing the selected Dark state
+      themeAt(7300, function () {
+        if (themeDropdownMenu) themeDropdownMenu.classList.remove("shown");
+      });
+
+      // 9. Cursor moves to Close button on modal and clicks
+      themeAt(8200, function () {
         if (prefCloseBtn) themeMoveToEl(prefCloseBtn, 700);
       });
 
-      themeAt(8900, function () {
+      themeAt(9100, function () {
         if (winPrefModal) winPrefModal.classList.remove("shown");
         if (captionTheme) captionTheme.textContent = t("theme.caption.theme.4");
       });
 
-      // 8. Dark gallery closes & done
-      themeAt(10400, function () {
+      // 10. Dark gallery closes & done
+      themeAt(10600, function () {
         if (winGalleryTheme) winGalleryTheme.classList.remove("shown");
         if (cursorTheme) cursorTheme.classList.remove("on");
       });
 
-      themeAt(11400, function () {
+      themeAt(11600, function () {
         sceneRootTheme.classList.add("done");
         if (onComplete) onComplete();
       });
