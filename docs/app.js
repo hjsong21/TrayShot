@@ -518,6 +518,176 @@
     console.warn("[TrayShot] scene[data-scene=gallery] not found in DOM");
   }
 
+  /* =========================================================================
+     4. Interactive Scene 4: Fluent Preferences & Theme Switching
+  ========================================================================= */
+  var sceneRootTheme = document.querySelector(".scene[data-scene='theme']");
+  if (sceneRootTheme) {
+    var deskTheme = sceneRootTheme.querySelector(".scene-desk-theme");
+    var winGalleryTheme = document.getElementById("win-gallery-theme");
+    var gearBtnTheme = document.getElementById("gear-btn-theme");
+    var galleryCtxMenu = document.getElementById("gallery-ctx-menu");
+    var ctxItemSettings = document.getElementById("ctx-item-settings");
+    var winPrefModal = document.getElementById("win-pref-modal");
+    var prefCloseBtn = document.getElementById("pref-close-btn");
+    var themeSelectTrigger = document.getElementById("theme-select-trigger");
+    var themeDropdownMenu = document.getElementById("theme-dropdown-menu");
+    var optDark = document.getElementById("opt-dark");
+    var themeCurrLabel = document.getElementById("theme-curr-label");
+    var cursorTheme = document.getElementById("cursor-theme");
+    var captionTheme = sceneRootTheme.querySelector(".caption-theme");
+    var replayBtnTheme = sceneRootTheme.querySelector(".replay-theme button");
+
+    var themeTimers = [];
+    function themeAt(ms, fn) {
+      var id = setTimeout(fn, ms);
+      themeTimers.push(id);
+      return id;
+    }
+    function themeStop() {
+      themeTimers.forEach(clearTimeout);
+      themeTimers = [];
+    }
+
+    function themeBoxOf(el) {
+      if (!el || !deskTheme) return { x: 0, y: 0, w: 0, h: 0 };
+      var r = el.getBoundingClientRect();
+      var c = deskTheme.getBoundingClientRect();
+      return { x: r.left - c.left, y: r.top - c.top, w: r.width, h: r.height };
+    }
+    function themeCenterOf(el) {
+      var b = themeBoxOf(el);
+      return { x: b.x + b.w / 2, y: b.y + b.h / 2 };
+    }
+    function themePlace(x, y) {
+      if (!cursorTheme) return;
+      cursorTheme.style.transition = "none";
+      cursorTheme.style.transform = "translate(" + x + "px," + y + "px)";
+      cursorTheme.offsetHeight;
+    }
+    function themeMove(x, y, ms) {
+      if (!cursorTheme) return;
+      cursorTheme.style.transition = "transform " + ms + "ms cubic-bezier(0.42,0,0.24,1), opacity 0.25s ease";
+      cursorTheme.style.transform = "translate(" + x + "px," + y + "px)";
+    }
+    function themeMoveToEl(el, ms) {
+      var p = themeCenterOf(el);
+      themeMove(p.x, p.y, ms);
+    }
+
+    function resetTheme() {
+      themeStop();
+      if (cursorTheme) {
+        cursorTheme.className = "cursor cursor-theme";
+        cursorTheme.setAttribute("data-mode", "arrow");
+        themePlace(520, 360);
+      }
+
+      sceneRootTheme.classList.remove("dark-theme");
+      if (winGalleryTheme) winGalleryTheme.classList.remove("shown");
+      if (gearBtnTheme) gearBtnTheme.classList.remove("clicked");
+      if (galleryCtxMenu) galleryCtxMenu.classList.remove("shown");
+      if (winPrefModal) winPrefModal.classList.remove("shown");
+      if (themeDropdownMenu) themeDropdownMenu.classList.remove("shown");
+      if (themeCurrLabel) themeCurrLabel.textContent = "라이트 모드 (Light)";
+
+      if (captionTheme) captionTheme.textContent = t("scene.caption.idle");
+      sceneRootTheme.classList.remove("done");
+    }
+
+    function playTheme() {
+      resetTheme();
+      console.log("[TrayShot] theme scene animation starting");
+
+      // Step 1: Light gallery summons from tray
+      themeAt(500, function () {
+        if (winGalleryTheme) winGalleryTheme.classList.add("shown");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.1");
+      });
+
+      // Step 2: Cursor enters & moves to Gear icon
+      themeAt(1400, function () {
+        if (cursorTheme) cursorTheme.classList.add("on");
+        if (gearBtnTheme) themeMoveToEl(gearBtnTheme, 900);
+      });
+
+      // Step 3: Click Gear icon -> Context menu opens
+      themeAt(2500, function () {
+        if (gearBtnTheme) gearBtnTheme.classList.add("clicked");
+        if (galleryCtxMenu) galleryCtxMenu.classList.add("shown");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.2");
+      });
+
+      // Step 4: Move to "Settings..." menu item & click -> Open Preferences Window
+      themeAt(3300, function () {
+        if (ctxItemSettings) themeMoveToEl(ctxItemSettings, 600);
+      });
+
+      themeAt(4100, function () {
+        if (galleryCtxMenu) galleryCtxMenu.classList.remove("shown");
+        if (gearBtnTheme) gearBtnTheme.classList.remove("clicked");
+        if (winPrefModal) winPrefModal.classList.add("shown");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.3");
+      });
+
+      // Step 5: Cursor moves to "Theme Mode" dropdown trigger
+      themeAt(5200, function () {
+        if (themeSelectTrigger) themeMoveToEl(themeSelectTrigger, 900);
+      });
+
+      // Step 6: Click Theme dropdown -> Dropdown opens
+      themeAt(6300, function () {
+        if (themeDropdownMenu) themeDropdownMenu.classList.add("shown");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.4");
+      });
+
+      // Step 7: Move cursor to "Dark Mode (Dark)" option & click -> Instant Theme Switch!
+      themeAt(7200, function () {
+        if (optDark) themeMoveToEl(optDark, 600);
+      });
+
+      themeAt(8000, function () {
+        if (themeDropdownMenu) themeDropdownMenu.classList.remove("shown");
+        if (themeCurrLabel) themeCurrLabel.textContent = "다크 모드 (Dark)";
+        sceneRootTheme.classList.add("dark-theme");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.5");
+      });
+
+      // Step 8: Cursor moves to Close button on Preferences modal & click
+      themeAt(9600, function () {
+        if (prefCloseBtn) themeMoveToEl(prefCloseBtn, 800);
+      });
+
+      themeAt(10600, function () {
+        if (winPrefModal) winPrefModal.classList.remove("shown");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.6");
+      });
+
+      // Step 9: Gallery dismisses & finish
+      themeAt(12200, function () {
+        if (winGalleryTheme) winGalleryTheme.classList.remove("shown");
+        if (cursorTheme) cursorTheme.classList.remove("on");
+      });
+
+      themeAt(13200, function () {
+        sceneRootTheme.classList.add("done");
+      });
+    }
+
+    if (replayBtnTheme) {
+      replayBtnTheme.addEventListener("click", function (e) {
+        e.stopPropagation();
+        playTheme();
+      });
+    }
+    sceneRootTheme.addEventListener("click", function () { playTheme(); });
+
+    // Auto-start theme scene
+    setTimeout(playTheme, 700);
+  } else {
+    console.warn("[TrayShot] scene[data-scene=theme] not found in DOM");
+  }
+
   /* ---- 5. Init ---- */
   applyLanguage(localStorage.getItem("trayshot_lang") || getBrowserLang());
   loadReleaseInfo();
