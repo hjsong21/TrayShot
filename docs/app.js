@@ -528,7 +528,7 @@
     var newsTargetBox = document.getElementById("news-target-box");
     var selConvert = document.getElementById("sel-convert");
     var flashConvert = document.getElementById("flash-convert");
-    var winSnipToast = document.getElementById("win-snip-toast");
+    var qdWidgetConvert = document.getElementById("qd-widget-convert");
     var winGalleryConvert = document.getElementById("win-gallery-convert");
     var gitemHynix = document.getElementById("gitem-hynix");
     var badgeHynix = document.getElementById("badge-hynix");
@@ -603,7 +603,7 @@
         selConvert.style.opacity = "";
       }
       if (flashConvert) flashConvert.style.opacity = "0";
-      if (winSnipToast) winSnipToast.classList.remove("shown");
+      if (qdWidgetConvert) qdWidgetConvert.classList.remove("shown");
       if (winGalleryConvert) winGalleryConvert.classList.add("shown");
       if (gitemHynix) gitemHynix.classList.remove("shown");
       if (badgeHynix) {
@@ -668,7 +668,7 @@
         convertMove(region.x + region.w, region.y + region.h, 1300);
       });
 
-      // 3. Shutter Flash + Snip Toast
+      // 3. Shutter Flash + QuickDrop Floating Overlay Thumbnail appears
       convertAt(2500, function () {
         if (flashConvert) {
           flashConvert.style.opacity = "0.75";
@@ -684,7 +684,7 @@
           cursorConvert.setAttribute("data-mode", "arrow");
           cursorConvert.classList.remove("on");
         }
-        if (winSnipToast) winSnipToast.classList.add("shown");
+        if (qdWidgetConvert) qdWidgetConvert.classList.add("shown");
       });
 
       // 4. Item appears in Gallery as PNG (in 2nd position)
@@ -693,9 +693,9 @@
         if (captionConvert) captionConvert.textContent = t("convert.caption.webp.2");
       });
 
-      // 5. Hide Snip Toast
+      // 5. Hide QuickDrop Widget
       convertAt(4000, function () {
-        if (winSnipToast) winSnipToast.classList.remove("shown");
+        if (qdWidgetConvert) qdWidgetConvert.classList.remove("shown");
       });
 
       // 6. Engine triggers -> PNG turns to WEBP badge + Gallery Toast!

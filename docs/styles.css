@@ -3129,54 +3129,6 @@ main {
   transition: opacity 0.15s ease;
 }
 
-/* Windows Snip Toast Notification */
-.win-toast-notify {
-  position: absolute;
-  top: 16px;
-  right: 28px;
-  width: 320px;
-  background: rgba(30, 32, 38, 0.94);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 8px;
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #ffffff;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
-  z-index: 80;
-  transform: translateY(-20px);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.win-toast-notify.shown {
-  transform: translateY(0);
-  opacity: 1;
-}
-.toast-icon-snip {
-  font-size: 1.3rem;
-}
-.toast-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-.toast-info b {
-  font-size: 0.76rem;
-  color: #f3f4f6;
-}
-.toast-info span {
-  font-size: 0.72rem;
-  color: #93c5fd;
-}
-.toast-info .toast-subtext {
-  font-size: 0.65rem;
-  color: #9ca3af;
-}
-
 /* Gallery Convert specific */
 .win-gallery-convert {
   z-index: 45;
