@@ -523,16 +523,17 @@ main {
   position: absolute;
   top: 24px;
   right: 32px;
-  width: 250px;
-  padding: 10px 14px;
+  width: 110px;
+  padding: 10px 10px 8px;
   border-radius: var(--radius-md);
   background: rgba(26, 27, 32, 0.95);
   backdrop-filter: blur(12px);
   border: 1.5px solid var(--accent);
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6), 0 0 20px var(--accent-glow);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
   z-index: 50;
   opacity: 0;
   transform: translateY(-25px) scale(0.92);
@@ -563,8 +564,8 @@ main {
 }
 
 .qd-thumb {
-  width: 62px;
-  height: 44px;
+  width: 88px;
+  height: 60px;
   border-radius: 6px;
   background: linear-gradient(135deg, #1a237e, #0d47a1, #e65100);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -579,31 +580,12 @@ main {
   font-weight: 900;
   color: #fff;
 }
-.qd-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.qd-title {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--text);
-  white-space: nowrap;
-}
 .qd-hint {
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   color: #60a5fa;
   font-weight: 600;
-}
-.qd-badge-close {
-  margin-left: auto;
-  font-size: 1rem;
-  color: var(--text-dim);
-  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
 }
 
 /* Right Side: Conceptual Gmail Compose Window */

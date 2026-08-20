@@ -108,8 +108,8 @@ window.TRAYSHOT_I18N = {
     "ko": "놓으면 Gmail 본문에 즉시 첨부 완료!"
   },
   "capture.qd.hint": {
-    "en": "Drag to paste · 4s",
-    "ko": "드래그하여 붙여넣기 · 4s"
+    "en": "Drag to paste",
+    "ko": "드래그하여 붙여넣기"
   },
   "capture.mail.title": {
     "en": "New Message (Gmail)",
