@@ -519,7 +519,7 @@
   }
 
   /* =========================================================================
-     4. Interactive Scene 4: About Dialog, Panel Resizing & Live Theme Switching
+     4. Interactive Scene 4: Panel Resizing & Live Theme Switching
   ========================================================================= */
   var sceneRootTheme = document.querySelector(".scene[data-scene='theme']");
   if (sceneRootTheme) {
@@ -529,10 +529,6 @@
     var gearBtnTheme = document.getElementById("gear-btn-theme");
     var galleryCtxMenu = document.getElementById("gallery-ctx-menu");
     var ctxItemSettings = document.getElementById("ctx-item-settings");
-    var ctxItemAbout = document.getElementById("ctx-item-about");
-    var winAboutModal = document.getElementById("win-about-modal");
-    var btnAboutOk = document.getElementById("btn-about-ok");
-    var aboutCloseBtn = document.getElementById("about-close-btn");
     var winPrefModal = document.getElementById("win-pref-modal");
     var prefCloseBtn = document.getElementById("pref-close-btn");
     var themeSelectTrigger = document.getElementById("theme-select-trigger");
@@ -544,7 +540,6 @@
     var captionTheme = sceneRootTheme.querySelector(".caption-theme");
     var replayBtnTheme = sceneRootTheme.querySelector(".replay-theme button");
 
-    var pillAbout = document.getElementById("pill-about");
     var pillSize = document.getElementById("pill-size");
     var pillTheme = document.getElementById("pill-theme");
 
@@ -586,7 +581,6 @@
     }
 
     function setActivePill(step) {
-      if (pillAbout) pillAbout.classList.toggle("active", step === "about");
       if (pillSize) pillSize.classList.toggle("active", step === "size");
       if (pillTheme) pillTheme.classList.toggle("active", step === "theme");
     }
@@ -607,11 +601,9 @@
       }
       if (gearBtnTheme) gearBtnTheme.classList.remove("clicked");
       if (galleryCtxMenu) galleryCtxMenu.classList.remove("shown");
-      if (winAboutModal) winAboutModal.classList.remove("shown");
       if (winPrefModal) winPrefModal.classList.remove("shown");
       if (themeDropdownMenu) themeDropdownMenu.classList.remove("shown");
       if (themeCurrLabel) themeCurrLabel.textContent = "라이트 모드 (Light)";
-      if (btnAboutOk) btnAboutOk.classList.remove("clicked");
 
       // Reset dropdown options: Light active, Dark inactive
       if (optLight) {
@@ -629,67 +621,7 @@
       sceneRootTheme.classList.remove("done");
     }
 
-    // ---- Step 1: About Dialog Sequence ----
-    function playAboutStep(onComplete) {
-      resetThemeScene();
-      setActivePill("about");
-      console.log("[TrayShot] playing About step");
-
-      // 1. Gallery open
-      themeAt(400, function () {
-        if (winGalleryTheme) winGalleryTheme.classList.add("shown");
-        if (captionTheme) captionTheme.textContent = t("theme.caption.about.1");
-      });
-
-      // 2. Cursor moves to Gear
-      themeAt(1100, function () {
-        if (cursorTheme) cursorTheme.classList.add("on");
-        if (gearBtnTheme) themeMoveToEl(gearBtnTheme, 700);
-      });
-
-      // 3. Click Gear -> context menu opens
-      themeAt(2000, function () {
-        if (gearBtnTheme) gearBtnTheme.classList.add("clicked");
-        if (galleryCtxMenu) galleryCtxMenu.classList.add("shown");
-      });
-
-      // 4. Move to 'TrayShot 정보' and click
-      themeAt(2600, function () {
-        if (ctxItemAbout) themeMoveToEl(ctxItemAbout, 500);
-      });
-
-      themeAt(3300, function () {
-        if (galleryCtxMenu) galleryCtxMenu.classList.remove("shown");
-        if (gearBtnTheme) gearBtnTheme.classList.remove("clicked");
-        if (winAboutModal) winAboutModal.classList.add("shown");
-        if (captionTheme) captionTheme.textContent = t("theme.caption.about.2");
-      });
-
-      // 5. Move to [확인] button and click to dismiss
-      themeAt(4500, function () {
-        if (btnAboutOk) themeMoveToEl(btnAboutOk, 700);
-        if (captionTheme) captionTheme.textContent = t("theme.caption.about.3");
-      });
-
-      themeAt(5400, function () {
-        if (btnAboutOk) btnAboutOk.classList.add("clicked");
-      });
-
-      themeAt(5800, function () {
-        if (winAboutModal) winAboutModal.classList.remove("shown");
-        if (btnAboutOk) btnAboutOk.classList.remove("clicked");
-      });
-
-      themeAt(6600, function () {
-        if (onComplete) {
-          onComplete();
-        } else {
-          sceneRootTheme.classList.add("done");
-        }
-      });
-    }
-
-    // ---- Step 2: Panel Width Resize Sequence ----
+    // ---- Step 1: Panel Width Resize Sequence ----
     function playSizeStep(onComplete) {
       resetThemeScene();
       setActivePill("size");
@@ -754,7 +686,7 @@
       });
     }
 
-    // ---- Step 3: Theme Switching Sequence ----
+    // ---- Step 2: Theme Switching Sequence ----
     function playThemeStep(onComplete) {
       resetThemeScene();
       setActivePill("theme");
@@ -848,24 +780,16 @@
       });
     }
 
-    // ---- Full Sequential Loop: About -> Size -> Theme ----
+    // ---- Full Sequential Loop: Size -> Theme ----
     function playFullSequence() {
-      playAboutStep(function () {
-        playSizeStep(function () {
-          playThemeStep(function () {
-            sceneRootTheme.classList.add("done");
-          });
+      playSizeStep(function () {
+        playThemeStep(function () {
+          sceneRootTheme.classList.add("done");
         });
       });
     }
 
     // Interactive Pill Tab button events
-    if (pillAbout) {
-      pillAbout.addEventListener("click", function (e) {
-        e.stopPropagation();
-        playAboutStep();
-      });
-    }
     if (pillSize) {
       pillSize.addEventListener("click", function (e) {
         e.stopPropagation();

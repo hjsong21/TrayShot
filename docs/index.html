@@ -902,40 +902,6 @@
             </div>
           </div>
 
-          <!-- Center: About Dialog Modal -->
-          <div class="win-about-modal" id="win-about-modal">
-            <div class="about-topbar">
-              <span class="about-title">TrayShot 정보</span>
-              <button class="about-close-btn" id="about-close-btn" aria-label="Close about">✕</button>
-            </div>
-            <div class="about-body">
-              <div class="about-logo-row">
-                <div class="about-app-icon">
-                  <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
-                    <rect width="32" height="32" rx="8" fill="#2563eb"/>
-                    <path d="M8 17L13 22L24 10" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <div class="about-app-meta">
-                  <h3 class="about-name">TrayShot</h3>
-                  <span class="about-ver">버전 1.1.0 (64-bit x64)</span>
-                </div>
-              </div>
-              <p class="about-desc">Windows 스크린샷 셸프 갤러리 &amp; 이미지 매니저</p>
-              <ul class="about-features">
-                <li>캡처 동작 실시간 자동 감지 및 Fast 썸네일 브라우징</li>
-                <li>HEIC 포함 주요 이미지 포맷 변환 (PNG, JPG, WebP, BMP, GIF, TIFF)</li>
-                <li>윈도우 휴지통 연동 및 Ctrl+Z 복원</li>
-                <li>윈도우 탐색기 / 카카오톡 / 웹 브라우저 양방향 클립보드 (Ctrl+C, Ctrl+V, D&amp;D)</li>
-                <li>사용자 지정 전역 단축키 (기본: Ctrl + Alt + S)</li>
-              </ul>
-              <div class="about-copy">Copyright © 2026 Ho-Jeong Song. All rights reserved.</div>
-              <div class="about-actions">
-                <button class="btn-about-ok" id="btn-about-ok">확인</button>
-              </div>
-            </div>
-          </div>
-
           <!-- Center: Fluent Design Preferences Window (Modal) -->
           <div class="win-pref-modal" id="win-pref-modal">
             <!-- Modal Titlebar -->
@@ -1056,13 +1022,9 @@
         <!-- Caption / Step indicator bar -->
         <div class="caption caption-theme">Ready</div>
 
-        <!-- Scene Tab Pills Controller: [About 화면] [패널 사이즈 변경] [테마] -->
+        <!-- Scene Tab Pills Controller: [패널 사이즈 변경] [테마] -->
         <div class="scene-pills" id="theme-scene-pills">
-          <button type="button" class="scene-pill active" id="pill-about" data-step="about">
-            <span class="pill-dot"></span>
-            <span data-i18n="theme.pill.about">About 화면</span>
-          </button>
-          <button type="button" class="scene-pill" id="pill-size" data-step="size">
+          <button type="button" class="scene-pill active" id="pill-size" data-step="size">
             <span class="pill-dot"></span>
             <span data-i18n="theme.pill.size">패널 사이즈 변경</span>
           </button>

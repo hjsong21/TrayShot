@@ -262,14 +262,10 @@ window.TRAYSHOT_I18N = {
     "en": "Clean Fluent Design cards for general preferences, global hotkey combinations, startup with Windows, panel resolution resizing, and seamless Dark/Light theme switching.",
     "ko": "Windows 스타일에 최적화된 Fluent Design 설정 화면에서 시작 프로그램 등록, 전역 단축키 변경, 다크/라이트 테마 전환, 갤러리 창 해상도 조절 등을 손쉽게 커스터마이징할 수 있습니다."
   },
-  /* Interactive Scene 4 (About, Resize & Theme Switching) Translations */
+  /* Interactive Scene 4 (Panel Resizing & Live Theme Switching) Translations */
   "a11y.scene.theme": {
-    "en": "Interactive animation: Explore TrayShot About information dialog, dynamically expand and shrink the gallery panel width, and switch to Fluent Dark Mode seamlessly.",
-    "ko": "대화형 애니메이션: TrayShot 정보(About) 창을 확인하고, 갤러리 패널 너비를 자유롭게 확대/축소하며, 다크 모드로 전환하는 인터랙티브 시뮬레이션입니다."
-  },
-  "theme.pill.about": {
-    "en": "About Window",
-    "ko": "About 화면"
+    "en": "Interactive animation: Dynamically expand and shrink the TrayShot gallery panel width, and switch to Fluent Dark Mode seamlessly.",
+    "ko": "대화형 애니메이션: TrayShot 갤러리 패널 너비를 자유롭게 확대/축소하고, 다크 모드로 전환하는 인터랙티브 시뮬레이션입니다."
   },
   "theme.pill.size": {
     "en": "Resize Panel",
@@ -278,18 +274,6 @@ window.TRAYSHOT_I18N = {
   "theme.pill.theme": {
     "en": "Theme Mode",
     "ko": "테마"
-  },
-  "theme.caption.about.1": {
-    "en": "Click ⚙️ Gear > Select 'About TrayShot'",
-    "ko": "⚙️ 기어 메뉴 > 'TrayShot 정보' 선택"
-  },
-  "theme.caption.about.2": {
-    "en": "View TrayShot v1.1.0 specifications & features dialog",
-    "ko": "TrayShot v1.1.0 기능 명세 및 정보 확인"
-  },
-  "theme.caption.about.3": {
-    "en": "Click [OK] button to dismiss About dialog",
-    "ko": "[확인] 버튼을 눌러 정보 창 닫기"
   },
   "theme.caption.size.1": {
     "en": "Hover over left edge resize grip (↔)",
