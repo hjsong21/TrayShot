@@ -808,8 +808,12 @@
     // ---- Full Sequential Loop: WebP -> JPG ----
     function playFullConvertSequence() {
       playWebpStep(function () {
-        playJpgStep(function () {
-          sceneRootConvert.classList.add("done");
+        convertAt(1200, function () {
+          playJpgStep(function () {
+            console.log("[TrayShot] convert scene animation complete, looping in 3s");
+            sceneRootConvert.classList.add("done");
+            convertAt(3000, playFullConvertSequence);
+          });
         });
       });
     }
@@ -818,13 +822,17 @@
     if (pillWebp) {
       pillWebp.addEventListener("click", function (e) {
         e.stopPropagation();
-        playWebpStep();
+        playWebpStep(function () {
+          convertAt(3000, playFullConvertSequence);
+        });
       });
     }
     if (pillJpg) {
       pillJpg.addEventListener("click", function (e) {
         e.stopPropagation();
-        playJpgStep();
+        playJpgStep(function () {
+          convertAt(3000, playFullConvertSequence);
+        });
       });
     }
 
@@ -1110,8 +1118,12 @@
     // ---- Full Sequential Loop: Size -> Theme ----
     function playFullSequence() {
       playSizeStep(function () {
-        playThemeStep(function () {
-          sceneRootTheme.classList.add("done");
+        themeAt(1200, function () {
+          playThemeStep(function () {
+            console.log("[TrayShot] theme scene animation complete, looping in 3s");
+            sceneRootTheme.classList.add("done");
+            themeAt(3000, playFullSequence);
+          });
         });
       });
     }
@@ -1120,13 +1132,17 @@
     if (pillSize) {
       pillSize.addEventListener("click", function (e) {
         e.stopPropagation();
-        playSizeStep();
+        playSizeStep(function () {
+          themeAt(3000, playFullSequence);
+        });
       });
     }
     if (pillTheme) {
       pillTheme.addEventListener("click", function (e) {
         e.stopPropagation();
-        playThemeStep();
+        playThemeStep(function () {
+          themeAt(3000, playFullSequence);
+        });
       });
     }
 
