@@ -59,6 +59,10 @@
       var text = t(el.getAttribute("data-i18n"));
       if (text) el.textContent = text;
     });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      var html = t(el.getAttribute("data-i18n-html"));
+      if (html) el.innerHTML = html;
+    });
     document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
       var text = t(el.getAttribute("data-i18n-aria"));
       if (text) el.setAttribute("aria-label", text);

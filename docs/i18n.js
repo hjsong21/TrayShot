@@ -326,6 +326,12 @@ window.TRAYSHOT_I18N = {
     "ko": "설정 완료 — 세련된 다크 테마 적용 완료"
   },
 
+  /* Origin & Attribution */
+  "origin.text": {
+    "en": "TrayShot is a Windows port inspired by <a href=\"https://github.com/ssut/Sukurini\" target=\"_blank\" rel=\"noopener\">Sukurini</a>, originally created by Suhun Han (ssut) for macOS.",
+    "ko": "TrayShot은 Suhun Han(ssut)님이 개발하신 macOS 스크린샷 관리 앱 <a href=\"https://github.com/ssut/Sukurini\" target=\"_blank\" rel=\"noopener\">Sukurini</a>의 아이디어와 핵심 로직을 바탕으로 윈도우 환경에 맞게 포팅(Porting)되었습니다."
+  },
+
   /* Footer */
   "footer.copyright": {
     "en": "Copyright © 2026 Ho-Jeong Song · Apache-2.0 License",
