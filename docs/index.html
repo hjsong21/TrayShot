@@ -847,7 +847,21 @@
                 <div class="group-label">오늘</div>
                 <div class="group-items" id="convert-group-today">
                   
-                  <!-- Dynamic Captured Item (Starts as PNG -> Transitions to WEBP) -->
+                  <!-- 1. Existing Prior WebP Item (Always Present) -->
+                  <div class="gallery-item" id="gitem-prior">
+                    <div class="item-thumb thumb-shot" data-shot="sheets">
+                      <span class="badge-format badge-webp">WEBP</span>
+                      <div class="shot-mini-sheets">
+                        <div class="mini-sheet-head"></div>
+                        <div class="mini-sheet-grid">
+                          <span></span><span></span><span></span><span></span>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="item-name">스크린샷 2026-08-20 152014...</span>
+                  </div>
+
+                  <!-- 2. Dynamic Captured Item (Appears on Snip as PNG -> Auto Converts to WEBP) -->
                   <div class="gallery-item item-captured-main" id="gitem-hynix">
                     <div class="item-thumb thumb-shot">
                       <span class="badge-format badge-png" id="badge-hynix">PNG</span>
@@ -864,7 +878,7 @@
                     <span class="item-name" id="name-hynix">스크린샷 2026-08-20 181937...</span>
                   </div>
 
-                  <!-- New Converted JPG Item (Appears after Context Menu action) -->
+                  <!-- 3. New Converted JPG Item (Appears after Context Menu JPG action) -->
                   <div class="gallery-item item-converted-jpg" id="gitem-hynix-jpg">
                     <div class="item-thumb thumb-shot">
                       <span class="badge-format badge-jpg">JPG</span>

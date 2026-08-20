@@ -725,7 +725,13 @@
 
       // 2. Right-click -> context menu appears
       convertAt(1400, function () {
-        if (thumbContextMenu) thumbContextMenu.classList.add("shown");
+        if (thumbContextMenu && gitemHynix && winGalleryConvert) {
+          var ib = gitemHynix.getBoundingClientRect();
+          var gb = winGalleryConvert.getBoundingClientRect();
+          thumbContextMenu.style.left = (ib.left - gb.left + 20) + "px";
+          thumbContextMenu.style.top = (ib.top - gb.top + 30) + "px";
+          thumbContextMenu.classList.add("shown");
+        }
       });
 
       // 3. Move cursor to '포맷 변환' row -> submenu opens
