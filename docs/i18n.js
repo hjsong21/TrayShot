@@ -262,32 +262,60 @@ window.TRAYSHOT_I18N = {
     "en": "Clean Fluent Design cards for general preferences, global hotkey combinations, startup with Windows, panel resolution resizing, and seamless Dark/Light theme switching.",
     "ko": "Windows 스타일에 최적화된 Fluent Design 설정 화면에서 시작 프로그램 등록, 전역 단축키 변경, 다크/라이트 테마 전환, 갤러리 창 해상도 조절 등을 손쉽게 커스터마이징할 수 있습니다."
   },
-  /* Interactive Scene 4 (Theme & Preferences) Translations */
+  /* Interactive Scene 4 (About, Resize & Theme Switching) Translations */
   "a11y.scene.theme": {
-    "en": "Interactive animation: Open TrayShot spotlight gallery in Light Mode, click gear settings icon, launch Fluent Preferences window, switch Theme Mode from Light to Dark, and watch the UI transition smoothly.",
-    "ko": "대화형 애니메이션: 라이트 모드의 갤러리 창에서 ⚙️ 설정 아이콘을 눌러 환경설정 창을 열고, 화면 테마를 '다크 모드(Dark)'로 변경하여 UI가 즉시 전환되는 인터랙티브 시뮬레이션입니다."
+    "en": "Interactive animation: Explore TrayShot About information dialog, dynamically expand and shrink the gallery panel width, and switch to Fluent Dark Mode seamlessly.",
+    "ko": "대화형 애니메이션: TrayShot 정보(About) 창을 확인하고, 갤러리 패널 너비를 자유롭게 확대/축소하며, 다크 모드로 전환하는 인터랙티브 시뮬레이션입니다."
   },
-  "theme.caption.1": {
-    "en": "Open Spotlight Gallery in Light Mode",
-    "ko": "트레이 갤러리 열기 (라이트 모드)"
+  "theme.pill.about": {
+    "en": "About Window",
+    "ko": "About 화면"
   },
-  "theme.caption.2": {
-    "en": "Click ⚙️ Settings gear menu",
-    "ko": "⚙️ 설정 메뉴 버튼 클릭"
+  "theme.pill.size": {
+    "en": "Resize Panel",
+    "ko": "패널 사이즈 변경"
   },
-  "theme.caption.3": {
-    "en": "Open Preferences window",
-    "ko": "TrayShot 환경설정 창 열기"
+  "theme.pill.theme": {
+    "en": "Theme Mode",
+    "ko": "테마"
   },
-  "theme.caption.4": {
-    "en": "Click Theme Mode dropdown",
-    "ko": "화면 테마 드롭다운 선택"
+  "theme.caption.about.1": {
+    "en": "Click ⚙️ Gear > Select 'About TrayShot'",
+    "ko": "⚙️ 기어 메뉴 > 'TrayShot 정보' 선택"
   },
-  "theme.caption.5": {
+  "theme.caption.about.2": {
+    "en": "View TrayShot v1.1.0 specifications & features dialog",
+    "ko": "TrayShot v1.1.0 기능 명세 및 정보 확인"
+  },
+  "theme.caption.about.3": {
+    "en": "Click [OK] button to dismiss About dialog",
+    "ko": "[확인] 버튼을 눌러 정보 창 닫기"
+  },
+  "theme.caption.size.1": {
+    "en": "Hover over left edge resize grip (↔)",
+    "ko": "갤러리 좌측 리사이즈 그립에 마우스 오버 (↔)"
+  },
+  "theme.caption.size.2": {
+    "en": "Drag left: Expand gallery panel to 4-column wide grid",
+    "ko": "왼쪽으로 드래그: 갤러리 패널을 4열 넓은 그리드로 확대"
+  },
+  "theme.caption.size.3": {
+    "en": "Drag right: Restore standard 3-column compact panel",
+    "ko": "오른쪽으로 드래그: 기본 3열 너비로 축소 복원"
+  },
+  "theme.caption.theme.1": {
+    "en": "Click ⚙️ Gear > Select 'Settings...'",
+    "ko": "⚙️ 기어 메뉴 > '설정...' 선택"
+  },
+  "theme.caption.theme.2": {
+    "en": "Open Preferences window & click Theme Mode dropdown",
+    "ko": "환경설정 창 열기 & 화면 테마 드롭다운 선택"
+  },
+  "theme.caption.theme.3": {
     "en": "Select Dark Mode — dynamic instant switch!",
     "ko": "다크 모드(Dark) 선택 — 즉시 테마 전환!"
   },
-  "theme.caption.6": {
+  "theme.caption.theme.4": {
     "en": "Settings applied — Fluent Dark Mode active",
     "ko": "설정 완료 — 세련된 다크 테마 적용 완료"
   },

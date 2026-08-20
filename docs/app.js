@@ -519,15 +519,20 @@
   }
 
   /* =========================================================================
-     4. Interactive Scene 4: Fluent Preferences & Theme Switching
+     4. Interactive Scene 4: About Dialog, Panel Resizing & Live Theme Switching
   ========================================================================= */
   var sceneRootTheme = document.querySelector(".scene[data-scene='theme']");
   if (sceneRootTheme) {
     var deskTheme = sceneRootTheme.querySelector(".scene-desk-theme");
     var winGalleryTheme = document.getElementById("win-gallery-theme");
+    var galleryResizeHandle = document.getElementById("gallery-resize-handle");
     var gearBtnTheme = document.getElementById("gear-btn-theme");
     var galleryCtxMenu = document.getElementById("gallery-ctx-menu");
     var ctxItemSettings = document.getElementById("ctx-item-settings");
+    var ctxItemAbout = document.getElementById("ctx-item-about");
+    var winAboutModal = document.getElementById("win-about-modal");
+    var btnAboutOk = document.getElementById("btn-about-ok");
+    var aboutCloseBtn = document.getElementById("about-close-btn");
     var winPrefModal = document.getElementById("win-pref-modal");
     var prefCloseBtn = document.getElementById("pref-close-btn");
     var themeSelectTrigger = document.getElementById("theme-select-trigger");
@@ -537,6 +542,10 @@
     var cursorTheme = document.getElementById("cursor-theme");
     var captionTheme = sceneRootTheme.querySelector(".caption-theme");
     var replayBtnTheme = sceneRootTheme.querySelector(".replay-theme button");
+
+    var pillAbout = document.getElementById("pill-about");
+    var pillSize = document.getElementById("pill-size");
+    var pillTheme = document.getElementById("pill-theme");
 
     var themeTimers = [];
     function themeAt(ms, fn) {
@@ -575,115 +584,282 @@
       themeMove(p.x, p.y, ms);
     }
 
-    function resetTheme() {
+    function setActivePill(step) {
+      if (pillAbout) pillAbout.classList.toggle("active", step === "about");
+      if (pillSize) pillSize.classList.toggle("active", step === "size");
+      if (pillTheme) pillTheme.classList.toggle("active", step === "theme");
+    }
+
+    function resetThemeScene() {
       themeStop();
       if (cursorTheme) {
         cursorTheme.className = "cursor cursor-theme";
         cursorTheme.setAttribute("data-mode", "arrow");
-        themePlace(520, 360);
+        themePlace(540, 380);
       }
 
       sceneRootTheme.classList.remove("dark-theme");
-      if (winGalleryTheme) winGalleryTheme.classList.remove("shown");
+      if (winGalleryTheme) {
+        winGalleryTheme.classList.remove("shown");
+        winGalleryTheme.classList.remove("expanded");
+        winGalleryTheme.classList.remove("resizing");
+      }
       if (gearBtnTheme) gearBtnTheme.classList.remove("clicked");
       if (galleryCtxMenu) galleryCtxMenu.classList.remove("shown");
+      if (winAboutModal) winAboutModal.classList.remove("shown");
       if (winPrefModal) winPrefModal.classList.remove("shown");
       if (themeDropdownMenu) themeDropdownMenu.classList.remove("shown");
       if (themeCurrLabel) themeCurrLabel.textContent = "라이트 모드 (Light)";
+      if (btnAboutOk) btnAboutOk.classList.remove("clicked");
 
       if (captionTheme) captionTheme.textContent = t("scene.caption.idle");
       sceneRootTheme.classList.remove("done");
     }
 
-    function playTheme() {
-      resetTheme();
-      console.log("[TrayShot] theme scene animation starting");
+    // ---- Step 1: About Dialog Sequence ----
+    function playAboutStep(onComplete) {
+      resetThemeScene();
+      setActivePill("about");
+      console.log("[TrayShot] playing About step");
 
-      // Step 1: Light gallery summons from tray
-      themeAt(500, function () {
+      // 1. Gallery open
+      themeAt(400, function () {
         if (winGalleryTheme) winGalleryTheme.classList.add("shown");
-        if (captionTheme) captionTheme.textContent = t("theme.caption.1");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.about.1");
       });
 
-      // Step 2: Cursor enters & moves to Gear icon
-      themeAt(1400, function () {
+      // 2. Cursor moves to Gear
+      themeAt(1100, function () {
         if (cursorTheme) cursorTheme.classList.add("on");
-        if (gearBtnTheme) themeMoveToEl(gearBtnTheme, 900);
+        if (gearBtnTheme) themeMoveToEl(gearBtnTheme, 700);
       });
 
-      // Step 3: Click Gear icon -> Context menu opens
-      themeAt(2500, function () {
+      // 3. Click Gear -> context menu opens
+      themeAt(2000, function () {
         if (gearBtnTheme) gearBtnTheme.classList.add("clicked");
         if (galleryCtxMenu) galleryCtxMenu.classList.add("shown");
-        if (captionTheme) captionTheme.textContent = t("theme.caption.2");
       });
 
-      // Step 4: Move to "Settings..." menu item & click -> Open Preferences Window
+      // 4. Move to 'TrayShot 정보' and click
+      themeAt(2600, function () {
+        if (ctxItemAbout) themeMoveToEl(ctxItemAbout, 500);
+      });
+
       themeAt(3300, function () {
-        if (ctxItemSettings) themeMoveToEl(ctxItemSettings, 600);
+        if (galleryCtxMenu) galleryCtxMenu.classList.remove("shown");
+        if (gearBtnTheme) gearBtnTheme.classList.remove("clicked");
+        if (winAboutModal) winAboutModal.classList.add("shown");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.about.2");
       });
 
-      themeAt(4100, function () {
+      // 5. Move to [확인] button and click to dismiss
+      themeAt(4500, function () {
+        if (btnAboutOk) themeMoveToEl(btnAboutOk, 700);
+        if (captionTheme) captionTheme.textContent = t("theme.caption.about.3");
+      });
+
+      themeAt(5400, function () {
+        if (btnAboutOk) btnAboutOk.classList.add("clicked");
+      });
+
+      themeAt(5800, function () {
+        if (winAboutModal) winAboutModal.classList.remove("shown");
+        if (btnAboutOk) btnAboutOk.classList.remove("clicked");
+      });
+
+      themeAt(6600, function () {
+        if (onComplete) {
+          onComplete();
+        } else {
+          sceneRootTheme.classList.add("done");
+        }
+      });
+    }
+
+    // ---- Step 2: Panel Width Resize Sequence ----
+    function playSizeStep(onComplete) {
+      resetThemeScene();
+      setActivePill("size");
+      console.log("[TrayShot] playing Panel Resize step");
+
+      // 1. Gallery open
+      themeAt(300, function () {
+        if (winGalleryTheme) winGalleryTheme.classList.add("shown");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.size.1");
+      });
+
+      // 2. Cursor moves to Left Resize Handle
+      themeAt(900, function () {
+        if (cursorTheme) cursorTheme.classList.add("on");
+        if (galleryResizeHandle) themeMoveToEl(galleryResizeHandle, 800);
+      });
+
+      // 3. Switch to ew-resize cursor (↔)
+      themeAt(1800, function () {
+        if (cursorTheme) cursorTheme.setAttribute("data-mode", "resize");
+        if (winGalleryTheme) winGalleryTheme.classList.add("resizing");
+      });
+
+      // 4. Drag left to expand (440px -> 580px / 4-columns)
+      themeAt(2400, function () {
+        var box = themeBoxOf(deskTheme);
+        var targetX = Math.max(30, box.w - 580);
+        themeMove(targetX, 220, 800);
+        if (winGalleryTheme) winGalleryTheme.classList.add("expanded");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.size.2");
+      });
+
+      // 5. Hold wide 4-column state
+      themeAt(4200, function () {
+        if (captionTheme) captionTheme.textContent = t("theme.caption.size.3");
+      });
+
+      // 6. Drag back right to shrink (580px -> 440px standard)
+      themeAt(4800, function () {
+        var box = themeBoxOf(deskTheme);
+        var targetX = box.w - 440;
+        themeMove(targetX, 220, 800);
+        if (winGalleryTheme) winGalleryTheme.classList.remove("expanded");
+      });
+
+      // 7. Release drag and revert to arrow cursor
+      themeAt(5800, function () {
+        if (cursorTheme) cursorTheme.setAttribute("data-mode", "arrow");
+        if (winGalleryTheme) winGalleryTheme.classList.remove("resizing");
+      });
+
+      themeAt(6800, function () {
+        if (onComplete) {
+          onComplete();
+        } else {
+          sceneRootTheme.classList.add("done");
+        }
+      });
+    }
+
+    // ---- Step 3: Theme Switching Sequence ----
+    function playThemeStep(onComplete) {
+      resetThemeScene();
+      setActivePill("theme");
+      console.log("[TrayShot] playing Theme Switch step");
+
+      // 1. Light gallery open
+      themeAt(300, function () {
+        if (winGalleryTheme) winGalleryTheme.classList.add("shown");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.theme.1");
+      });
+
+      // 2. Cursor moves to Gear
+      themeAt(900, function () {
+        if (cursorTheme) cursorTheme.classList.add("on");
+        if (gearBtnTheme) themeMoveToEl(gearBtnTheme, 700);
+      });
+
+      // 3. Click Gear -> context menu opens
+      themeAt(1700, function () {
+        if (gearBtnTheme) gearBtnTheme.classList.add("clicked");
+        if (galleryCtxMenu) galleryCtxMenu.classList.add("shown");
+      });
+
+      // 4. Click '설정...' -> Preferences Window opens
+      themeAt(2400, function () {
+        if (ctxItemSettings) themeMoveToEl(ctxItemSettings, 500);
+      });
+
+      themeAt(3100, function () {
         if (galleryCtxMenu) galleryCtxMenu.classList.remove("shown");
         if (gearBtnTheme) gearBtnTheme.classList.remove("clicked");
         if (winPrefModal) winPrefModal.classList.add("shown");
-        if (captionTheme) captionTheme.textContent = t("theme.caption.3");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.theme.2");
       });
 
-      // Step 5: Cursor moves to "Theme Mode" dropdown trigger
-      themeAt(5200, function () {
-        if (themeSelectTrigger) themeMoveToEl(themeSelectTrigger, 900);
+      // 5. Cursor moves to Theme dropdown trigger & clicks
+      themeAt(4200, function () {
+        if (themeSelectTrigger) themeMoveToEl(themeSelectTrigger, 700);
       });
 
-      // Step 6: Click Theme dropdown -> Dropdown opens
-      themeAt(6300, function () {
+      themeAt(5100, function () {
         if (themeDropdownMenu) themeDropdownMenu.classList.add("shown");
-        if (captionTheme) captionTheme.textContent = t("theme.caption.4");
       });
 
-      // Step 7: Move cursor to "Dark Mode (Dark)" option & click -> Instant Theme Switch!
-      themeAt(7200, function () {
-        if (optDark) themeMoveToEl(optDark, 600);
+      // 6. Select "다크 모드 (Dark)" option -> Instant theme switch!
+      themeAt(5900, function () {
+        if (optDark) themeMoveToEl(optDark, 500);
       });
 
-      themeAt(8000, function () {
+      themeAt(6600, function () {
         if (themeDropdownMenu) themeDropdownMenu.classList.remove("shown");
         if (themeCurrLabel) themeCurrLabel.textContent = "다크 모드 (Dark)";
         sceneRootTheme.classList.add("dark-theme");
-        if (captionTheme) captionTheme.textContent = t("theme.caption.5");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.theme.3");
       });
 
-      // Step 8: Cursor moves to Close button on Preferences modal & click
-      themeAt(9600, function () {
-        if (prefCloseBtn) themeMoveToEl(prefCloseBtn, 800);
+      // 7. Cursor moves to Close button on modal and clicks
+      themeAt(8000, function () {
+        if (prefCloseBtn) themeMoveToEl(prefCloseBtn, 700);
       });
 
-      themeAt(10600, function () {
+      themeAt(8900, function () {
         if (winPrefModal) winPrefModal.classList.remove("shown");
-        if (captionTheme) captionTheme.textContent = t("theme.caption.6");
+        if (captionTheme) captionTheme.textContent = t("theme.caption.theme.4");
       });
 
-      // Step 9: Gallery dismisses & finish
-      themeAt(12200, function () {
+      // 8. Dark gallery closes & done
+      themeAt(10400, function () {
         if (winGalleryTheme) winGalleryTheme.classList.remove("shown");
         if (cursorTheme) cursorTheme.classList.remove("on");
       });
 
-      themeAt(13200, function () {
+      themeAt(11400, function () {
         sceneRootTheme.classList.add("done");
+        if (onComplete) onComplete();
+      });
+    }
+
+    // ---- Full Sequential Loop: About -> Size -> Theme ----
+    function playFullSequence() {
+      playAboutStep(function () {
+        playSizeStep(function () {
+          playThemeStep(function () {
+            sceneRootTheme.classList.add("done");
+          });
+        });
+      });
+    }
+
+    // Interactive Pill Tab button events
+    if (pillAbout) {
+      pillAbout.addEventListener("click", function (e) {
+        e.stopPropagation();
+        playAboutStep();
+      });
+    }
+    if (pillSize) {
+      pillSize.addEventListener("click", function (e) {
+        e.stopPropagation();
+        playSizeStep();
+      });
+    }
+    if (pillTheme) {
+      pillTheme.addEventListener("click", function (e) {
+        e.stopPropagation();
+        playThemeStep();
       });
     }
 
     if (replayBtnTheme) {
       replayBtnTheme.addEventListener("click", function (e) {
         e.stopPropagation();
-        playTheme();
+        playFullSequence();
       });
     }
-    sceneRootTheme.addEventListener("click", function () { playTheme(); });
+    sceneRootTheme.addEventListener("click", function (e) {
+      if (e.target.closest(".scene-pills") || e.target.closest(".replay-theme")) return;
+      playFullSequence();
+    });
 
-    // Auto-start theme scene
-    setTimeout(playTheme, 700);
+    // Auto-start complete sequence
+    setTimeout(playFullSequence, 700);
   } else {
     console.warn("[TrayShot] scene[data-scene=theme] not found in DOM");
   }
