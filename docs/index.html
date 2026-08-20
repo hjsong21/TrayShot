@@ -716,21 +716,276 @@
       </p>
     </div>
 
-    <!-- Image / Diagram Showcase Slot 3 -->
-    <div class="showcase-card">
-      <div class="window-frame-bar">
-        <div class="win-controls"><i class="win-dot"></i><i class="win-dot"></i><i class="win-dot"></i></div>
-        <span>Lossless WebP Compression Engine</span>
+    <!-- Interactive Scene 3: Automatic WebP & Contextual JPG Format Conversion -->
+    <div class="scene scene-convert" data-scene="convert" tabindex="0" role="region"
+         aria-label="TrayShot format conversion simulation"
+         data-i18n-aria="a11y.scene.convert">
+
+      <div class="scene-chrome">
+        <span class="scene-lights"><i class="tl tl-r"></i><i class="tl tl-y"></i><i class="tl tl-g"></i></span>
+        <span class="scene-title">TrayShot Smart Conversion Engine</span>
+        <span class="scene-sys-tray">
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13Z"/></svg>
+          <span class="scene-clock">18:19</span>
+        </span>
       </div>
 
-      <div class="img-placeholder-slot">
-        <span class="placeholder-badge" data-i18n="placeholder.f3.badge">📷 이미지 / 다이어그램 권장 위치: WebP 용량 절감 비교 화면</span>
-        <h3 class="placeholder-title" data-i18n="placeholder.f3.title">PNG vs WebP 파일 용량 비교 및 원본 처분 정책 설정 화면</h3>
-        <p class="placeholder-guide" data-i18n="placeholder.f3.guide">
-          권장 콘텐츠: 1) 원본 PNG(4.5MB)가 무손실 WebP(1.4MB)로 압축되어 용량이 줄어든 파일 탐색기 비교 화면, 2) 설정 창의 이미지 변환 탭(휴지통/삭제/보존 처분 정책) 스크린샷.
-        </p>
-        <span class="placeholder-specs" data-i18n="placeholder.f3.specs">권장 규격: 1000×560 · PNG / WebP / SVG 다이어그램</span>
+      <div class="scene-desk scene-desk-convert">
+        
+        <!-- Background Wallpaper Art (Same Coastal Theme) -->
+        <div class="desk-wallpaper">
+          <div class="wp-sky"></div>
+          <div class="wp-sea"></div>
+          <div class="wp-glider">
+            <svg viewBox="0 0 60 40" width="54" height="36" fill="none">
+              <path d="M4 14 C 20 4, 40 4, 56 14 C 42 11, 18 11, 4 14 Z" fill="#2563eb" />
+              <path d="M8 13 C 22 7, 38 7, 52 13 C 40 10, 20 10, 8 13 Z" fill="#ef4444" />
+              <line x1="12" y1="13" x2="30" y2="28" stroke="rgba(255,255,255,0.7)" stroke-width="0.8" />
+              <line x1="48" y1="13" x2="30" y2="28" stroke="rgba(255,255,255,0.7)" stroke-width="0.8" />
+              <circle cx="30" cy="29" r="2.5" fill="#111" />
+            </svg>
+          </div>
+          <!-- Desktop Shortcuts (Left) -->
+          <div class="desk-shortcuts">
+            <div class="desk-icon">
+              <div class="icon-glyph icon-trash">🗑️</div>
+              <span>휴지통</span>
+            </div>
+            <div class="desk-icon">
+              <div class="icon-glyph icon-edge">🌐</div>
+              <span>Edge</span>
+            </div>
+            <div class="desk-icon">
+              <div class="icon-glyph icon-app">📸</div>
+              <span>TrayShot</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left: News Browser Window (Capture Target) -->
+        <div class="win-browser-news" id="win-browser-news">
+          <div class="browser-tabbar">
+            <div class="browser-tab active">
+              <span class="tab-naver-icon">N</span>
+              <span class="tab-title">NAVER 뉴스</span>
+              <span class="tab-close">✕</span>
+            </div>
+            <div class="browser-tab-add">+</div>
+            <div class="browser-win-actions">
+              <span>─</span><span>▢</span><span>✕</span>
+            </div>
+          </div>
+          <div class="browser-nav-bar">
+            <span class="nav-btn">←</span>
+            <span class="nav-btn">→</span>
+            <span class="nav-btn">↻</span>
+            <div class="browser-url-input">
+              <svg viewBox="0 0 16 16" width="11" height="11" fill="currentColor"><path d="M8 1a4 4 0 0 0-4 4v2H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-1V5a4 4 0 0 0-4-4zm-2 4a2 2 0 1 1 4 0v2H6V5z"/></svg>
+              <span>n.news.naver.com/article/463/0000049163</span>
+            </div>
+          </div>
+          <div class="browser-content">
+            <div class="news-categories">
+              <span>언론사별</span><span>정치</span><span>경제</span><span>사회</span><span>생활/문화</span><span class="cat-active">IT/과학</span><span>세계</span>
+            </div>
+            <div class="news-headline-box">
+              <h4 class="news-title">직원들로선 회사 실적에 묶이게 돼 노조 투표 결과, 재계 확산 여부 주목</h4>
+            </div>
+            
+            <!-- Target News Photo Card (SK hynix) -->
+            <div class="news-photo-card" id="news-target-box">
+              <div class="traffic-signal-box">
+                <span class="sig-lamp red"></span>
+                <span class="sig-lamp green"><i class="arrow-left">←</i></span>
+              </div>
+              <div class="hynix-logo-wrap">
+                <span class="hynix-logo-text">SK hynix</span>
+              </div>
+              <div class="photo-caption">경기 이천시 SK하이닉스 옆 고용신호등에 초록색 불이 들어와 있다.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Snipping Selection Overlay for Browser Capture -->
+        <div class="sel-convert" id="sel-convert">
+          <span class="sel-convert-size">320 × 160</span>
+        </div>
+        <div class="flash-convert" id="flash-convert"></div>
+
+        <!-- Top Right: Windows Snip Toast Notification -->
+        <div class="win-toast-notify" id="win-snip-toast">
+          <div class="toast-icon-snip">✂️</div>
+          <div class="toast-info">
+            <b>캡처 도구</b>
+            <span>스크린샷이 클립보드에 복사됨</span>
+            <span class="toast-subtext">스마트 셸프에 자동으로 저장되었습니다.</span>
+          </div>
+        </div>
+
+        <!-- Bottom Right: TrayShot Gallery Window -->
+        <div class="win-gallery win-gallery-convert shown" id="win-gallery-convert">
+          <div class="gallery-inner">
+            <div class="gallery-head">
+              <div class="gallery-search">
+                <span class="search-icon">🔍</span>
+                <span data-i18n="gallery.search.placeholder">검색어 입력...</span>
+              </div>
+              <div class="gallery-gear">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+                  <path d="M19.43 12.97c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-.97l2.11-1.66c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.66c-.04.31-.07.64-.07.97 0 .33.03.66.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.39 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="gallery-scroll">
+              <!-- Group: Today -->
+              <div class="gallery-group">
+                <div class="group-label">오늘</div>
+                <div class="group-items" id="convert-group-today">
+                  
+                  <!-- Dynamic Captured Item (Starts as PNG -> Transitions to WEBP) -->
+                  <div class="gallery-item item-captured-main" id="gitem-hynix">
+                    <div class="item-thumb thumb-shot">
+                      <span class="badge-format badge-png" id="badge-hynix">PNG</span>
+                      <div class="shot-mini-hynix">
+                        <div class="mini-traffic-light"></div>
+                        <div class="mini-hynix-text">SK hynix</div>
+                      </div>
+                    </div>
+                    <span class="item-name" id="name-hynix">스크린샷 2026-08-20 181937...</span>
+                  </div>
+
+                  <!-- New Converted JPG Item (Appears after Context Menu action) -->
+                  <div class="gallery-item item-converted-jpg" id="gitem-hynix-jpg">
+                    <div class="item-thumb thumb-shot">
+                      <span class="badge-format badge-jpg">JPG</span>
+                      <div class="shot-mini-hynix">
+                        <div class="mini-traffic-light"></div>
+                        <div class="mini-hynix-text">SK hynix</div>
+                      </div>
+                    </div>
+                    <span class="item-name">스크린샷 2026-08-20 181937_conv...</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Group: Yesterday -->
+              <div class="gallery-group">
+                <div class="group-label">어제</div>
+                <div class="group-items">
+                  <div class="gallery-item">
+                    <div class="item-thumb thumb-shot" data-shot="chat">
+                      <span class="badge-format badge-webp">WEBP</span>
+                      <div class="shot-mini-chat">
+                        <div class="mini-bubble b1"></div><div class="mini-bubble b2"></div>
+                      </div>
+                    </div>
+                    <span class="item-name">스크린샷 2026-08-19 232916...</span>
+                  </div>
+                  <div class="gallery-item">
+                    <div class="item-thumb thumb-shot" data-shot="code">
+                      <span class="badge-format badge-webp">WEBP</span>
+                      <div class="shot-mini-code">
+                        <div class="mini-code-sidebar"></div>
+                        <div class="mini-code-lines"><span class="cl-p"></span><span class="cl-y"></span></div>
+                      </div>
+                    </div>
+                    <span class="item-name">스크린샷 2026-08-19 212702...</span>
+                  </div>
+                  <div class="gallery-item">
+                    <div class="item-thumb thumb-shot" data-shot="dashboard">
+                      <span class="badge-format badge-webp">WEBP</span>
+                      <div class="shot-mini-dashboard">
+                        <div class="mini-donut-wrap"><div class="mini-donut"></div></div>
+                      </div>
+                    </div>
+                    <span class="item-name">스크린샷 2026-08-19 212518...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Conversion Floating Toast in Gallery -->
+            <div class="gallery-toast-msg" id="gallery-toast-msg">
+              <span class="toast-icon">✨</span>
+              <span class="toast-text" id="gallery-toast-text">무손실 WebP로 자동 변환됨 (-65%)</span>
+            </div>
+
+            <!-- Right-Click Context Menu with Submenu -->
+            <div class="thumb-context-menu" id="thumb-context-menu">
+              <div class="ctx-row"><span class="ctx-label">보기</span><span class="ctx-shortcut">Space</span></div>
+              <div class="ctx-row"><span class="ctx-label">복사</span><span class="ctx-shortcut">Ctrl+C</span></div>
+              <div class="ctx-row"><span class="ctx-label">잘라내기</span><span class="ctx-shortcut">Ctrl+X</span></div>
+              <div class="ctx-divider"></div>
+              <div class="ctx-row ctx-has-sub active-hover" id="ctx-row-format">
+                <span class="ctx-label">포맷 변환</span>
+                <span class="ctx-arrow">▸</span>
+                
+                <!-- Format Submenu -->
+                <div class="ctx-submenu" id="ctx-submenu-format">
+                  <div class="sub-item">PNG</div>
+                  <div class="sub-item highlight" id="sub-item-jpg">JPG</div>
+                  <div class="sub-item">WebP</div>
+                  <div class="sub-item">BMP</div>
+                  <div class="sub-item">GIF</div>
+                  <div class="sub-item">TIFF</div>
+                  <div class="sub-item">HEIC</div>
+                </div>
+              </div>
+              <div class="ctx-divider"></div>
+              <div class="ctx-row"><span class="ctx-label">삭제</span><span class="ctx-shortcut">Del</span></div>
+              <div class="ctx-row"><span class="ctx-label">되돌리기</span><span class="ctx-shortcut">Ctrl+Z</span></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Animated Cursor for Conversion Scene -->
+        <div class="cursor cursor-convert" id="cursor-convert">
+          <svg class="cur cur-arrow" viewBox="0 0 13 20" width="13" height="20">
+            <path d="M1.2 1.1 1.2 15.9 5 12.4 7.4 18.1 9.7 17.1 7.3 11.5 11.2Z"
+                  fill="#000" stroke="#fff" stroke-width="1.15" stroke-linejoin="round"/>
+          </svg>
+          <svg class="cur cur-cross" viewBox="0 0 26 26" width="26" height="26">
+            <g stroke="#fff" stroke-width="3.2" stroke-linecap="butt">
+              <path d="M13 0v9M13 17v9M0 13h9M17 13h9"/>
+            </g>
+            <g stroke="#000" stroke-width="1.3">
+              <path d="M13 0v9M13 17v9M0 13h9M17 13h9"/>
+            </g>
+          </svg>
+        </div>
+
       </div>
+
+      <!-- Caption / Step indicator bar -->
+      <div class="caption caption-convert">Ready</div>
+
+      <!-- Scene Tab Pills Controller below Animation Window -->
+      <div class="scene-pills-container" id="convert-scene-pills">
+        <div class="scene-pills">
+          <button type="button" class="scene-pill active" id="pill-webp" data-step="webp">
+            <span class="pill-dot"></span>
+            <span data-i18n="convert.pill.webp">WebP 자동 변환</span>
+          </button>
+          <button type="button" class="scene-pill" id="pill-jpg" data-step="jpg">
+            <span class="pill-dot"></span>
+            <span data-i18n="convert.pill.jpg">JPG 포맷 변환</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Replay button -->
+      <div class="replay-layer replay-convert">
+        <button type="button" aria-label="Replay conversion scene">
+          <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 10a7 7 0 1 1-2.2-5.1"/>
+            <path d="M17.4 2.6v4.2h-4.2"/>
+          </svg>
+        </button>
+      </div>
+
     </div>
 
     <div class="feature-grid">
@@ -1052,16 +1307,18 @@
         <!-- Caption / Step indicator bar -->
         <div class="caption caption-theme">Ready</div>
 
-        <!-- Scene Tab Pills Controller: [패널 사이즈 변경] [테마] -->
-        <div class="scene-pills" id="theme-scene-pills">
-          <button type="button" class="scene-pill active" id="pill-size" data-step="size">
-            <span class="pill-dot"></span>
-            <span data-i18n="theme.pill.size">패널 사이즈 변경</span>
-          </button>
-          <button type="button" class="scene-pill" id="pill-theme" data-step="theme">
-            <span class="pill-dot"></span>
-            <span data-i18n="theme.pill.theme">테마</span>
-          </button>
+        <!-- Scene Tab Pills Controller below Animation Window -->
+        <div class="scene-pills-container" id="theme-scene-pills">
+          <div class="scene-pills">
+            <button type="button" class="scene-pill active" id="pill-size" data-step="size">
+              <span class="pill-dot"></span>
+              <span data-i18n="theme.pill.size">패널 사이즈 변경</span>
+            </button>
+            <button type="button" class="scene-pill" id="pill-theme" data-step="theme">
+              <span class="pill-dot"></span>
+              <span data-i18n="theme.pill.theme">테마</span>
+            </button>
+          </div>
         </div>
 
         <!-- Replay button -->

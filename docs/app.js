@@ -519,6 +519,297 @@
   }
 
   /* =========================================================================
+     3. Interactive Scene 3: Automatic WebP & Contextual JPG Format Conversion
+  ========================================================================= */
+  var sceneRootConvert = document.querySelector(".scene[data-scene='convert']");
+  if (sceneRootConvert) {
+    var deskConvert = sceneRootConvert.querySelector(".scene-desk-convert");
+    var winBrowserNews = document.getElementById("win-browser-news");
+    var newsTargetBox = document.getElementById("news-target-box");
+    var selConvert = document.getElementById("sel-convert");
+    var flashConvert = document.getElementById("flash-convert");
+    var winSnipToast = document.getElementById("win-snip-toast");
+    var winGalleryConvert = document.getElementById("win-gallery-convert");
+    var gitemHynix = document.getElementById("gitem-hynix");
+    var badgeHynix = document.getElementById("badge-hynix");
+    var gitemHynixJpg = document.getElementById("gitem-hynix-jpg");
+    var galleryToastMsg = document.getElementById("gallery-toast-msg");
+    var galleryToastText = document.getElementById("gallery-toast-text");
+    var thumbContextMenu = document.getElementById("thumb-context-menu");
+    var ctxRowFormat = document.getElementById("ctx-row-format");
+    var subItemJpg = document.getElementById("sub-item-jpg");
+    var cursorConvert = document.getElementById("cursor-convert");
+    var captionConvert = sceneRootConvert.querySelector(".caption-convert");
+    var replayBtnConvert = sceneRootConvert.querySelector(".replay-convert button");
+
+    var pillWebp = document.getElementById("pill-webp");
+    var pillJpg = document.getElementById("pill-jpg");
+
+    var convertTimers = [];
+    function convertAt(ms, fn) {
+      var id = setTimeout(fn, ms);
+      convertTimers.push(id);
+      return id;
+    }
+    function convertStop() {
+      convertTimers.forEach(clearTimeout);
+      convertTimers = [];
+    }
+
+    function convertBoxOf(el) {
+      if (!el || !deskConvert) return { x: 0, y: 0, w: 0, h: 0 };
+      var r = el.getBoundingClientRect();
+      var c = deskConvert.getBoundingClientRect();
+      return { x: r.left - c.left, y: r.top - c.top, w: r.width, h: r.height };
+    }
+    function convertCenterOf(el) {
+      var b = convertBoxOf(el);
+      return { x: b.x + b.w / 2, y: b.y + b.h / 2 };
+    }
+    function convertPlace(x, y) {
+      if (!cursorConvert) return;
+      cursorConvert.style.transition = "none";
+      cursorConvert.style.transform = "translate(" + x + "px," + y + "px)";
+      cursorConvert.offsetHeight;
+    }
+    function convertMove(x, y, ms) {
+      if (!cursorConvert) return;
+      cursorConvert.style.transition = "transform " + ms + "ms cubic-bezier(0.42,0,0.24,1), opacity 0.25s ease";
+      cursorConvert.style.transform = "translate(" + x + "px," + y + "px)";
+    }
+    function convertMoveToEl(el, ms) {
+      var p = convertCenterOf(el);
+      convertMove(p.x, p.y, ms);
+    }
+
+    function setActivePillConvert(step) {
+      if (pillWebp) pillWebp.classList.toggle("active", step === "webp");
+      if (pillJpg) pillJpg.classList.toggle("active", step === "jpg");
+    }
+
+    function resetConvertScene() {
+      convertStop();
+      if (cursorConvert) {
+        cursorConvert.className = "cursor cursor-convert";
+        cursorConvert.setAttribute("data-mode", "arrow");
+        convertPlace(120, 200);
+      }
+
+      if (selConvert) {
+        selConvert.style.transition = "none";
+        selConvert.style.width = "0px";
+        selConvert.style.height = "0px";
+        selConvert.style.opacity = "0";
+      }
+      if (flashConvert) flashConvert.style.opacity = "0";
+      if (winSnipToast) winSnipToast.classList.remove("shown");
+      if (winGalleryConvert) winGalleryConvert.classList.add("shown");
+      if (gitemHynix) gitemHynix.classList.remove("shown");
+      if (badgeHynix) {
+        badgeHynix.textContent = "PNG";
+        badgeHynix.className = "badge-format badge-png";
+      }
+      if (gitemHynixJpg) gitemHynixJpg.classList.remove("shown");
+      if (galleryToastMsg) galleryToastMsg.classList.remove("shown");
+      if (thumbContextMenu) thumbContextMenu.classList.remove("shown");
+      if (ctxRowFormat) ctxRowFormat.classList.remove("active-hover");
+      if (subItemJpg) subItemJpg.classList.remove("clicked");
+
+      if (captionConvert) captionConvert.textContent = t("scene.caption.idle");
+      sceneRootConvert.classList.remove("done");
+    }
+
+    // ---- Step 1: WebP Auto Conversion Sequence ----
+    function playWebpStep(onComplete) {
+      resetConvertScene();
+      setActivePillConvert("webp");
+      console.log("[TrayShot] playing WebP Auto Conversion step");
+
+      // 1. Snipping cursor appears on browser target
+      convertAt(300, function () {
+        if (cursorConvert) {
+          cursorConvert.classList.add("on");
+          cursorConvert.setAttribute("data-mode", "cross");
+        }
+        var tb = convertBoxOf(newsTargetBox);
+        convertPlace(tb.x + 10, tb.y + 10);
+        if (captionConvert) captionConvert.textContent = t("convert.caption.webp.1");
+      });
+
+      // 2. Drag to snip region
+      convertAt(900, function () {
+        var tb = convertBoxOf(newsTargetBox);
+        if (selConvert) {
+          selConvert.style.left = (tb.x + 8) + "px";
+          selConvert.style.top = (tb.y + 8) + "px";
+          selConvert.style.width = (tb.w - 16) + "px";
+          selConvert.style.height = (tb.h - 16) + "px";
+          selConvert.style.opacity = "1";
+        }
+        convertMove(tb.x + tb.w - 8, tb.y + tb.h - 8, 800);
+      });
+
+      // 3. Shutter Flash + Snip Toast
+      convertAt(1900, function () {
+        if (flashConvert) {
+          flashConvert.style.opacity = "0.75";
+          setTimeout(function () { flashConvert.style.opacity = "0"; }, 150);
+        }
+        if (selConvert) selConvert.style.opacity = "0";
+        if (cursorConvert) {
+          cursorConvert.setAttribute("data-mode", "arrow");
+          cursorConvert.classList.remove("on");
+        }
+        if (winSnipToast) winSnipToast.classList.add("shown");
+      });
+
+      // 4. Item appears in Gallery as PNG
+      convertAt(2500, function () {
+        if (gitemHynix) gitemHynix.classList.add("shown");
+        if (captionConvert) captionConvert.textContent = t("convert.caption.webp.2");
+      });
+
+      // 5. Hide Snip Toast
+      convertAt(3500, function () {
+        if (winSnipToast) winSnipToast.classList.remove("shown");
+      });
+
+      // 6. Engine triggers -> PNG turns to WEBP badge + Gallery Toast!
+      convertAt(4200, function () {
+        if (badgeHynix) {
+          badgeHynix.style.transform = "scale(1.25)";
+          badgeHynix.textContent = "WEBP";
+          badgeHynix.className = "badge-format badge-webp";
+          setTimeout(function () { badgeHynix.style.transform = "scale(1)"; }, 200);
+        }
+        if (galleryToastMsg) {
+          if (galleryToastText) galleryToastText.textContent = "무손실 WebP로 자동 변환됨 (-65%)";
+          galleryToastMsg.classList.add("shown");
+        }
+        if (captionConvert) captionConvert.textContent = t("convert.caption.webp.3");
+      });
+
+      // 7. Hide gallery toast & finish step
+      convertAt(6200, function () {
+        if (galleryToastMsg) galleryToastMsg.classList.remove("shown");
+      });
+
+      convertAt(7000, function () {
+        if (onComplete) {
+          onComplete();
+        } else {
+          sceneRootConvert.classList.add("done");
+        }
+      });
+    }
+
+    // ---- Step 2: Context Menu JPG Conversion Sequence ----
+    function playJpgStep(onComplete) {
+      resetConvertScene();
+      setActivePillConvert("jpg");
+      console.log("[TrayShot] playing JPG Context Menu Conversion step");
+
+      // Pre-set WebP item in gallery
+      if (gitemHynix) gitemHynix.classList.add("shown");
+      if (badgeHynix) {
+        badgeHynix.textContent = "WEBP";
+        badgeHynix.className = "badge-format badge-webp";
+      }
+
+      // 1. Move cursor to thumbnail
+      convertAt(400, function () {
+        if (cursorConvert) cursorConvert.classList.add("on");
+        if (gitemHynix) convertMoveToEl(gitemHynix, 700);
+        if (captionConvert) captionConvert.textContent = t("convert.caption.jpg.1");
+      });
+
+      // 2. Right-click -> context menu appears
+      convertAt(1400, function () {
+        if (thumbContextMenu) thumbContextMenu.classList.add("shown");
+      });
+
+      // 3. Move cursor to '포맷 변환' row -> submenu opens
+      convertAt(2200, function () {
+        if (ctxRowFormat) {
+          convertMoveToEl(ctxRowFormat, 600);
+          ctxRowFormat.classList.add("active-hover");
+        }
+        if (captionConvert) captionConvert.textContent = t("convert.caption.jpg.2");
+      });
+
+      // 4. Move cursor to 'JPG' sub-item and click
+      convertAt(3200, function () {
+        if (subItemJpg) convertMoveToEl(subItemJpg, 500);
+      });
+
+      convertAt(4000, function () {
+        if (subItemJpg) subItemJpg.classList.add("clicked");
+      });
+
+      // 5. Menu closes -> Toast shows -> New converted JPG item added to gallery!
+      convertAt(4400, function () {
+        if (thumbContextMenu) thumbContextMenu.classList.remove("shown");
+        if (galleryToastMsg) {
+          if (galleryToastText) galleryToastText.textContent = "JPG 포맷 변환 완료";
+          galleryToastMsg.classList.add("shown");
+        }
+        if (gitemHynixJpg) gitemHynixJpg.classList.add("shown");
+        if (captionConvert) captionConvert.textContent = t("convert.caption.jpg.3");
+      });
+
+      // 6. Hide toast & finish
+      convertAt(6400, function () {
+        if (galleryToastMsg) galleryToastMsg.classList.remove("shown");
+        if (cursorConvert) cursorConvert.classList.remove("on");
+      });
+
+      convertAt(7200, function () {
+        sceneRootConvert.classList.add("done");
+        if (onComplete) onComplete();
+      });
+    }
+
+    // ---- Full Sequential Loop: WebP -> JPG ----
+    function playFullConvertSequence() {
+      playWebpStep(function () {
+        playJpgStep(function () {
+          sceneRootConvert.classList.add("done");
+        });
+      });
+    }
+
+    // Pill Tab Events
+    if (pillWebp) {
+      pillWebp.addEventListener("click", function (e) {
+        e.stopPropagation();
+        playWebpStep();
+      });
+    }
+    if (pillJpg) {
+      pillJpg.addEventListener("click", function (e) {
+        e.stopPropagation();
+        playJpgStep();
+      });
+    }
+
+    // Replay button
+    if (replayBtnConvert) {
+      replayBtnConvert.addEventListener("click", function (e) {
+        e.stopPropagation();
+        playFullConvertSequence();
+      });
+    }
+
+    sceneRootConvert.addEventListener("click", function (e) {
+      if (e.target.closest(".scene-pills") || e.target.closest(".replay-convert")) return;
+      playFullConvertSequence();
+    });
+
+    console.log("[TrayShot] convert scene elements found, scheduling play in 600ms");
+    setTimeout(playFullConvertSequence, 600);
+  }
+
+  /* =========================================================================
      4. Interactive Scene 4: Panel Resizing & Live Theme Switching
   ========================================================================= */
   var sceneRootTheme = document.querySelector(".scene[data-scene='theme']");

@@ -219,34 +219,56 @@ window.TRAYSHOT_I18N = {
     "ko": "권장 규격: 1200×720 · PNG / WebP"
   },
 
-  /* Feature 3: Storage Optimization */
+  /* Feature 3: Storage Optimization & Smart Format Conversion */
   "feature3.eyebrow": {
-    "en": "Lossless WebP Optimization",
-    "ko": "무손실 WebP 자동 변환 & 디스크 절약"
+    "en": "Smart Format Conversion & WebP Engine",
+    "ko": "스마트 포맷 변환 & 무손실 엔진"
   },
   "feature3.title": {
-    "en": "Screenshots quietly eat disk. Reclaim ~65% of your space.",
-    "ko": "쌓여가는 스크린샷 용량, 화질 손실 없이 65% 절약."
+    "en": "PNG is automatically converted to WebP, and transformed instantly anytime.",
+    "ko": "PNG는 가볍게 WebP로 자동 변환하고, 필요할 땐 즉시 원하는 포맷으로."
   },
   "feature3.lede": {
-    "en": "Heavy PNG screenshots are automatically converted to lossless WebP in the background. The exact same pixels, same timestamps, 1:1 verification, and about a third of the original file size.",
-    "ko": "용량을 많이 차지하는 PNG 스크린샷을 백그라운드에서 무손실 WebP로 자동 변환합니다. 1:1 픽셀 검증과 파일 타임스탬프 상속을 거치며 원본 용량을 평균 65% 이상 절약합니다."
+    "en": "Newly captured high-resolution PNG screenshots are losslessly optimized to WebP in the background, and can be converted to JPG, PNG, or BMP with a single right-click in the gallery.",
+    "ko": "새로 캡처된 고용량 PNG는 백그라운드에서 무손실 WebP로 자동 최적화되며, 갤러리에서 우클릭 한 번으로 JPG, PNG, BMP 등 원하는 포맷으로 즉시 변환하여 활용할 수 있습니다."
   },
-  "placeholder.f3.badge": {
-    "en": "📷 Image / Chart Placeholder: Storage Savings Comparison",
-    "ko": "📷 이미지 / 다이어그램 권장 위치: WebP 용량 절감 비교 화면"
+
+  /* Interactive Scene 3 (WebP Auto Conversion & Context JPG Conversion) */
+  "a11y.scene.convert": {
+    "en": "Interactive animation: Experience automatic PNG-to-WebP optimization and right-click context menu conversion to JPG.",
+    "ko": "대화형 애니메이션: 캡처된 PNG의 무손실 WebP 자동 최적화 및 마우스 우클릭을 통한 JPG 포맷 변환 인터랙티브 시뮬레이션입니다."
   },
-  "placeholder.f3.title": {
-    "en": "PNG vs Lossless WebP File Size Comparison & Policy Options",
-    "ko": "PNG vs WebP 파일 용량 비교 및 원본 처분 정책 설정 화면"
+  "convert.pill.webp": {
+    "en": "Auto WebP Conversion",
+    "ko": "WebP 자동 변환"
   },
-  "placeholder.f3.guide": {
-    "en": "Insert a comparison screenshot or infographic showing: 1) Original PNG (4.5MB) -> Lossless WebP (1.4MB) size reduction, 2) Preferences Image Conversion settings tab with Recycle Bin / Delete / Keep options.",
-    "ko": "권장 콘텐츠: 1) 원본 PNG(4.5MB)가 무손실 WebP(1.4MB)로 압축되어 용량이 줄어든 파일 탐색기 비교 화면, 2) 설정 창의 이미지 변환 탭(휴지통/삭제/보존 처분 정책) 스크린샷."
+  "convert.pill.jpg": {
+    "en": "Convert to JPG",
+    "ko": "JPG 포맷 변환"
   },
-  "placeholder.f3.specs": {
-    "en": "Recommended: 1000×560 · PNG / WebP / SVG Chart",
-    "ko": "권장 규격: 1000×560 · PNG / WebP / SVG 다이어그램"
+  "convert.caption.webp.1": {
+    "en": "Snip news screen area with Windows Snipping Tool",
+    "ko": "윈도우 캡처 도구로 웹 화면 영역 캡처"
+  },
+  "convert.caption.webp.2": {
+    "en": "Captured screenshot auto-saved to TrayShot gallery as PNG",
+    "ko": "캡처된 스크린샷이 TrayShot 갤러리에 PNG로 자동 등록"
+  },
+  "convert.caption.webp.3": {
+    "en": "Background engine instantly optimizes PNG -> Lossless WebP (-65%)",
+    "ko": "백그라운드 엔진이 PNG를 무손실 WebP로 자동 변환 (-65% 절감)"
+  },
+  "convert.caption.jpg.1": {
+    "en": "Right-click WebP screenshot thumbnail in gallery",
+    "ko": "갤러리의 WebP 스크린샷 썸네일 위에서 마우스 우클릭"
+  },
+  "convert.caption.jpg.2": {
+    "en": "Hover 'Format Conversion' -> Select 'JPG'",
+    "ko": "컨텍스트 메뉴에서 '포맷 변환 ▸' > 'JPG' 선택"
+  },
+  "convert.caption.jpg.3": {
+    "en": "Converted JPG image instantly generated and added to gallery!",
+    "ko": "JPG로 변환된 새 스크린샷이 갤러리에 즉시 추가 완료!"
   },
 
   /* Feature 4: Modern Settings */
