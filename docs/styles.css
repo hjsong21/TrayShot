@@ -416,10 +416,18 @@ main {
   font-size: 0.75rem;
 }
 
-.scene-desk {
+.scene-desk,
+.scene-desk-gallery,
+.scene-desk-theme {
   position: relative;
   height: 460px;
-  background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.05) 0%, transparent 80%);
+  background: linear-gradient(180deg, #1e3a8a 0%, #0369a1 45%, #0f766e 70%, #115e59 100%);
+  overflow: hidden;
+}
+[data-theme="light"] .scene-desk,
+[data-theme="light"] .scene-desk-gallery,
+[data-theme="light"] .scene-desk-theme {
+  background: linear-gradient(180deg, #60a5fa 0%, #38bdf8 45%, #2dd4bf 70%, #0d9488 100%);
 }
 
 /* Left Card: Conceptual Web Article */
@@ -1099,14 +1107,7 @@ main {
   letter-spacing: 0.02em;
 }
 
-.scene-desk-gallery {
-  background: linear-gradient(180deg, #1e3a8a 0%, #0369a1 45%, #0f766e 70%, #115e59 100%);
-  position: relative;
-  overflow: hidden;
-}
-[data-theme="light"] .scene-desk-gallery {
-  background: linear-gradient(180deg, #60a5fa 0%, #38bdf8 45%, #2dd4bf 70%, #0d9488 100%);
-}
+
 
 /* Scenic Desktop Wallpaper Background */
 .desk-wallpaper {
@@ -2243,12 +2244,6 @@ main {
   position: relative;
 }
 
-.scene-desk-theme {
-  position: relative;
-  width: 100%;
-  height: 460px;
-  overflow: hidden;
-}
 
 /* Light Mode Gallery Defaults */
 .win-gallery-theme {
