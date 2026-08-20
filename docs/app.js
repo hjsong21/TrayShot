@@ -614,7 +614,7 @@
       if (galleryToastMsg) galleryToastMsg.classList.remove("shown");
       if (thumbContextMenu) thumbContextMenu.classList.remove("shown");
       if (ctxRowFormat) ctxRowFormat.classList.remove("active-hover");
-      if (subItemJpg) subItemJpg.classList.remove("clicked");
+      if (subItemJpg) subItemJpg.classList.remove("highlight", "clicked");
 
       if (captionConvert) captionConvert.textContent = t("scene.caption.idle");
       sceneRootConvert.classList.remove("done");
@@ -767,11 +767,17 @@
         if (captionConvert) captionConvert.textContent = t("convert.caption.jpg.2");
       });
 
-      // 4. Move cursor to 'JPG' sub-item and click
+      // 4. Move cursor to 'JPG' sub-item and highlight on hover
       convertAt(3200, function () {
-        if (subItemJpg) convertMoveToEl(subItemJpg, 500);
+        if (subItemJpg) {
+          convertMoveToEl(subItemJpg, 500);
+          setTimeout(function () {
+            subItemJpg.classList.add("highlight");
+          }, 400);
+        }
       });
 
+      // 5. Click 'JPG' item
       convertAt(4000, function () {
         if (subItemJpg) subItemJpg.classList.add("clicked");
       });
