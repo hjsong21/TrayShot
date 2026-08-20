@@ -2936,6 +2936,7 @@ main {
 }
 .cursor-theme[data-mode="resize"] .cur-resize {
   display: block;
+  transform: translate(-10px, -10px);
 }
 
 /* Bottom Tab Navigation Pills Controller */

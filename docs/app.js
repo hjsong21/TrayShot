@@ -713,11 +713,12 @@
         if (winGalleryTheme) winGalleryTheme.classList.add("resizing");
       });
 
-      // 4. Drag left to expand (440px -> 580px / 4-columns) with 1:1 cursor sync
+      // 4. Drag left to expand (440px -> 580px / 4-columns) with exact 1:1 sync
       themeAt(2200, function () {
-        var deskW = (deskTheme && deskTheme.clientWidth) ? deskTheme.clientWidth : 780;
+        var gBox = themeBoxOf(winGalleryTheme);
+        var rightEdge = gBox.x + gBox.w; // The fixed right boundary of gallery
         var handleY = galleryResizeHandle ? themeCenterOf(galleryResizeHandle).y : 220;
-        var targetX = deskW - 580 + 5; // Left edge of expanded 580px gallery
+        var targetX = rightEdge - 580 + 5; // Left handle center of expanded 580px gallery
         themeMove(targetX, handleY, 800);
         if (winGalleryTheme) winGalleryTheme.classList.add("expanded");
         if (captionTheme) captionTheme.textContent = t("theme.caption.size.2");
@@ -728,11 +729,12 @@
         if (captionTheme) captionTheme.textContent = t("theme.caption.size.3");
       });
 
-      // 6. Drag back right to shrink (580px -> 440px standard) with 1:1 cursor sync
+      // 6. Drag back right to shrink (580px -> 440px standard) with exact 1:1 sync
       themeAt(4600, function () {
-        var deskW = (deskTheme && deskTheme.clientWidth) ? deskTheme.clientWidth : 780;
+        var gBox = themeBoxOf(winGalleryTheme);
+        var rightEdge = gBox.x + gBox.w;
         var handleY = galleryResizeHandle ? themeCenterOf(galleryResizeHandle).y : 220;
-        var targetX = deskW - 440 + 5; // Left edge of standard 440px gallery
+        var targetX = rightEdge - 440 + 5; // Left handle center of standard 440px gallery
         themeMove(targetX, handleY, 800);
         if (winGalleryTheme) winGalleryTheme.classList.remove("expanded");
       });
