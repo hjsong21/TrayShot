@@ -326,6 +326,110 @@ window.TRAYSHOT_I18N = {
     "ko": "설정 완료 — 세련된 다크 테마 적용 완료"
   },
 
+  /* Feature 1 Box Cards */
+  "feature1.box1.title": {
+    "en": "Top-Right Smart Slide",
+    "ko": "우측 상단 스마트 슬라이드"
+  },
+  "feature1.box1.desc": {
+    "en": "Appears smoothly at the top right without interfering with Windows Snipping Tool's bottom-right notifications.",
+    "ko": "Windows 10/11 기본 캡처 도구의 우측 하단 토스트 알림과 전혀 간섭 없이 상단에서 부드럽게 등장합니다."
+  },
+  "feature1.box2.title": {
+    "en": "Universal Multi-Format OLE Support",
+    "ko": "범용 OLE 멀티포맷 지원"
+  },
+  "feature1.box2.desc": {
+    "en": "Packages CF_DIB (DIBv5) memory streams and FileDrop data simultaneously for instant pasting into MS Office, Hangul (HWP), browsers, and web editors.",
+    "ko": "CF_DIB(DIBv5) 메모리 스트림과 FileDrop을 자동 패키징하여 오피스, 한글(HWP), 그림판, 웹 에디터 어디든 붙여넣어집니다."
+  },
+  "feature1.box3.title": {
+    "en": "4-Second Auto-Dismiss & Hover Pause",
+    "ko": "4초 타이머 & 호버 일시정지"
+  },
+  "feature1.box3.desc": {
+    "en": "Dismisses cleanly after 4 seconds, and pauses the timer on mouse hover so you can drag without rushing.",
+    "ko": "4초 후 자연스럽게 사라지며, 마우스를 올리면 타이머가 일시정지되어 여유 있게 드래그할 수 있습니다."
+  },
+
+  /* Feature 2 Box Cards */
+  "feature2.box1.title": {
+    "en": "Automatic Date-Based Grouping",
+    "ko": "날짜별 섹션 자동 분류"
+  },
+  "feature2.box1.desc": {
+    "en": "Organizes captures into clean timeline sections like Today, Yesterday, and Previous Weeks by timestamp.",
+    "ko": "오늘, 어제, 이번 주 등 촬영 일시와 파일명을 분석하여 깔끔한 타임라인 섹션으로 자동 정리합니다."
+  },
+  "feature2.box2.title": {
+    "en": "2D Keyboard Navigation Engine",
+    "ko": "2차원 키보드 탐색 엔진"
+  },
+  "feature2.box2.desc": {
+    "en": "Navigate rapidly with arrow keys, Home/End, PageUp/Down, with column memory preserved across group boundaries.",
+    "ko": "방향키, Home, End, PageUp, PageDown 및 그룹 간 열 위치(Column)를 기억하여 쾌속 탐색이 가능합니다."
+  },
+  "feature2.box3.title": {
+    "en": "Recycle Bin Deletion & Ctrl+Z Undo",
+    "ko": "휴지통 삭제 및 Ctrl+Z 복구"
+  },
+  "feature2.box3.desc": {
+    "en": "Safely send files to the Recycle Bin with Delete, and instantly recover mistakes with Ctrl+Z undo.",
+    "ko": "Delete 키로 즉시 휴지통으로 안전하게 이동하며, 실수로 지웠을 경우 Ctrl+Z로 즉시 되살릴 수 있습니다."
+  },
+
+  /* Feature 3 Box Cards */
+  "feature3.box1.title": {
+    "en": "1:1 Pixel-Exact Lossless Verification",
+    "ko": "1:1 픽셀 무손실 완벽 검증"
+  },
+  "feature3.box1.desc": {
+    "en": "Verifies pixel data after conversion to guarantee zero quality loss or visual artifact down to a single pixel.",
+    "ko": "변환 후 픽셀 데이터를 대조 검증하여 화질 저하나 왜곡이 단 1픽셀도 발생하지 않도록 보장합니다."
+  },
+  "feature3.box2.title": {
+    "en": "Flexible Original PNG Disposal",
+    "ko": "유연한 원본 PNG 처분 정책"
+  },
+  "feature3.box2.desc": {
+    "en": "Choose whether to move original PNGs to the Recycle Bin, delete permanently, or keep them untouched.",
+    "ko": "변환 완료 후 원본 PNG 파일을 안전하게 '휴지통으로 이동', '완전 삭제', 또는 '그대로 보존'하도록 선택 가능합니다."
+  },
+  "feature3.box3.title": {
+    "en": "Original Timestamp Preservation",
+    "ko": "타임스탬프 원본 유지"
+  },
+  "feature3.box3.desc": {
+    "en": "Converted WebP files inherit exact CreationTime and LastWriteTime metadata from the original screenshots.",
+    "ko": "변환된 WebP 파일은 원본 스크린샷의 촬영 시간(CreationTime/LastWriteTime)을 그대로 물려받습니다."
+  },
+
+  /* Feature 4 Box Cards */
+  "feature4.box1.title": {
+    "en": "Dark & Light Theme Support",
+    "ko": "다크 / 라이트 테마 지원"
+  },
+  "feature4.box1.desc": {
+    "en": "Syncs seamlessly with your Windows system appearance or locks to your preferred light/dark theme.",
+    "ko": "Windows 시스템 테마와 완벽히 동기화되거나 원하는 테마 모드로 고정하여 사용할 수 있습니다."
+  },
+  "feature4.box2.title": {
+    "en": "Global Hotkey Conflict Detection",
+    "ko": "전역 단축키 충돌 감지"
+  },
+  "feature4.box2.desc": {
+    "en": "Customize gallery shortcut keys with real-time detection of system hotkey conflicts.",
+    "ko": "원하는 키 조합으로 갤러리 호출 단축키를 변경하며, 시스템 단축키 충돌을 실시간으로 감지합니다."
+  },
+  "feature4.box3.title": {
+    "en": "Launch at Windows Startup",
+    "ko": "Windows 시작 시 자동 실행"
+  },
+  "feature4.box3.desc": {
+    "en": "Registry-based boot startup options and gallery window size memory/reset controls.",
+    "ko": "레지스트리 기반 부팅 시 자동 시작 옵션 및 갤러리 창 크기 기억/초기화 기능을 제공합니다."
+  },
+
   /* Origin & Attribution */
   "origin.text": {
     "en": "TrayShot is a Windows port inspired by <a href=\"https://github.com/ssut/Sukurini\" target=\"_blank\" rel=\"noopener\">Sukurini</a>, originally created by Suhun Han (ssut) for macOS.",
