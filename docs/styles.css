@@ -2232,9 +2232,8 @@ main {
 .origin {
   max-width: var(--container-width);
   margin: 5rem auto 0;
-  padding: 2.2rem 1.5rem;
+  padding: 2.2rem 1.5rem 1rem;
   border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
 }
 .origin p {
   margin: 0 auto;
