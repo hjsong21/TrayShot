@@ -596,10 +596,11 @@
       }
 
       if (selConvert) {
+        selConvert.classList.remove("on");
         selConvert.style.transition = "none";
         selConvert.style.width = "0px";
         selConvert.style.height = "0px";
-        selConvert.style.opacity = "0";
+        selConvert.style.opacity = "";
       }
       if (flashConvert) flashConvert.style.opacity = "0";
       if (winSnipToast) winSnipToast.classList.remove("shown");
@@ -625,37 +626,60 @@
       setActivePillConvert("webp");
       console.log("[TrayShot] playing WebP Auto Conversion step");
 
-      // 1. Snipping cursor appears on browser target
+      var selConvertSize = selConvert ? selConvert.querySelector(".sel-convert-size") : null;
+      var tb = convertBoxOf(newsTargetBox);
+      var w = (tb.w > 0) ? tb.w : 356;
+      var h = (tb.h > 0) ? tb.h : 165;
+      var startX = (tb.x > 0) ? (tb.x + 4) : 40;
+      var startY = (tb.y > 0) ? (tb.y + 4) : 155;
+      var region = { x: startX, y: startY, w: w - 8, h: h - 8 };
+
+      if (selConvert) {
+        selConvert.classList.remove("on");
+        selConvert.style.transition = "none";
+        selConvert.style.left = region.x + "px";
+        selConvert.style.top = region.y + "px";
+        selConvert.style.width = "0px";
+        selConvert.style.height = "0px";
+        selConvert.style.opacity = "";
+        selConvert.offsetHeight;
+      }
+
+      // 1. Snipping crosshair cursor appears and moves to start point
       convertAt(300, function () {
         if (cursorConvert) {
           cursorConvert.classList.add("on");
           cursorConvert.setAttribute("data-mode", "cross");
         }
-        var tb = convertBoxOf(newsTargetBox);
-        convertPlace(tb.x + 10, tb.y + 10);
+        convertPlace(region.x - 20, region.y - 20);
+        convertMove(region.x, region.y, 500);
         if (captionConvert) captionConvert.textContent = t("convert.caption.webp.1");
       });
 
-      // 2. Drag to snip region
-      convertAt(900, function () {
-        var tb = convertBoxOf(newsTargetBox);
+      // 2. Drag selection box naturally expands with mouse movement
+      convertAt(1000, function () {
         if (selConvert) {
-          selConvert.style.left = (tb.x + 8) + "px";
-          selConvert.style.top = (tb.y + 8) + "px";
-          selConvert.style.width = (tb.w - 16) + "px";
-          selConvert.style.height = (tb.h - 16) + "px";
-          selConvert.style.opacity = "1";
+          selConvert.classList.add("on");
+          selConvert.style.transition = "width 1300ms cubic-bezier(0.42,0,0.24,1), height 1300ms cubic-bezier(0.42,0,0.24,1)";
+          selConvert.style.width = region.w + "px";
+          selConvert.style.height = region.h + "px";
+          if (selConvertSize) selConvertSize.textContent = Math.round(region.w) + " \u00d7 " + Math.round(region.h);
         }
-        convertMove(tb.x + tb.w - 8, tb.y + tb.h - 8, 800);
+        convertMove(region.x + region.w, region.y + region.h, 1300);
       });
 
       // 3. Shutter Flash + Snip Toast
-      convertAt(1900, function () {
+      convertAt(2500, function () {
         if (flashConvert) {
           flashConvert.style.opacity = "0.75";
           setTimeout(function () { flashConvert.style.opacity = "0"; }, 150);
         }
-        if (selConvert) selConvert.style.opacity = "0";
+        if (selConvert) {
+          selConvert.classList.remove("on");
+          selConvert.style.transition = "none";
+          selConvert.style.width = "0px";
+          selConvert.style.height = "0px";
+        }
         if (cursorConvert) {
           cursorConvert.setAttribute("data-mode", "arrow");
           cursorConvert.classList.remove("on");
@@ -663,19 +687,19 @@
         if (winSnipToast) winSnipToast.classList.add("shown");
       });
 
-      // 4. Item appears in Gallery as PNG
-      convertAt(2500, function () {
+      // 4. Item appears in Gallery as PNG (in 2nd position)
+      convertAt(3100, function () {
         if (gitemHynix) gitemHynix.classList.add("shown");
         if (captionConvert) captionConvert.textContent = t("convert.caption.webp.2");
       });
 
       // 5. Hide Snip Toast
-      convertAt(3500, function () {
+      convertAt(4000, function () {
         if (winSnipToast) winSnipToast.classList.remove("shown");
       });
 
       // 6. Engine triggers -> PNG turns to WEBP badge + Gallery Toast!
-      convertAt(4200, function () {
+      convertAt(4700, function () {
         if (badgeHynix) {
           badgeHynix.style.transform = "scale(1.25)";
           badgeHynix.textContent = "WEBP";
@@ -690,11 +714,11 @@
       });
 
       // 7. Hide gallery toast & finish step
-      convertAt(6200, function () {
+      convertAt(6800, function () {
         if (galleryToastMsg) galleryToastMsg.classList.remove("shown");
       });
 
-      convertAt(7000, function () {
+      convertAt(7500, function () {
         if (onComplete) {
           onComplete();
         } else {
