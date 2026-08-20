@@ -784,6 +784,9 @@ main {
   transform: translate(0, 0);
   transition: opacity 0.2s ease;
 }
+.cursor.cursor-gallery {
+  z-index: 120;
+}
 .cursor.on {
   opacity: 1;
 }
@@ -1115,11 +1118,13 @@ main {
   border-color: rgba(0, 0, 0, 0.05);
 }
 .gallery-item:hover, .gallery-item.focused {
-  background: rgba(37, 99, 235, 0.14);
-  border-color: var(--accent);
-  outline: 2px solid var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(37, 99, 235, 0.25);
+  background: rgba(37, 99, 235, 0.35);
+  border-color: #60a5fa;
+  outline: 2.5px solid #60a5fa;
+  outline-offset: 1px;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 16px rgba(96, 165, 250, 0.9), 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
 
 .item-thumb {
@@ -1372,9 +1377,9 @@ main {
 .preview-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 .preview-card {

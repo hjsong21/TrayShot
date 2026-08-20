@@ -374,7 +374,7 @@
         if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-18 233247.webp (3 / 9)";
         if (itemFigma) itemFigma.classList.add("focused");
       } else if (idx === 2) {
-        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-17 231133.webp (4 / 9)";
+        if (previewTitle) previewTitle.textContent = "스크린샷 2026-08-18 233510.webp (4 / 9)";
         if (itemCode) itemCode.classList.add("focused");
       }
     }
@@ -427,6 +427,7 @@
       });
 
       galAt(3200, function () {
+        if (cursorGal) cursorGal.classList.remove("on");
         showKeyBadge("Space");
         showSlide(0);
         if (winPreview) winPreview.classList.add("shown");
