@@ -27,6 +27,10 @@ window.TRAYSHOT_I18N = {
     "en": "Switch to dark appearance",
     "ko": "다크 모드로 바꾸기"
   },
+  "a11y.scene.capture": {
+    "en": "A conceptual screen recording: a region of a web article is captured with Snipping Tool, the TrayShot floating Quick-Drop overlay widget appears at the top-right corner, and the cursor drags the thumbnail into a Gmail compose window to paste it instantly.",
+    "ko": "화면 시연: 웹 기사 영역을 캡처하면 화면 우측 상단에 TrayShot 플로팅 퀵 드롭 위젯이 나타나고, 마우스 커서가 썸네일을 Gmail 메일 작성창으로 끌어다 놓아 즉시 첨부합니다."
+  },
   "nav.bmc": {
     "en": "Buy me a coffee",
     "ko": "커피 한 잔 후원"
@@ -77,21 +81,67 @@ window.TRAYSHOT_I18N = {
     "en": "No hunting in the Pictures folder or Downloads. When you take a screenshot with PrtSc or Snipping Tool, a floating Topmost thumbnail overlay appears at the top-right without covering system notifications. Drag it directly to paste — it auto-dismisses after 4 seconds.",
     "ko": "캡처 후 저장 폴더나 다운로드 폴더를 열 필요가 없습니다. PrtSc나 캡처 도구로 화면을 찍으면, 우측 상단에 최상위 썸네일 위젯이 슬라이드되어 나타납니다. 4초 자동 소멸 전 원하는 앱으로 바로 드래그 앤 드롭하세요."
   },
-  "placeholder.f1.badge": {
-    "en": "📷 Image / GIF Placeholder: Floating Quick-Drop Widget",
-    "ko": "📷 이미지 / GIF 권장 위치: 플로팅 퀵 드롭 위젯"
+
+  /* Interactive Scene 1 Translations */
+  "capture.caption.1": {
+    "en": "Win + Shift + S — select region",
+    "ko": "Win + Shift + S — 원하는 기사 영역 선택"
   },
-  "placeholder.f1.title": {
-    "en": "Top-Right Floating Overlay & Drag-and-Drop Demo",
-    "ko": "우측 상단 플로팅 썸네일 및 드래그 앤 드롭 시연 화면"
+  "capture.caption.2": {
+    "en": "Captured!",
+    "ko": "캡처 완료!"
   },
-  "placeholder.f1.guide": {
-    "en": "Insert a GIF/PNG showing: 1) PrtSc screenshot captured, 2) QuickDropOverlayWindow sliding in at top-right corner, 3) Cursor dragging the thumbnail into MS Word / Hangul (HWP) / KakaoTalk to paste.",
-    "ko": "권장 콘텐츠: 1) PrtSc 캡처 발생, 2) 화면 우측 상단에 퀵 드롭 미니 썸네일 슬라이드 등장, 3) 마우스로 끌어서 MS Word, 한글(HWP), 카카오톡 대화창에 바로 첨부/삽입하는 시연 GIF 또는 스크린샷 이미지."
+  "capture.caption.3": {
+    "en": "Floating Quick-Drop overlay springs out at top-right",
+    "ko": "화면 우측 상단에 플로팅 퀵 드롭 위젯 등장"
   },
-  "placeholder.f1.specs": {
-    "en": "Recommended: 1200×675 (16:9) or 800×480 · PNG / WebP / Animated GIF",
-    "ko": "권장 규격: 1200×675 (16:9) 또는 800×480 · PNG / WebP / 움직이는 GIF"
+  "capture.caption.4": {
+    "en": "Holds for 4s — pauses on mouse hover",
+    "ko": "4초 동안 대기 — 마우스 호버 시 일시정지"
+  },
+  "capture.caption.5": {
+    "en": "Press thumbnail and drag to Gmail compose window",
+    "ko": "썸네일을 누른 채 Gmail 작성창으로 드래그"
+  },
+  "capture.caption.6": {
+    "en": "Dropped — instant attachment in Gmail message!",
+    "ko": "놓으면 Gmail 본문에 즉시 첨부 완료!"
+  },
+  "capture.qd.hint": {
+    "en": "Drag to paste · 4s",
+    "ko": "드래그하여 붙여넣기 · 4s"
+  },
+  "capture.mail.title": {
+    "en": "New Message (Gmail)",
+    "ko": "새 메일 작성 (Gmail)"
+  },
+  "capture.mail.to": {
+    "en": "To",
+    "ko": "받는사람"
+  },
+  "capture.mail.subject": {
+    "en": "Subject",
+    "ko": "제목"
+  },
+  "capture.mail.subtext": {
+    "en": "SK hynix HBM4 News Screenshot",
+    "ko": "SK hynix HBM4 뉴스 스크린샷 공유"
+  },
+  "capture.mail.dropzone": {
+    "en": "Drop image here",
+    "ko": "여기에 파일 놓기"
+  },
+  "capture.mail.attachname": {
+    "en": "Screenshot_SKhynix_HBM4.png",
+    "ko": "Screenshot_SKhynix_HBM4.png"
+  },
+  "scene.replay": {
+    "en": "Replay",
+    "ko": "다시 보기"
+  },
+  "scene.caption.idle": {
+    "en": "Ready",
+    "ko": "준비됨"
   },
 
   /* Feature 2: Tray Gallery Shelf */
