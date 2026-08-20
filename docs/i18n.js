@@ -154,13 +154,13 @@ window.TRAYSHOT_I18N = {
     "ko": "단축키 하나로 과거 스크린샷까지 한눈에 탐색."
   },
   "feature2.lede": {
-    "en": "Press Alt + Q or click the system tray icon to summon the spotlight gallery. Grouped by dates (Today, Yesterday, Last Week) with full 2D keyboard navigation, spacebar preview, and Recycle Bin deletion with Ctrl+Z undo.",
-    "ko": "언제든지 전역 단축키(기본 Alt+Q)나 트레이 아이콘을 누르면 갤러리 창이 열립니다. 오늘, 어제, 지난주 등 날짜별 그룹화와 2차원 키보드 탐색, 스페이스바 전체 화면 미리보기, Delete 및 Ctrl+Z 복구를 지원합니다."
+    "en": "Press Ctrl + Alt + S or click the system tray icon to summon the spotlight gallery. Grouped by dates (Today, Yesterday, Last Week) with full 2D keyboard navigation, spacebar preview, and Recycle Bin deletion with Ctrl+Z undo.",
+    "ko": "언제든지 전역 단축키(기본 Ctrl+Alt+S)나 트레이 아이콘을 누르면 갤러리 창이 열립니다. 오늘, 어제, 지난주 등 날짜별 그룹화와 2차원 키보드 탐색, 스페이스바 전체 화면 미리보기, Delete 및 Ctrl+Z 복구를 지원합니다."
   },
   /* Interactive Scene 2 (Gallery) Translations */
   "a11y.scene.gallery": {
-    "en": "Interactive animation: TrayShot gallery panel summons from system tray, keyboard selects Odyssey screenshot, spacebar opens high-res QuickLook preview modal, arrow keys cycle through next screenshots.",
-    "ko": "대화형 애니메이션: 시스템 트레이에서 TrayShot 갤러리 패널이 열리고, 오디세이 스크린샷을 선택하여 스페이스바로 고해상도 미리보기를 띄운 후 방향키로 연속 탐색합니다."
+    "en": "Interactive animation: TrayShot gallery panel summons from system tray, keyboard selects Dashboard capture, spacebar opens high-res QuickLook preview modal, arrow keys cycle through next screenshots.",
+    "ko": "대화형 애니메이션: 시스템 트레이에서 TrayShot 갤러리 패널이 열리고, 대시보드 스크린샷을 선택하여 스페이스바로 고해상도 미리보기를 띄운 후 방향키로 연속 탐색합니다."
   },
   "gallery.search.placeholder": {
     "en": "Search captures...",
