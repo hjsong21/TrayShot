@@ -247,8 +247,8 @@ window.TRAYSHOT_I18N = {
     "ko": "JPG 포맷 변환"
   },
   "convert.caption.webp.1": {
-    "en": "Snip news screen area with Windows Snipping Tool",
-    "ko": "윈도우 캡처 도구로 웹 화면 영역 캡처"
+    "en": "Snip design component area with Windows Snipping Tool",
+    "ko": "윈도우 캡처 도구로 디자인 컴포넌트 영역 캡처"
   },
   "convert.caption.webp.2": {
     "en": "Captured screenshot auto-saved to TrayShot gallery as PNG",

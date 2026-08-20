@@ -2927,8 +2927,8 @@ main {
   font-weight: 600;
   color: #111827;
 }
-.tab-naver-icon {
-  background: #03c75a;
+.tab-figma-icon {
+  background: #a855f7;
   color: #fff;
   font-weight: 900;
   font-size: 0.65rem;
@@ -2990,88 +2990,103 @@ main {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: #ffffff;
+  background: #f8fafc;
 }
-.news-categories {
+.figma-canvas-header {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 6px;
   font-size: 0.68rem;
   font-weight: 600;
-  color: #6b7280;
-  border-bottom: 1px solid #f3f4f6;
-  padding-bottom: 4px;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 5px;
 }
-.news-categories .cat-active {
-  color: #03c75a;
-  border-bottom: 2px solid #03c75a;
-}
-.news-headline-box h4 {
-  font-size: 0.76rem;
-  font-weight: 700;
-  line-height: 1.35;
-  margin: 0;
-  color: #111827;
+.figma-crumb-active {
+  color: #6366f1;
 }
 
-/* News Target Photo Card */
-.news-photo-card {
+/* Schematic Figma Card Target Box */
+.figma-target-card {
   position: relative;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  padding: 8px;
+  background: linear-gradient(145deg, #ffffff, #f1f5f9);
+  border: 1.5px solid #c7d2fe;
+  border-radius: 8px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 160px;
+  gap: 8px;
+  height: 165px;
   box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.08);
 }
-.traffic-signal-box {
-  display: flex;
-  gap: 10px;
-  background: #111827;
-  padding: 4px 10px;
-  border-radius: 12px;
-  margin-bottom: 6px;
-}
-.sig-lamp {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #374151;
+.figma-card-top {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.6rem;
-  color: #fff;
+  justify-content: space-between;
+  border-bottom: 1px dashed #cbd5e1;
+  padding-bottom: 6px;
 }
-.sig-lamp.green {
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
+.figma-badge-chip {
+  background: #e0e7ff;
+  color: #4338ca;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
-.arrow-left {
-  font-style: normal;
-  font-weight: 900;
+.figma-frame-name {
+  font-size: 0.62rem;
+  font-family: var(--font-mono);
+  color: #64748b;
 }
-.hynix-logo-wrap {
-  background: linear-gradient(135deg, #ffffff, #f1f5f9);
-  border: 1px solid #cbd5e1;
+.figma-card-body {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 10px 12px;
   border-radius: 6px;
-  padding: 10px 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
-.hynix-logo-text {
-  font-size: 1.3rem;
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  color: #dc2626;
-  font-family: Arial, Helvetica, sans-serif;
+.figma-avatar-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  flex-shrink: 0;
+}
+.figma-text-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.figma-text-lines .f-line {
+  height: 6px;
+  border-radius: 3px;
+  background: #cbd5e1;
+}
+.figma-text-lines .l1 {
+  width: 85%;
+  background: #94a3b8;
+}
+.figma-text-lines .l2 {
+  width: 55%;
+}
+.figma-action-pill {
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 .photo-caption {
   font-size: 0.62rem;
   color: #64748b;
-  margin-top: 6px;
+  margin-top: 2px;
   text-align: center;
 }
 
@@ -3186,32 +3201,6 @@ main {
 .badge-jpg {
   background: #8b5cf6;
   color: #ffffff;
-}
-
-/* Mini graphic for Hynix thumbnail */
-.shot-mini-hynix {
-  width: 100%;
-  height: 100%;
-  background: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-}
-.mini-traffic-light {
-  width: 16px;
-  height: 6px;
-  background: #111;
-  border-radius: 3px;
-  border-left: 4px solid #10b981;
-}
-.mini-hynix-text {
-  font-size: 0.7rem;
-  font-weight: 900;
-  color: #dc2626;
-  font-family: sans-serif;
-  letter-spacing: -0.04em;
 }
 
 /* New converted item appearance */
