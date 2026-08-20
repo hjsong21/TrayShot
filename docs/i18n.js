@@ -84,8 +84,8 @@ window.TRAYSHOT_I18N = {
 
   /* Interactive Scene 1 Translations */
   "capture.caption.1": {
-    "en": "Win + Shift + S — select region",
-    "ko": "Win + Shift + S — 원하는 기사 영역 선택"
+    "en": "Select KPI metrics chart on web dashboard",
+    "ko": "웹 대시보드의 KPI 지표 차트 영역 캡처"
   },
   "capture.caption.2": {
     "en": "Captured!",
@@ -124,16 +124,16 @@ window.TRAYSHOT_I18N = {
     "ko": "제목"
   },
   "capture.mail.subtext": {
-    "en": "SK hynix HBM4 News Screenshot",
-    "ko": "SK hynix HBM4 뉴스 스크린샷 공유"
+    "en": "[Report] Q3 KPI Growth Metrics & Analytics Chart",
+    "ko": "[보고] Q3 KPI 성장 지표 및 분석 차트 공유"
   },
   "capture.mail.dropzone": {
     "en": "Drop image here",
     "ko": "여기에 파일 놓기"
   },
   "capture.mail.attachname": {
-    "en": "Screenshot_SKhynix_HBM4.png",
-    "ko": "Screenshot_SKhynix_HBM4.png"
+    "en": "Screenshot_Q3_KPI_Metrics.png",
+    "ko": "Screenshot_Q3_KPI_Metrics.png"
   },
   "scene.replay": {
     "en": "Replay",

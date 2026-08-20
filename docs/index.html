@@ -104,12 +104,12 @@
 
     <!-- Live Interactive HTML/CSS/JS Canvas Scene -->
     <div class="scene-wrap">
-      <div class="scene" data-scene="capture" role="img" aria-label="A conceptual screen recording: a region of a web article is captured with Snipping Tool, the TrayShot floating Quick-Drop overlay widget appears at the top-right corner, and the cursor drags the thumbnail into a Gmail compose window to paste it instantly." data-i18n-aria="a11y.scene.capture">
+      <div class="scene" data-scene="capture" role="img" aria-label="웹 대시보드의 KPI 지표 차트를 캡처하면 우측 상단에 TrayShot 퀵드롭 위젯이 나타나고, 마우스로 드래그하여 Gmail 작성 창에 즉시 첨부합니다." data-i18n-aria="a11y.scene.capture">
         
         <!-- Scene Topbar -->
         <div class="scene-topbar">
           <span class="scene-app-name">Edge / Chrome</span>
-          <span class="scene-tab-title">Tech News · SK hynix HBM Report</span>
+          <span class="scene-tab-title">Analytics Hub · Q3 Growth Report</span>
           <span class="scene-spacer"></span>
           <span class="scene-sys-tray">
             <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm0 14.5a6.5 6.5 0 1 1 0-13 6.5 6.5 0 0 1 0 13Z"/></svg>
@@ -119,34 +119,59 @@
 
         <div class="scene-desk">
           
-          <!-- Left: Conceptual Web Article Card -->
-          <div class="card-article">
+          <!-- Left: Web Analytics Dashboard Card -->
+          <div class="card-article card-dashboard-web">
             <div class="card-header">
-              <span class="card-badge">News</span>
-              <span class="card-domain">tech-daily.com</span>
+              <span class="card-badge">Analytics SaaS</span>
+              <span class="card-domain">analytics.company.io</span>
             </div>
-            <div class="card-headline">SK hynix HBM4 차세대 메모리 양산 전망</div>
+            <div class="card-headline">Q3 Performance KPI &amp; Growth Report</div>
             <div class="card-body-lines">
               <span class="card-line" style="width: 90%;"></span>
-              <span class="card-line" style="width: 75%;"></span>
+              <span class="card-line" style="width: 70%;"></span>
             </div>
-            <div class="card-photo-box" id="capture-target">
-              <div class="photo-badge">News Photo</div>
-              <div class="photo-art">
-                <span class="chip-logo">SK hynix</span>
-                <span class="chip-sub">HBM4 · Next-Gen AI Memory</span>
+            
+            <!-- Capture Target: KPI Metrics Chart Schematic -->
+            <div class="card-photo-box kpi-capture-box" id="capture-target">
+              <div class="kpi-cap-head">
+                <span class="kpi-cap-badge">KPI Metrics</span>
+                <span class="kpi-cap-title">Conversion &amp; Revenue</span>
+              </div>
+              <div class="kpi-cap-content">
+                <div class="kpi-cap-donut">
+                  <div class="mini-donut-cap">
+                    <span>84%</span>
+                  </div>
+                  <div class="kpi-chips-cap">
+                    <b>+42.8%</b>
+                    <i>128.4k</i>
+                  </div>
+                </div>
+                <div class="kpi-cap-bars">
+                  <span style="height:45%"></span>
+                  <span style="height:70%"></span>
+                  <span style="height:90%" class="highlight"></span>
+                  <span style="height:60%"></span>
+                  <span style="height:85%"></span>
+                </div>
               </div>
             </div>
+
             <div class="card-body-lines">
               <span class="card-line" style="width: 85%;"></span>
-              <span class="card-line" style="width: 60%;"></span>
+              <span class="card-line" style="width: 55%;"></span>
             </div>
           </div>
 
           <!-- Top-Right: TrayShot Floating Quick-Drop Overlay Widget -->
           <div class="qd-overlay" id="qd-widget">
             <div class="qd-thumb">
-              <div class="qd-thumb-art">SK hynix</div>
+              <div class="qd-thumb-kpi">
+                <div class="qd-donut-mini"></div>
+                <div class="qd-bars-mini">
+                  <span style="height:50%"></span><span style="height:85%"></span><span style="height:65%"></span>
+                </div>
+              </div>
             </div>
             <div class="qd-hint" data-i18n="capture.qd.hint">드래그하여 붙여넣기</div>
           </div>
@@ -166,7 +191,7 @@
               </div>
               <div class="win-field">
                 <b data-i18n="capture.mail.subject">제목</b>
-                <span data-i18n="capture.mail.subtext">SK hynix HBM4 뉴스 스크린샷 공유</span>
+                <span data-i18n="capture.mail.subtext">[보고] Q3 KPI 성장 지표 및 분석 차트 공유</span>
               </div>
               <div class="win-drop">
                 <div class="win-drop-placeholder">
@@ -176,13 +201,31 @@
                   <span class="win-hint" data-i18n="capture.mail.dropzone">여기에 파일 놓기</span>
                 </div>
                 
-                <!-- Inline image inserted in mail body (not a thumbnail card) -->
+                <!-- Inline image inserted in mail body -->
                 <div class="mail-inline-img">
-                  <div class="mail-inline-photo">
-                    <span class="mail-inline-logo">SK hynix</span>
-                    <span class="mail-inline-sub">HBM4 · Next-Gen AI Memory</span>
+                  <div class="mail-inline-photo kpi-inline-card">
+                    <div class="kpi-inline-top">
+                      <span class="kpi-inline-badge">Analytics Overview</span>
+                      <span class="kpi-inline-meta">Q3 Growth &amp; KPI Metrics</span>
+                    </div>
+                    <div class="kpi-inline-content">
+                      <div class="kpi-inline-donut">
+                        <div class="inline-donut-circle">84%</div>
+                        <div class="inline-chips">
+                          <b>+42.8%</b>
+                          <i>128.4k</i>
+                        </div>
+                      </div>
+                      <div class="kpi-inline-bars">
+                        <span style="height:45%"></span>
+                        <span style="height:70%"></span>
+                        <span style="height:90%" class="highlight"></span>
+                        <span style="height:60%"></span>
+                        <span style="height:85%"></span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="mail-inline-caption" data-i18n="capture.mail.attachname">Screenshot_SKhynix_HBM4.png</div>
+                  <div class="mail-inline-caption" data-i18n="capture.mail.attachname">Screenshot_Q3_KPI_Metrics.png</div>
                 </div>
               </div>
             </div>
@@ -207,11 +250,14 @@
               </g>
             </svg>
             <svg class="cur cur-arrow" viewBox="0 0 13 20" width="13" height="20">
-              <path d="M1.2 1.1 1.2 15.9 5 12.4 7.4 18.1 9.7 17.1 7.3 11.5 11.5 11.2Z"
+              <path d="M1.2 1.1 1.2 15.9 5 12.4 7.4 18.1 9.7 17.1 7.3 11.5 11.2Z"
                     fill="#000" stroke="#fff" stroke-width="1.15" stroke-linejoin="round"/>
             </svg>
             <span class="payload">
-              <span class="payload-thumb">SK hynix</span>
+              <span class="payload-thumb kpi-payload-thumb">
+                <i class="pay-donut"></i>
+                <i class="pay-bar"></i>
+              </span>
             </span>
           </div>
 
