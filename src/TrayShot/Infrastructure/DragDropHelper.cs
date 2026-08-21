@@ -30,7 +30,7 @@ public static class DragDropHelper
             {
                 string tempDir = Path.Combine(Path.GetTempPath(), "TrayShotTemp");
                 if (!Directory.Exists(tempDir)) Directory.CreateDirectory(tempDir);
-                string tempPngName = $"{Path.GetFileNameWithoutExtension(imagePath)}_drag.png";
+                string tempPngName = $"{Path.GetFileNameWithoutExtension(imagePath)}.png";
                 string tempPngPath = Path.Combine(tempDir, tempPngName);
 
                 using (var img = ThumbnailLoader.LoadImageUniversal(imagePath))
