@@ -31,8 +31,19 @@ public class ConversionCoordinatorTests : IDisposable
         AppSettings.Shared.WebpDisposal = WebPDisposal.Keep;
 
         string pngPath = Path.Combine(_tempDirPath, "test_shot.png");
-        using (var img = new Image<Rgba32>(50, 50))
+        using (var img = new Image<Rgba32>(200, 200))
         {
+            img.ProcessPixelRows(accessor =>
+            {
+                for (int y = 0; y < accessor.Height; y++)
+                {
+                    var row = accessor.GetRowSpan(y);
+                    for (int x = 0; x < row.Length; x++)
+                    {
+                        row[x] = new Rgba32((byte)(x % 255), (byte)(y % 255), 150, 255);
+                    }
+                }
+            });
             img.SaveAsPng(pngPath);
         }
 
@@ -43,10 +54,19 @@ public class ConversionCoordinatorTests : IDisposable
         coordinator.Enqueue(pngPath, ConversionOrigin.Live);
 
         // Wait for async conversion worker
-        Thread.Sleep(1500);
-
         string expectedWebp = Path.Combine(_tempDirPath, "test_shot.webp");
-        Assert.True(File.Exists(expectedWebp));
+        bool exists = false;
+        for (int i = 0; i < 50; i++)
+        {
+            if (File.Exists(expectedWebp))
+            {
+                exists = true;
+                break;
+            }
+            Thread.Sleep(100);
+        }
+
+        Assert.True(exists);
     }
 
     public void Dispose()

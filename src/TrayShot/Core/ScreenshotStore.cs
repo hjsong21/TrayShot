@@ -36,6 +36,7 @@ public sealed class ScreenshotStore : IDisposable
     private readonly SemaphoreSlim _scanSemaphore = new(1, 1);
     private readonly object _stateLock = new();
     private readonly ConcurrentDictionary<Guid, ConversionHold> _conversionHolds = new();
+    private readonly ConcurrentDictionary<string, string> _pendingReplacements = new(StringComparer.OrdinalIgnoreCase);
 
     private List<Screenshot> _items = new();
     private string? _activeFolderPath;
@@ -138,6 +139,20 @@ public sealed class ScreenshotStore : IDisposable
         Task.Run(async () => await PerformScanAsync());
     }
 
+    /// <summary>
+    /// PNG → WebP 포맷 교체 완료 시 호출합니다.
+    /// WebP 파일이 신규 캡처(Inserted)가 아닌 포맷 교체(Replacements)로 분류되어
+    /// QuickDrop 오버레이가 중복으로 표시되지 않도록 처리합니다.
+    /// </summary>
+    public void TriggerScanWithReplacement(string sourcePngPath, string destinationWebpPath)
+    {
+        if (!string.IsNullOrEmpty(destinationWebpPath) && !string.IsNullOrEmpty(sourcePngPath))
+        {
+            _pendingReplacements[destinationWebpPath] = sourcePngPath;
+        }
+        Task.Run(async () => await PerformScanAsync());
+    }
+
     private async Task PerformScanAsync()
     {
         if (_isDisposed) return;
@@ -180,20 +195,39 @@ public sealed class ScreenshotStore : IDisposable
             var inserted = settledFiles.Where(f => !oldMap.ContainsKey(f.Path)).ToList();
             var removedPaths = oldItems.Where(f => !newMap.ContainsKey(f.Path)).Select(f => f.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-            // Filter out files held during active conversion
+            // Process any pending format replacements (e.g. PNG -> WebP)
+            var replacements = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var kvp in _pendingReplacements)
+            {
+                string destPath = kvp.Key;
+                string sourcePath = kvp.Value;
+
+                if (newMap.ContainsKey(destPath))
+                {
+                    replacements[sourcePath] = destPath;
+                    _pendingReplacements.TryRemove(destPath, out _);
+                    inserted.RemoveAll(f => f.Path.Equals(destPath, StringComparison.OrdinalIgnoreCase));
+                }
+            }
+
+            // Filter out files held during active conversion (both source and destination)
             CleanExpiredConversionHolds();
             var activeHoldSources = _conversionHolds.Values.Select(h => h.SourcePath).ToHashSet(StringComparer.OrdinalIgnoreCase);
-            var filteredInserted = inserted.Where(f => !activeHoldSources.Contains(f.Path)).ToList();
+            var activeHoldDests = _conversionHolds.Values.Select(h => h.DestinationPath).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            var filteredInserted = inserted
+                .Where(f => !activeHoldSources.Contains(f.Path) && !activeHoldDests.Contains(f.Path))
+                .ToList();
 
             lock (_stateLock)
             {
                 _items = settledFiles.OrderByDescending(f => f.Created).ToList();
             }
 
-            if (filteredInserted.Count > 0 || removedPaths.Count > 0)
+            if (filteredInserted.Count > 0 || removedPaths.Count > 0 || replacements.Count > 0)
             {
-                var change = new StoreChange(filteredInserted, removedPaths, false, new Dictionary<string, string>());
-                Log.Store.Info($"Store updated inserted={filteredInserted.Count} removed={removedPaths.Count} total={_items.Count}");
+                var change = new StoreChange(filteredInserted, removedPaths, false, replacements);
+                Log.Store.Info($"Store updated inserted={filteredInserted.Count} removed={removedPaths.Count} replaced={replacements.Count} total={_items.Count}");
                 Changed?.Invoke(change);
             }
         }

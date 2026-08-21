@@ -126,12 +126,17 @@ public partial class QuickDropOverlayWindow : Window
                 _isDragging = true;
                 _dismissTimer.Stop();
 
-                string path = _screenshot.Path;
-                if (string.IsNullOrEmpty(path) || !File.Exists(path)) return;
+                string? resolvedPath = ResolveCurrentFilePath(_screenshot.Path);
+                if (string.IsNullOrEmpty(resolvedPath))
+                {
+                    Log.App.Warn($"QuickDrop drag aborted: file no longer exists ({_screenshot.Path})");
+                    Close();
+                    return;
+                }
 
                 try
                 {
-                    var dataObj = DragDropHelper.CreateDragDataObject(path);
+                    var dataObj = DragDropHelper.CreateDragDataObject(resolvedPath);
                     DragDrop.DoDragDrop(this, dataObj, DragDropEffects.Copy);
                 }
                 catch (Exception ex)
@@ -145,6 +150,26 @@ public partial class QuickDropOverlayWindow : Window
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 드래그 시작 시점에 실제로 디스크에 존재하는 파일 경로를 확정합니다.
+    /// 백그라운드 변환으로 원본 PNG가 이미 처분(Delete/Trash)된 경우 동일 이름의 WebP로 안전하게 폴백합니다.
+    /// </summary>
+    private static string? ResolveCurrentFilePath(string originalPath)
+    {
+        if (!string.IsNullOrEmpty(originalPath) && File.Exists(originalPath))
+            return originalPath;
+
+        // 원본 PNG가 삭제된 경우 동일 이름의 WebP 파일 확인
+        string webpPath = ScreenshotFile.ConvertedPath(originalPath);
+        if (File.Exists(webpPath))
+        {
+            Log.App.Info($"QuickDrop: original PNG gone, falling back to WebP: {webpPath}");
+            return webpPath;
+        }
+
+        return null;
     }
 
     private void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

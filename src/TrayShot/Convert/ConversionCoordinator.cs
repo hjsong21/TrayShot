@@ -129,7 +129,9 @@ public sealed class ConversionCoordinator
 
                     if (success)
                     {
-                        ScreenshotStore.Shared.TriggerScan();
+                        ScreenshotStore.Shared.TriggerScanWithReplacement(
+                            job.SourcePngPath,
+                            ScreenshotFile.ConvertedPath(job.SourcePngPath));
                     }
                 }
                 catch (Exception ex)

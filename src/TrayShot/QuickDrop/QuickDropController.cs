@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using TrayShot.Core;
 using TrayShot.Infrastructure;
@@ -27,7 +28,14 @@ public sealed class QuickDropController : IDisposable
     {
         if (_isDisposed || change.Inserted.Count == 0) return;
 
-        var latestScreenshot = change.Inserted[0];
+        // WebP 파일 등 포맷 교체(Replacements)로 생성된 항목은 오버레이 표시 대상에서 제외
+        var overlayTargets = change.Inserted
+            .Where(f => !change.Replacements.Values.Contains(f.Path, StringComparer.OrdinalIgnoreCase))
+            .ToList();
+
+        if (overlayTargets.Count == 0) return;
+
+        var latestScreenshot = overlayTargets[0];
 
         Application.Current?.Dispatcher.InvokeAsync(() =>
         {
