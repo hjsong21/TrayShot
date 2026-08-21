@@ -5,6 +5,11 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.4.0] - 2026-08-21
+
+### Added
+- **Official Documentation Website & Landing Showcase**: Built and deployed the official TrayShot website in `docs/` featuring interactive feature cards, bilingual (KO/EN) internationalization support, responsive theme switcher, and Sukurini origin attribution
+
 ## [v1.3.0] - 2026-08-21
 
 ### Added

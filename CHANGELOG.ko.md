@@ -5,6 +5,11 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.4.0] - 2026-08-21
+
+### 기능 추가 (Added)
+- **공식 문서 웹사이트 및 랜딩 랜더링 구축**: `docs/` 디렉터리에 상호작용 가능한 주요 기능 시연 카드, 한국어/영어 다국어(i18n) 지원, 반응형 다크/라이트 테마 전환기 및 Sukurini 원작 출처 표기가 포함된 TrayShot 공식 랜딩 웹사이트 구축 및 배포
+
 ## [v1.3.0] - 2026-08-21
 
 ### 기능 추가 (Added)
