@@ -7,9 +7,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <Version>1.4.0</Version>
+    <ApplicationIcon>assets\app.ico</ApplicationIcon>
     <Copyright>Copyright © 2026 Ho-Jeong Song. All rights reserved.</Copyright>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
