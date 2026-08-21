@@ -111,6 +111,7 @@
                                                 <gallery:ScreenshotItemControl ScreenshotItem="{Binding}"
                                                     Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
                                                     PreviewMouseLeftButtonDown="OnItemPreviewMouseLeftButtonDown"
+                                                    PreviewMouseLeftButtonUp="OnItemPreviewMouseLeftButtonUp"
                                                     PreviewMouseRightButtonDown="OnItemPreviewMouseRightButtonDown">
                                                     <gallery:ScreenshotItemControl.ContextMenu>
                                                         <ContextMenu>

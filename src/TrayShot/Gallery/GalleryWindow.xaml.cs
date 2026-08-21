@@ -54,6 +54,14 @@ public partial class GalleryWindow : Window
             }
         };
 
+        _viewModel.SelectionChanged += () =>
+        {
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, () =>
+            {
+                UpdateAllItemSelectionVisuals();
+            });
+        };
+
         SizeChanged += OnGallerySizeChanged;
         AppSettings.Shared.PropertyChanged += OnSettingsPropertyChanged;
     }
@@ -211,6 +219,12 @@ public partial class GalleryWindow : Window
                 e.Handled = true;
             }
         }
+        else if (e.Key == Key.A && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && !(e.OriginalSource is System.Windows.Controls.TextBox))
+        {
+            _viewModel.SelectAll();
+            UpdateAllItemSelectionVisuals();
+            e.Handled = true;
+        }
         else if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && !(e.OriginalSource is System.Windows.Controls.TextBox))
         {
             var restored = GalleryViewModel.UndoDelete();
@@ -310,16 +324,64 @@ public partial class GalleryWindow : Window
     }
 
     private Point _dragStartPoint;
+    private ScreenshotItemControl? _clickedItemControl;
+    private bool _shouldReduceSelectionOnMouseUp;
 
     private void OnItemPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         _dragStartPoint = e.GetPosition(this);
         _preferredColumn = null;
+        _clickedItemControl = sender as ScreenshotItemControl;
+        _shouldReduceSelectionOnMouseUp = false;
+
         if (sender is ScreenshotItemControl itemControl && itemControl.ScreenshotItem != null)
         {
-            _viewModel.SelectedItem = itemControl.ScreenshotItem;
-            itemControl.Focus();
+            var item = itemControl.ScreenshotItem;
+            bool isCtrl = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+
+            if (isCtrl)
+            {
+                _viewModel.ToggleSelection(item);
+                itemControl.Focus();
+            }
+            else
+            {
+                // If clicked item is already selected in a multi-selection group, don't clear multi-selection on MouseDown
+                // so user can drag the selected group. Reduce to single selection on MouseUp if not dragged.
+                if (_viewModel.IsSelected(item) && _viewModel.SelectedItems.Count > 1)
+                {
+                    _shouldReduceSelectionOnMouseUp = true;
+                }
+                else
+                {
+                    _viewModel.SetSingleSelection(item);
+                }
+                itemControl.Focus();
+            }
+            UpdateAllItemSelectionVisuals();
         }
+    }
+
+    private void OnItemPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        if (_shouldReduceSelectionOnMouseUp && _clickedItemControl != null && _clickedItemControl.ScreenshotItem != null)
+        {
+            Point currentPos = e.GetPosition(this);
+            Vector diff = _dragStartPoint - currentPos;
+
+            if (Math.Abs(diff.X) <= SystemParameters.MinimumHorizontalDragDistance &&
+                Math.Abs(diff.Y) <= SystemParameters.MinimumVerticalDragDistance)
+            {
+                bool isCtrl = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+                if (!isCtrl)
+                {
+                    _viewModel.SetSingleSelection(_clickedItemControl.ScreenshotItem);
+                    UpdateAllItemSelectionVisuals();
+                }
+            }
+        }
+        _shouldReduceSelectionOnMouseUp = false;
+        _clickedItemControl = null;
     }
 
     private void OnItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -327,7 +389,12 @@ public partial class GalleryWindow : Window
         _preferredColumn = null;
         if (sender is ScreenshotItemControl itemControl && itemControl.ScreenshotItem != null)
         {
-            _viewModel.SelectedItem = itemControl.ScreenshotItem;
+            var item = itemControl.ScreenshotItem;
+            if (!_viewModel.IsSelected(item))
+            {
+                _viewModel.SetSingleSelection(item);
+                UpdateAllItemSelectionVisuals();
+            }
             itemControl.Focus();
         }
     }
@@ -342,7 +409,7 @@ public partial class GalleryWindow : Window
 
     /// <summary>
     /// Refreshes the IsSelected visual state on all ScreenshotItemControl instances.
-    /// Called whenever SelectedItem changes.
+    /// Called whenever selection changes.
     /// </summary>
     private void UpdateAllItemSelectionVisuals()
     {
@@ -353,7 +420,7 @@ public partial class GalleryWindow : Window
                 var container = FindItemControl(item);
                 if (container != null)
                 {
-                    container.IsSelected = ReferenceEquals(item, _viewModel.SelectedItem);
+                    container.IsSelected = _viewModel.IsSelected(item);
                 }
             }
         }
@@ -478,7 +545,7 @@ public partial class GalleryWindow : Window
 
     private void OnItemPreviewMouseMove(object sender, MouseEventArgs e)
     {
-        if (e.LeftButton == MouseButtonState.Pressed && _viewModel.SelectedItem != null)
+        if (e.LeftButton == MouseButtonState.Pressed && (_viewModel.SelectedItems.Count > 0 || _viewModel.SelectedItem != null))
         {
             Point currentPos = e.GetPosition(this);
             Vector diff = _dragStartPoint - currentPos;
@@ -486,12 +553,18 @@ public partial class GalleryWindow : Window
             if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
-                string path = _viewModel.SelectedItem.Path;
-                if (string.IsNullOrEmpty(path) || !File.Exists(path)) return;
+                _shouldReduceSelectionOnMouseUp = false;
+
+                var targetItems = _viewModel.SelectedItems.Count > 0
+                    ? _viewModel.SelectedItems.ToList()
+                    : (_viewModel.SelectedItem != null ? new List<Screenshot> { _viewModel.SelectedItem } : new List<Screenshot>());
+
+                var paths = targetItems.Select(s => s.Path).Where(p => !string.IsNullOrEmpty(p) && File.Exists(p)).ToList();
+                if (paths.Count == 0) return;
 
                 try
                 {
-                    var dataObj = DragDropHelper.CreateDragDataObject(path);
+                    var dataObj = DragDropHelper.CreateDragDataObject(paths);
                     DragDrop.DoDragDrop(this, dataObj, DragDropEffects.Copy);
                 }
                 catch (Exception ex)

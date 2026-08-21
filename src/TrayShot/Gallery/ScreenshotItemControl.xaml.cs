@@ -43,7 +43,7 @@ public partial class ScreenshotItemControl : UserControl
     {
         if (Tag is GalleryViewModel vm && ScreenshotItem != null)
         {
-            IsSelected = ReferenceEquals(vm.SelectedItem, ScreenshotItem);
+            IsSelected = vm.IsSelected(ScreenshotItem);
         }
         else
         {

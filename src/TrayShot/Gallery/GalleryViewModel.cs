@@ -26,6 +26,65 @@ public partial class GalleryViewModel : ObservableObject
     [ObservableProperty]
     private Screenshot? _selectedItem;
 
+    public ObservableCollection<Screenshot> SelectedItems { get; } = new();
+
+    public event Action? SelectionChanged;
+
+    public bool IsSelected(Screenshot? item)
+    {
+        if (item == null) return false;
+        return SelectedItems.Contains(item);
+    }
+
+    public void SetSingleSelection(Screenshot? item)
+    {
+        SelectedItems.Clear();
+        if (item != null)
+        {
+            SelectedItems.Add(item);
+        }
+        SelectedItem = item;
+        SelectionChanged?.Invoke();
+    }
+
+    public void ToggleSelection(Screenshot item)
+    {
+        if (item == null) return;
+
+        if (SelectedItems.Contains(item))
+        {
+            SelectedItems.Remove(item);
+            if (ReferenceEquals(SelectedItem, item))
+            {
+                SelectedItem = SelectedItems.LastOrDefault();
+            }
+        }
+        else
+        {
+            SelectedItems.Add(item);
+            SelectedItem = item;
+        }
+        SelectionChanged?.Invoke();
+    }
+
+    public void SelectAll()
+    {
+        SelectedItems.Clear();
+        foreach (var item in FilteredScreenshots)
+        {
+            SelectedItems.Add(item);
+        }
+        SelectedItem = FilteredScreenshots.LastOrDefault();
+        SelectionChanged?.Invoke();
+    }
+
+    public void ClearSelection()
+    {
+        SelectedItems.Clear();
+        SelectedItem = null;
+        SelectionChanged?.Invoke();
+    }
+
     [ObservableProperty]
     private bool _isNotPng = true;
     [ObservableProperty]
@@ -112,11 +171,22 @@ public partial class GalleryViewModel : ObservableObject
             IsNotGif = ext != ".gif";
             IsNotTiff = ext != ".tiff" && ext != ".tif";
             IsNotHeic = ext != ".heic";
+
+            if (!SelectedItems.Contains(value) && SelectedItems.Count <= 1)
+            {
+                SelectedItems.Clear();
+                SelectedItems.Add(value);
+            }
         }
         else
         {
             IsNotPng = IsNotJpg = IsNotWebp = IsNotBmp = IsNotGif = IsNotTiff = IsNotHeic = true;
+            if (SelectedItems.Count <= 1)
+            {
+                SelectedItems.Clear();
+            }
         }
+        SelectionChanged?.Invoke();
     }
 
     [RelayCommand]
@@ -244,31 +314,29 @@ public partial class GalleryViewModel : ObservableObject
     [RelayCommand]
     public void CopySelected()
     {
-        if (SelectedItem == null || !File.Exists(SelectedItem.Path)) return;
-        CopyScreenshotToClipboard(SelectedItem.Path);
+        var targets = SelectedItems.Count > 0
+            ? SelectedItems.ToList()
+            : (SelectedItem != null ? new List<Screenshot> { SelectedItem } : new List<Screenshot>());
+        if (targets.Count == 0) return;
+
+        CopyScreenshotsToClipboard(targets.Select(s => s.Path).Where(File.Exists).ToList());
     }
 
     public static void CopyScreenshotToClipboard(string path)
     {
+        CopyScreenshotsToClipboard(new[] { path });
+    }
+
+    public static void CopyScreenshotsToClipboard(IEnumerable<string> paths)
+    {
         try
         {
-            var dataObj = new System.Windows.DataObject();
-            var fileList = new System.Collections.Specialized.StringCollection { path };
-            dataObj.SetFileDropList(fileList);
+            var validPaths = paths.Where(p => !string.IsNullOrEmpty(p) && File.Exists(p)).ToList();
+            if (validPaths.Count == 0) return;
 
-            if (File.Exists(path))
-            {
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.UriSource = new Uri(path);
-                bitmap.EndInit();
-                bitmap.Freeze();
-                dataObj.SetImage(bitmap);
-            }
-
+            var dataObj = DragDropHelper.CreateDragDataObject(validPaths);
             System.Windows.Clipboard.SetDataObject(dataObj, true);
-            Log.App.Info($"Copied file to clipboard: {path}");
+            Log.App.Info($"Copied {validPaths.Count} file(s) to clipboard");
         }
         catch (Exception ex)
         {
