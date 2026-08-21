@@ -5,6 +5,15 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.2.0] - 2026-08-21
+
+### Improved
+- **Clean Drag-and-Drop File Name**: Removed `_drag` suffix from temporary PNG files generated during drag-and-drop (`DragDropHelper`), ensuring dragged screenshots keep their exact original file name in external applications (e.g., KakaoTalk, web messengers, File Explorer)
+- **Mid-Drag Deletion Fallback (Latch Pattern)**: Added `ResolveCurrentFilePath()` in `QuickDropOverlayWindow` to automatically fall back to the converted WebP file if the source PNG is disposed during background conversion before or during drag-and-drop, ensuring seamless pasting
+
+### Fixed
+- **Prevent Duplicate QuickDrop Overlay on WebP Conversion**: Classified converted WebP files as `Replacements` instead of `Inserted` in `ScreenshotStore`, preventing the QuickDrop floating thumbnail widget from re-triggering and blinking when background lossless WebP conversion completes
+
 ## [v1.1.0] - 2026-08-19
 
 ### Added

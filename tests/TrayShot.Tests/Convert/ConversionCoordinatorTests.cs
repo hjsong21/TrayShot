@@ -11,6 +11,7 @@ using Xunit;
 
 namespace TrayShot.Tests.Convert;
 
+[Collection("Non-Parallel-Settings")]
 public class ConversionCoordinatorTests : IDisposable
 {
     private readonly string _tempDirPath;

@@ -5,6 +5,15 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.2.0] - 2026-08-21
+
+### 기능 개선 (Improved)
+- **드래그 앤 드롭 파일명 정돈**: 비-PNG(WebP 등) 드래그 앤 드롭 시 `DragDropHelper`에서 생성하던 임시 파일명에서 `_drag` 접미사를 제거하여 카카오톡, 웹 메신저, 파일 탐색기 등으로 드래그 시 원본 파일명이 깔끔하게 유지되도록 개선
+- **드래그 중 원본 파일 삭제 시 안전한 폴백 (Latch 패턴)**: 썸네일을 누르고 드래그하는 도중에 백그라운드 WebP 변환으로 원본 PNG가 삭제되더라도, `QuickDropOverlayWindow`에서 동일 이름의 WebP 경로로 자동 폴백하여 외부 앱 붙여넣기가 중단 없이 정상 완료되도록 개선
+
+### 버그 수정 (Fixed)
+- **WebP 변환 시 퀵 드롭 썸네일 오버레이 중복 노출 방지**: PNG → WebP 무손실 변환 완료 후 생성된 WebP 파일이 신규 캡처(`Inserted`)가 아닌 포맷 교체(`Replacements`)로 감지되도록 `ScreenshotStore`를 개선하여, 퀵 드롭 위젯이 중복으로 다시 뜨며 깜빡이는 현상 수정
+
 ## [v1.1.0] - 2026-08-19
 
 ### 기능 추가 (Added)

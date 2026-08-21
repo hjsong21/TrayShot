@@ -5,7 +5,14 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using TrayShot.Infrastructure;
 
+using Xunit;
+
 namespace TrayShot.Tests;
+
+[CollectionDefinition("Non-Parallel-Settings", DisableParallelization = true)]
+public class NonParallelSettingsCollectionDefinition
+{
+}
 
 public sealed class TestSettingsScope : IDisposable
 {

@@ -5,6 +5,7 @@ using Xunit;
 
 namespace TrayShot.Tests.Infrastructure;
 
+[Collection("Non-Parallel-Settings")]
 public class ThemeManagerTests : IDisposable
 {
     private readonly TestSettingsScope _settingsScope;

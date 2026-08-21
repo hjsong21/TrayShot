@@ -8,6 +8,7 @@ using Xunit;
 
 namespace TrayShot.Tests.Convert;
 
+[Collection("Non-Parallel-Settings")]
 public class ScreenshotConverterTests : IDisposable
 {
     private readonly string _tempPngPath;
@@ -31,7 +32,7 @@ public class ScreenshotConverterTests : IDisposable
                 var row = accessor.GetRowSpan(y);
                 for (int x = 0; x < row.Length; x++)
                 {
-                    row[x] = new Rgba32(50, 100, 150, 255);
+                    row[x] = new Rgba32((byte)(x % 255), (byte)(y % 255), (byte)((x * y) % 255), 255);
                 }
             }
         });
