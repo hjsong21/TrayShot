@@ -92,6 +92,11 @@ public sealed class TrayIconAnimator : IDisposable
         RenderCurrentFrame();
     }
 
+    // Exact color palette extracted directly from docs/app-icon.png
+    private static readonly Color IconBlueTop = Color.FromArgb(255, 23, 115, 189);      // #1773BD (Top highlight)
+    private static readonly Color IconBlueDominant = Color.FromArgb(255, 21, 108, 178);  // #156CB2 (Dominant blue)
+    private static readonly Color IconBlueBottom = Color.FromArgb(255, 14, 76, 137);    // #0E4C89 (Bottom shadow)
+
     private void RenderCurrentFrame()
     {
         try
@@ -101,8 +106,12 @@ public sealed class TrayIconAnimator : IDisposable
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.Clear(Color.Transparent);
 
-            // Base circle
-            using var baseBrush = new SolidBrush(Color.FromArgb(255, 60, 120, 240));
+            // Base circle with exact app icon gradient
+            using var baseBrush = new LinearGradientBrush(
+                new Rectangle(4, 4, 24, 24),
+                IconBlueTop,
+                IconBlueBottom,
+                LinearGradientMode.Vertical);
             g.FillEllipse(baseBrush, 4, 4, 24, 24);
 
             if (_currentState == AnimationState.Pulse)
@@ -113,7 +122,7 @@ public sealed class TrayIconAnimator : IDisposable
                 int ringOffset = 16 - ringRadius;
                 int ringDiameter = ringRadius * 2;
 
-                using var ringPen = new Pen(Color.FromArgb(ringAlpha, 60, 120, 240), 2);
+                using var ringPen = new Pen(Color.FromArgb(ringAlpha, IconBlueDominant), 2);
                 if (ringOffset >= 0 && ringDiameter > 0 && ringDiameter <= 32)
                 {
                     g.DrawEllipse(ringPen, ringOffset, ringOffset, ringDiameter, ringDiameter);
@@ -126,7 +135,11 @@ public sealed class TrayIconAnimator : IDisposable
                 int size = (int)(24 * scale);
                 int offset = 16 - (size / 2);
 
-                using var bounceBrush = new SolidBrush(Color.FromArgb(255, 90, 150, 255));
+                using var bounceBrush = new LinearGradientBrush(
+                    new Rectangle(offset, offset, size, size),
+                    IconBlueTop,
+                    IconBlueDominant,
+                    LinearGradientMode.Vertical);
                 g.FillEllipse(bounceBrush, offset, offset, size, size);
             }
 
