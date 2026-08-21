@@ -5,6 +5,12 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.3.0] - 2026-08-21
+
+### 기능 추가 (Added)
+- **갤러리 패널 Ctrl 다중 선택**: 갤러리 창에서 `Ctrl + 클릭`으로 여러 스크린샷을 동시에 선택할 수 있는 기능 구현, `Ctrl + A` 전체 선택 단축키 및 선택된 모든 카드의 파란색 테두리 하이라이트 표시 지원
+- **범용 다중 파일 드래그 앤 드롭 & 일괄 복사**: `DragDropHelper`를 확장하여 선택된 여러 파일 목록을 표준 `FileDrop` OLE 데이터 오브젝트로 패키징, 파일 탐색기(일괄 복사), 한글(HWP) 및 MS 오피스(문서 일괄 삽입), 카카오톡(사진 묶음 전송) 등에 드래그 앤 드롭 및 `Ctrl + C` 클립보드 복사 지원
+
 ## [v1.2.0] - 2026-08-21
 
 ### 기능 개선 (Improved)

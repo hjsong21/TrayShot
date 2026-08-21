@@ -5,6 +5,12 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.3.0] - 2026-08-21
+
+### Added
+- **Ctrl Multi-Selection in Gallery Panel**: Supported selecting multiple screenshot items using `Ctrl + Click` in the gallery window, along with `Ctrl + A` select-all shortcut and visual blue border highlighting for all selected cards
+- **Universal Multi-File Drag-and-Drop & Batch Copy**: Extended `DragDropHelper` to package multiple selected files into a standard `FileDrop` OLE DataObject, enabling batch drag-and-drop pasting and `Ctrl + C` clipboard copying directly into File Explorer, Hancom Hangul (HWP), MS Office (Word/PPT/Excel), and KakaoTalk (multi-image message bundle)
+
 ## [v1.2.0] - 2026-08-21
 
 ### Improved
