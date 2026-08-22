@@ -5,6 +5,16 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.5.0] - 2026-08-22
+
+### 기능 추가 (Added)
+- **공식 브랜딩 및 멀티 해상도 아이콘 생성**: 공식 이미지(`docs/app-icon.png`) 기반으로 16px부터 256px까지 표준 해상도를 모두 포함하는 `app.ico` 및 `app.png` 생성, `TrayShot.csproj`에 `ApplicationIcon` 설정으로 실행 파일(.exe) 및 작업표시줄 아이콘 브랜딩 적용
+- **전체 WPF 창 및 정보 다이얼로그 아이콘 적용**: `MainWindow`, `GalleryWindow`, `PreferencesWindow`, `AboutWindow`, `PreviewWindow`의 Icon 속성에 공식 아이콘 적용 및 `AboutWindow` 헤더의 플레이스홀더 아이콘 교체
+
+### 기능 개선 (Improved)
+- **공식 앱 아이콘 팔레트 연동 트레이 애니메이터**: `TrayIconAnimator`의 동적 트레이 아이콘 렌더링 로직을 공식 앱 아이콘의 수직 블루 그라데이션(`LinearGradientBrush`: `#1773BD`, `#156CB2`, `#0E4C89`)으로 개선하고 펄스 링 및 바운스 효과 색상 동기화
+- **공식 웹사이트 브랜딩 적용**: `docs/index.html` 상단 네비게이션 브랜드 로고, 파비콘(favicon), apple-touch-icon을 공식 `app-icon.png`로 일괄 업데이트
+
 ## [v1.4.0] - 2026-08-21
 
 ### 기능 추가 (Added)

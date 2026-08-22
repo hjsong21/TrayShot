@@ -5,6 +5,16 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.5.0] - 2026-08-22
+
+### Added
+- **Official Branding & Multi-Resolution Icon Assets**: Generated multi-resolution `app.ico` (16px~256px) and `app.png` from official branding asset (`docs/app-icon.png`), and configured `ApplicationIcon` in `TrayShot.csproj` for taskbar and executable branding
+- **Universal WPF Window & Dialog Icon Branding**: Integrated official icon across all WPF application windows (`MainWindow`, `GalleryWindow`, `PreferencesWindow`, `AboutWindow`, `PreviewWindow`) and updated the `AboutWindow` header dialog icon
+
+### Improved
+- **Official App Icon Palette Matching in Tray Animator**: Refined `TrayIconAnimator` to render dynamic tray icons using a vertical `LinearGradientBrush` matching the exact official icon color palette (`#1773BD`, `#156CB2`, `#0E4C89`), with synchronized pulse ring and bounce highlight animation effects
+- **Documentation Website Branding**: Updated docs navbar brand logo, favicon, and apple-touch-icon in `docs/index.html` to use official `app-icon.png`
+
 ## [v1.4.0] - 2026-08-21
 
 ### Added
