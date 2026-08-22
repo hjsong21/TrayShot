@@ -82,5 +82,6 @@
     <system:String x:Key="Tray_Toggle">갤러리 열기</system:String>
     <system:String x:Key="Tray_Settings">설정...</system:String>
     <system:String x:Key="Tray_About">TrayShot 정보</system:String>
+    <system:String x:Key="Tray_CheckUpdate">업데이트 확인...</system:String>
     <system:String x:Key="Tray_Exit">TrayShot 종료</system:String>
 </ResourceDictionary>

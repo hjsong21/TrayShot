@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using TrayShot.About;
@@ -9,6 +10,7 @@ using TrayShot.Infrastructure;
 using TrayShot.Preferences;
 using TrayShot.QuickDrop;
 using TrayShot.StatusBar;
+using TrayShot.Update;
 
 namespace TrayShot;
 
@@ -61,6 +63,7 @@ public partial class MainWindow : Window
             onToggleGallery: () => _galleryWindow.Toggle(),
             onOpenPreferences: OpenPreferences,
             onOpenAbout: OpenAbout,
+            onCheckUpdates: () => _ = UpdateCoordinator.CheckForUpdatesAsync(isManual: true),
             onExitApp: ExitApplication);
         _trayController.Initialize();
 
@@ -80,6 +83,13 @@ public partial class MainWindow : Window
 
         RegisterCurrentHotKey();
         AppSettings.Shared.HotKeyChanged += OnHotKeySettingChanged;
+
+        // Check for updates in background after startup
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(5000);
+            await UpdateCoordinator.CheckForUpdatesAsync(isManual: false);
+        });
     }
 
     private void RegisterCurrentHotKey()

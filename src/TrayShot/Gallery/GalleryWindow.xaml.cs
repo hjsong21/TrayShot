@@ -614,6 +614,19 @@ public partial class GalleryWindow : Window
         }
     }
 
+    private void OnCheckUpdateClick(object sender, RoutedEventArgs e)
+    {
+        _isChildWindowOpen = true;
+        try
+        {
+            _ = Update.UpdateCoordinator.CheckForUpdatesAsync(isManual: true);
+        }
+        finally
+        {
+            _isChildWindowOpen = false;
+        }
+    }
+
     private void OnExitAppClick(object sender, RoutedEventArgs e)
     {
         ExitAppRequested?.Invoke();

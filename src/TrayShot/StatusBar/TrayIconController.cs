@@ -15,6 +15,7 @@ public sealed class TrayIconController : IDisposable
     private readonly Action _onToggleGallery;
     private readonly Action _onOpenPreferences;
     private readonly Action _onOpenAbout;
+    private readonly Action _onCheckUpdates;
     private readonly Action _onExitApp;
     private bool _isDisposed;
 
@@ -22,11 +23,13 @@ public sealed class TrayIconController : IDisposable
         Action onToggleGallery,
         Action onOpenPreferences,
         Action onOpenAbout,
+        Action onCheckUpdates,
         Action onExitApp)
     {
         _onToggleGallery = onToggleGallery;
         _onOpenPreferences = onOpenPreferences;
         _onOpenAbout = onOpenAbout;
+        _onCheckUpdates = onCheckUpdates;
         _onExitApp = onExitApp;
     }
 
@@ -74,6 +77,11 @@ public sealed class TrayIconController : IDisposable
         aboutItem.SetResourceReference(HeaderedItemsControl.HeaderProperty, "Tray_About");
         aboutItem.Click += (s, e) => _onOpenAbout();
         menu.Items.Add(aboutItem);
+
+        var updateItem = new MenuItem();
+        updateItem.SetResourceReference(HeaderedItemsControl.HeaderProperty, "Tray_CheckUpdate");
+        updateItem.Click += (s, e) => _onCheckUpdates();
+        menu.Items.Add(updateItem);
 
         menu.Items.Add(new Separator());
 

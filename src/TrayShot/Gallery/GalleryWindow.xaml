@@ -68,6 +68,7 @@
                                     <ContextMenu x:Name="SettingsMenu">
                                         <MenuItem Header="{DynamicResource Tray_Settings}" Click="OnOpenSettingsClick" />
                                         <MenuItem Header="{DynamicResource Tray_About}" Click="OnOpenAboutClick" />
+                                        <MenuItem Header="{DynamicResource Tray_CheckUpdate}" Click="OnCheckUpdateClick" />
                                         <Separator />
                                         <MenuItem Header="{DynamicResource Tray_Exit}" Click="OnExitAppClick" />
                                     </ContextMenu>
