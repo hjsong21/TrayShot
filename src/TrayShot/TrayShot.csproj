@@ -10,6 +10,7 @@
     <ApplicationIcon>assets\app.ico</ApplicationIcon>
     <Copyright>Copyright © 2026 Ho-Jeong Song. All rights reserved.</Copyright>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <StartupObject>TrayShot.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
+    <PackageReference Include="Velopack" Version="1.2.0" />
     <PackageReference Include="WPF-UI" Version="4.3.0" />
   </ItemGroup>
 
