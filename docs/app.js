@@ -82,7 +82,7 @@
   });
 
   /* ---- 3. Release & Stars ---- */
-  var releaseVersion = "1.5.0";
+  var releaseVersion = "1.6.0";
 
   function paintDownload() {
     var label = document.getElementById("download-label");

@@ -5,6 +5,14 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.6.0] - 2026-08-22
+
+### 기능 추가 (Added)
+- **Velopack 패키징 인프라 및 원클릭 인스톨러 연동**: Velopack (v1.2.0) 패키징을 연동하고, 전용 `Program.cs` 진입점 분리(`VelopackApp.Build().Run()`) 및 `TrayShot.csproj`의 `StartupObject` 설정을 통해 가볍고 빠른 원클릭 셋업 설치 파일(`TrayShot-Setup.exe`) 및 포터블 zip 배포 환경 구축
+- **자동 및 수동 업데이트 확인 시스템**: `Velopack.UpdateManager`와 GitHub Releases 원본을 연동한 `UpdateCoordinator`를 구현하여, 앱 실행 시 백그라운드 무인 업데이트 자동 확인 및 수동 확인 대화상자 지원
+- **업데이트 확인 메뉴 진입점 추가**: 시스템 트레이 우클릭 메뉴 및 갤러리 상단 우측 설정 메뉴의 "TrayShot 정보" 하단에 "업데이트 확인..."(`Tray_CheckUpdate`) 메뉴 항목 추가 (한국어/영어 다국어 리소스 등록)
+- **릴리스 패키징 자동화 스크립트 추가**: 버전 인자를 받아 Release Publish 빌드, Velopack 패키징, 버전 명시 바이너리(`TrayShot-{version}-win-Setup.exe`, `TrayShot-{version}-win-Portable.zip`) 생성을 자동화하는 `build-release.bat` 스크립트 추가
+
 ## [v1.5.0] - 2026-08-22
 
 ### 기능 추가 (Added)

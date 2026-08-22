@@ -5,6 +5,14 @@ Language: [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 [![en](https://img.shields.io/badge/lang-en-red.svg)](CHANGELOG.md)
 [![ko](https://img.shields.io/badge/lang-ko-blue.svg)](CHANGELOG.ko.md)
 
+## [v1.6.0] - 2026-08-22
+
+### Added
+- **Velopack Packaging & One-Click Installer Infrastructure**: Integrated Velopack (v1.2.0) packaging support, separated `Program.cs` entry point (`VelopackApp.Build().Run()`), and configured `StartupObject` in `TrayShot.csproj` to enable lightweight, seamless one-click setup (`TrayShot-Setup.exe`) and portable zip distribution
+- **Automatic & Manual Update Check System**: Implemented `UpdateCoordinator` using Velopack `UpdateManager` connected to GitHub Releases (`GithubSource`), providing silent background update checking after application launch as well as manual update check dialogs
+- **Menu Entry Points for Updates**: Added "Check for Updates..." (`Tray_CheckUpdate`) menu item to system tray context menu and gallery top-right settings menu, complete with English and Korean localized string resources
+- **Automated Release Build Script**: Added `build-release.bat` batch script supporting version parameterization to automate Release publish, Velopack packaging, and versioned binary creation (`TrayShot-{version}-win-Setup.exe`, `TrayShot-{version}-win-Portable.zip`)
+
 ## [v1.5.0] - 2026-08-22
 
 ### Added

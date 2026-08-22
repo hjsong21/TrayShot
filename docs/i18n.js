@@ -40,8 +40,8 @@ window.TRAYSHOT_I18N = {
     "ko": "Star"
   },
   "hero.badge": {
-    "en": "🚀 v1.5.0 Released · Windows 10 / 11 Supported",
-    "ko": "🚀 v1.5.0 정식 릴리스 · Windows 10 / 11 완벽 지원"
+    "en": "🚀 v1.6.0 Released · Windows 10 / 11 Supported",
+    "ko": "🚀 v1.6.0 정식 릴리스 · Windows 10 / 11 완벽 지원"
   },
   "hero.title": {
     "en": "A screenshot shelf that lives in your Windows tray.",
